@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block body %}
+<table border="1">
+  <form action="{{ url_for('submit') }}" method=post>
+    <dl>
+      <dt>Name:
+      <input type=text name='name'>
+      <dt>drink:
+      <select name='drink'>
+          {% for drinklist1 in drinklist%}
+	        <option value="{{ drinklist1.name }}" >{{ drinklist1.name }}</option>
+          {% endfor%}
+	  </select>
+      <dt>food:
+      <select name='userfood'>
+        {% for foodlist1 in foodlist%}
+	        <option value="{{ foodlist1.name }}" >{{ foodlist1.name }}</option>
+        {% endfor%}
+      </select>
+      <dt>Date: 
+      <dd><input type="date" name="date" />
+      <dd><input type=submit value=submit>
+    </dl>
+    {%if newurl!=None:%}
+    	<a href="http://172.31.50.236:80/user/{{ date }}">list</a>
+    {%endif%}
+    <br><a href="http://172.31.50.236:80/addfood">addfood</a>
+    </table>
+{% endblock %}
