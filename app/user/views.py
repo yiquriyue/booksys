@@ -25,6 +25,25 @@ def login():
     if request.method == 'GET':
         return render_template('login.html')
 
+@app.route('/user/register',methods=['GET','POST'])
+def register():
+    if request.method == 'POST':
+        username=request.form['userName']
+        password=request.form['passWord']
+        email=request.form['email']
+        phone = request.form['sms']
+        manager = DBOpera()
+        check = manager.user_register(username,password,email,phone)
+        print check
+        if check:
+            return render_template('login.html')
+        else:
+            return render_template('register.html')
+    if request.method == 'GET':
+        return render_template('register.html')
+
+        
+
 @app.route('/user/password',methods=['GET','POST'])
 def password():
     return render_template('user_Password.html')

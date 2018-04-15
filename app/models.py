@@ -15,11 +15,13 @@ class User(db.Model):
 	user_name = db.Column(db.String(128))
 	user_phone = db.Column(db.String(11))
 	user_password = db.Column(db.String(64))
+	user_email = db.Column(db.String(32))
 
-	def __init__(self,user_name,user_phone,user_password):
+	def __init__(self,user_name,user_phone,user_password,user_email):
 		self.user_name = user_name
 		self.user_phone = user_phone
 		self.user_password = user_password
+		self.user_email = user_email
 
 	def __repr__(self):
 		return '<User : %r>' % self.user_name
@@ -190,6 +192,16 @@ class DBOpera():
 			else:
 				return False
 		else:
+			return False
+
+	def user_register(self,username,password,email,phone):
+		user = User(username,phone,password,email)
+		try:
+			db.session.add(user)
+			db.session.commit()
+			return user.user_id
+		except BaseException,e:
+			print e
 			return False
 
 #db.create_all()

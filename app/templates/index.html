@@ -8,11 +8,11 @@
 
 <title>阿拉亲子</title>
 
-<link rel="stylesheet" href="css/style.css" type="text/css" />
-<script type="{{url_for('static',filename = 'text/javascript')}}" src="js/common.min.js"></script>
-<script type="{{url_for('static',filename = 'text/javascript')}}" src="js/jquery1.42.min.js"></script>
-<script type="{{url_for('static',filename = 'text/javascript')}}" src="js/jquery.SuperSlide.2.1.1.js"></script>
-<script type="{{url_for('static',filename = 'text/javascript')}}" src="js/public.js"></script>
+<link rel="stylesheet" href="{{url_for('static',filename = 'css/style.css')}}" type="text/css" />
+<script type="text/javascript" src="{{url_for('static',filename = 'js/common.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static',filename = 'js/jquery1.42.min.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static',filename = 'js/jquery.SuperSlide.2.1.1.js')}}"></script>
+<script type="text/javascript" src="{{url_for('static',filename = 'js/public.js')}}"></script>
 </head>
 
 <body>
@@ -30,8 +30,8 @@
     </div>
     <div  style="clear:both;"></div>
   <div class="top">
-  <img src="images/denglu_02.jpg" />
-  <img src="images/index_03.jpg" style="float:right;" />
+  <img src="{{url_for('static',filename = 'images/denglu_02.jpg')}}" />
+  <img src="{{url_for('static',filename = 'images/index_03.jpg')}}" style="float:right;" />
   </div>
 </div>
 <div class="nav">

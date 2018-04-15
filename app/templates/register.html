@@ -4,22 +4,22 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>阿拉亲子</title>
 
-<script type="text/javascript" src="js/jquery1.42.min.js"></script>
-<script language="javascript" type="text/javascript" src="js/jquery.validate.js"></script>
-<script language="javascript" type="text/javascript" src="js/validate_expand.js"></script>
-<script language="javascript" type="text/javascript" src="js/validate.js"></script>
+<script type="text/javascript" src="{{url_for('static',filename = 'js/jquery1.42.min.js')}}"></script>
+<script language="javascript" type="text/javascript" src="{{url_for('static',filename = 'js/jquery.validate.js')}}"></script>
+<script language="javascript" type="text/javascript" src="{{url_for('static',filename = 'js/validate_expand.js')}}"></script>
+<script language="javascript" type="text/javascript" src="{{url_for('static',filename = 'js/validate.js')}}"></script>
 <script type="text/javascript">
 $(document).ready(function(){
 	initValidator();
 });
 </script>
-<link href="css/regist.css" rel="stylesheet" type="text/css" />
+<link href="{{url_for('static',filename = 'css/regist.css')}}" rel="stylesheet" type="text/css" />
 </head>
 <body>
 
 <div class="content">
   <div class="demo">
-  <div class="title"><img src="images/demo_03.jpg" /><p>账号注册</p>
+  <div class="title"><img src="{{url_for('static',filename = 'images/demo_03.jpg')}}" /><p>账号注册</p>
   <div class="c"></div>
   </div>
 	<form id="thisForm" method="post" action="">
@@ -58,49 +58,7 @@ $(document).ready(function(){
 				<input class="stext" type='text' name="sms" id="sms" value="" />
 				<div class="tipinfo"></div>
 			</td>
-		</tr>
-		<tr>
-			<td class="tdcon"><span style="color:#F00;">*</span>居住地：</td>
-			<td>
-				<select name="" style=" width:150px; border-color:#ddd;">
-				  <option>省份</option>
-				  <option>省份</option>
-				</select>
-				<div class="tipinfo"></div>
-			</td>
-		</tr>
-        <tr>
-			<td class="tdcon"><span style="color:#F00;">*</span>QQ：</td>
-			<td>
-				<input class="stext" type='text' value="" />
-				<div class="tipinfo"></div>
-			</td>
-		</tr>
-        
-        <tr >
-			<td class="tdcon"><span style="color:#F00;">*</span>宝宝性别：</td>
-			<td>
-				<p >
-				  <label style="padding-right:30px;">
-				    <input type="radio" name="RadioGroup1" value="小王子" id="RadioGroup1_0" />
-				    小王子</label>
-				  <label style="padding-right:30px;">
-				    <input type="radio" name="RadioGroup1" value="小公主" id="RadioGroup1_1" />
-				    小公主</label>
-				  <br />
-			  </p>
-<div class="tipinfo"></div>
-		  </td>
-		</tr>
-        
-        <tr>
-			<td class="tdcon"><span style="color:#F00;">*</span>宝宝姓名：</td>
-			<td>
-				<input class="stext" type='text' value="" />
-				<div class="tipinfo"></div>
-			</td>
-		</tr>
-        
+		</tr>        
         <tr >
 			<td class="tdcon" colspan="2">
              <p class="clearfix agreement">
@@ -124,7 +82,7 @@ $(document).ready(function(){
     
     <div class="erweima">
     <p>已有阿拉亲子论坛账号？ 立即登录</p>
-    <img src="images/demo_07.jpg" width="170" height="170"/>
+    <img src="{{url_for('static',filename = 'images/demo_07.jpg')}}" width="170" height="170"/>
     <p>「最新资讯 请关注我们的微信号」</p>
     </div>
 </div>
