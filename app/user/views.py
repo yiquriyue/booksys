@@ -1,12 +1,35 @@
 #encoding:utf-8
-from app.models import list,food
+from app.models import User
 from flask_login import login_required,login_user,logout_user,current_user
 import os
 from app import db
 # from . import auth
 from flask import request,render_template,flash,abort,url_for,redirect,session,Flask,g
 from app import app
+from app.models import DBOpera 
 
+
+@app.route('/user/login',methods=['GET','POST'])
+def login():
+    if request.method == 'POST':
+        username=request.form['telphone']
+        password=request.form['password']
+        manager = DBOpera()
+        print username
+        print password
+        check = manager.user_check(username,password)
+        if check:
+            return render_template('index.html')
+        else:
+            return render_template('login.html')
+    if request.method == 'GET':
+        return render_template('login.html')
+
+@app.route('/user/password',methods=['GET','POST'])
+def password():
+    return render_template('user_Password.html')
+
+'''
 @app.route('/',methods=['GET','POST'])
 def submit():
     error = None
@@ -51,4 +74,4 @@ def addfood():
             db.session.commit()
             flash('add success')
     return render_template('addfood.html')
-
+'''

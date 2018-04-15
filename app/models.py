@@ -1,8 +1,12 @@
-from app import db
-# from flask_login import UserMixin
-# from . import login_manager
+#-*- coding:utf-8 -*-
+from __init__ import db
+from flask_login import UserMixin
 # from werkzeug.security import generate_password_hash, check_password_hash
-
+try:
+	from sqlalchemy import Column
+	from sqlalchemy import Integer,String,Float,DateTime,Boolean
+except ImportError:
+	print "sqlalchemy library not found"
 ##-- Basic Table --##
 class User(db.Model):
 	'''用户基本表，记录用户基本信息'''
@@ -55,8 +59,8 @@ class BookShelf(db.Model):
 	"""书架表，记录书架信息"""
 	__tablename__ = 'Bas_bookshelf'
 	shelf_id = db.Column(db.Integer, primary_key = True)
-	shelf_name = db.Column(db.String(32
-	def __init(self, shelf_name):
+	shelf_name = db.Column(db.String(32))
+	def __init__(self, shelf_name):
 		self.shelf_name = shelf_name
 	def __repr__(self):
 		return '<BookShelf : %r>' % self.shelf_name
@@ -177,9 +181,24 @@ class Evaluate(db.Model):
 	def __repr__(self):
 		return '<Evaluate : %r>' % self.evaluate_id
 
+class DBOpera():
+	def user_check(self,username,password):
+		user = User.query.filter_by(user_name = username).first()
+		if user:
+			if user.user_password == password:
+				return user.user_id
+			else:
+				return False
+		else:
+			return False
 
 #db.create_all()
 #db.drop_all()
 if __name__ == '__main__':
- 	db.create_all()
- 	#db.drop_all()
+	try:
+ 		db.create_all()
+		#db.drop_all()
+		print "database create success"
+	except BaseException,e:
+		print "000000"
+		print e
