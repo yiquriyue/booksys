@@ -23,3 +23,7 @@ for url in url_list:
 # 添加蓝本
 from user import user as user_blueprint
 app.register_blueprint(user_blueprint, url_prefix='/api')
+from home import home as home_blueprint
+app.register_blueprint(home_blueprint, url_prefix='/api')
+from book import book as book_blueprint
+app.register_blueprint(book_blueprint, url_prefix='/api')

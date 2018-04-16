@@ -204,6 +204,9 @@ class DBOpera():
 			print e
 			return False
 
+	def get_userinfo(self,userId):
+		user = User.query.filter(User.user_id==userId).first()
+		return user
 #db.create_all()
 #db.drop_all()
 if __name__ == '__main__':
