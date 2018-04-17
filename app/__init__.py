@@ -1,6 +1,5 @@
 #-*- coding:utf-8 -*-
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask,render_template
 from werkzeug.routing import BaseConverter
 from setting import URL_LIST
 
@@ -12,7 +11,6 @@ class RegexConverter(BaseConverter):
 app = Flask(__name__)
 app.url_map.converters['regex'] = RegexConverter
 app.config.from_object('app.setting')
-db = SQLAlchemy(app)
 
 def general():
 	return render_template('index.html')
@@ -27,3 +25,5 @@ from home import home as home_blueprint
 app.register_blueprint(home_blueprint, url_prefix='/api')
 from book import book as book_blueprint
 app.register_blueprint(book_blueprint, url_prefix='/api')
+from manager import manager as manager_blueprint
+app.register_blueprint(manager_blueprint, url_prefix='/api')

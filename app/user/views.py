@@ -2,7 +2,6 @@
 #from app.models import User
 from flask_login import login_required,login_user,logout_user,current_user
 import os
-from app import db
 # from . import auth
 from flask import request,render_template,flash,abort,url_for,redirect,session,Flask,g
 from app import app
@@ -12,7 +11,7 @@ from app.models import DBOpera
 @app.route('/user/login',methods=['GET','POST'])
 def login():
     if request.method == 'POST':
-        username=request.form['telphone']
+        username=request.form['username']
         password=request.form['password']
         manager = DBOpera()
         check = manager.user_check(username,password)
@@ -20,7 +19,7 @@ def login():
             session['username'] = username
             session['userid'] = check
             session.permanent = True
-            return render_template(url_for('/home'))
+            return redirect(url_for('home'))
         else:
             return render_template('login.html')
     if request.method == 'GET':
@@ -29,15 +28,15 @@ def login():
 @app.route('/user/register',methods=['GET','POST'])
 def register():
     if request.method == 'POST':
-        username=request.form['userName']
-        password=request.form['passWord']
+        username=request.form['username']
+        password=request.form['password']
         email=request.form['email']
         phone = request.form['sms']
         manager = DBOpera()
         check = manager.user_register(username,password,email,phone)
         print check
         if check:
-            return render_template(url_for('/user/login'))
+            return redirect(url_for('.login'))
         else:
             return render_template('register.html')
     if request.method == 'GET':

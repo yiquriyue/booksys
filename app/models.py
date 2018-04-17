@@ -1,5 +1,5 @@
 #-*- coding:utf-8 -*-
-from __init__ import db
+from app import app
 from flask_login import UserMixin
 # from werkzeug.security import generate_password_hash, check_password_hash
 try:
@@ -7,6 +7,8 @@ try:
 	from sqlalchemy import Integer,String,Float,DateTime,Boolean
 except ImportError:
 	print "sqlalchemy library not found"
+from flask_sqlalchemy import SQLAlchemy
+db = SQLAlchemy(app)
 ##-- Basic Table --##
 class User(db.Model):
 	'''用户基本表，记录用户基本信息'''
