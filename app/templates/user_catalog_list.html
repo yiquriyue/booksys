@@ -357,17 +357,18 @@
 	      </div><!-- .options -->
 	      
 	      <div class="listing_product">
+            <% for book in book_list%>
 			<div class="product_li">
 				<div class="grid_3">
 					<img class="sale" src="images/new.png" alt="New"/>
 					<div class="prev">
-						<a href="product_page.html"><img src="images/product_1.png" alt="" title="" /></a>
+						<a href="product_page.html"><img src="{{url_for('static',filename=book.imag)}}" alt="" title="" /></a>
 					</div><!-- .prev -->
 				</div><!-- .grid_3 -->
 				
 				<div class="grid_4">
 					<div class="entry_content">
-						<a href="product_page.html"><h3 class="title">Beanpod Candles Orange Vanilla, Tea Light</h3></a>
+						<a href="product_page.html"><h3 class="title">{{book.name}}</h3></a>
 						<div class="review">
 							<a class="plus" href="#"></a>
 							<a class="plus" href="#"></a>
@@ -376,7 +377,7 @@
 							<a href="#"></a>
 							<span>1 REVIEW(S)</span>
 						</div>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pharetra faucibus congue. Aenean luctus dolor et purus malesuada luctus. Quisque ullamcorper ante viverra lectus fermentum quis rutrum erat sollicitudin. Fusce tortor massa.</p>
+						<p>{{book.message}}</p>
 						<a class="more" href="product_page.html">Learn More</a>
 					</div><!-- .entry_content -->
 				</div><!-- .grid_4 -->
@@ -384,7 +385,7 @@
 				<div class="grid_2">
 					<div class="cart">
 						<div class="price">
-							<div class="price_new">$550.00</div>
+							<div class="price_new">${{book.price}}</div>
 							<div class="price_old">$725.00</div>
 						</div>
 						<a href="#" class="bay">Add to Cart</a>
@@ -395,199 +396,7 @@
 				
 				<div class="clear"></div>
 			</div><!-- .article -->
-			
-			<div class="product_li">
-				<div class="grid_3">
-					<img class="sale" src="images/sale.png" alt="Sale"/>
-					<div class="prev">
-						<a href="product_page.html"><img src="images/product_2.png" alt="" title="" /></a>
-					</div><!-- .prev -->
-				</div><!-- .grid_3 -->
-				
-				<div class="grid_4">
-					<div class="entry_content">
-						<a href="product_page.html"><h3 class="title">Beanpod Candles Orange Vanilla, Tea Light</h3></a>
-						<div class="review">
-							<a class="plus" href="#"></a>
-							<a class="plus" href="#"></a>
-							<a class="plus" href="#"></a>
-							<a href="#"></a>
-							<a href="#"></a>
-							<span>1 REVIEW(S)</span>
-						</div>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pharetra faucibus congue. Aenean luctus dolor et purus malesuada luctus. Quisque ullamcorper ante viverra lectus fermentum quis rutrum erat sollicitudin. Fusce tortor massa.</p>
-						<a class="more" href="product_page.html">Learn More</a>
-					</div><!-- .entry_content -->
-				</div><!-- .grid_4 -->
-				
-				<div class="grid_2">
-					<div class="cart">
-						<div class="price">
-							<div class="price_new">$550.00</div>
-						</div>
-						<a href="#" class="bay">Add to Cart</a>
-						<a href="#" class="obn"></a>
-						<a href="#" class="like"></a>
-					</div><!-- .cart -->
-				</div><!-- .grid_2 -->
-				
-				<div class="clear"></div>
-			</div><!-- .article -->
-			
-			<div class="product_li">
-				<div class="grid_3">
-					<img class="sale" src="images/top.png" alt="Top"/>
-					<div class="prev">
-						<a href="product_page.html"><img src="images/product_3.png" alt="" title="" /></a>
-					</div><!-- .prev -->
-				</div><!-- .grid_3 -->
-				
-				<div class="grid_4">
-					<div class="entry_content">
-						<a href="product_page.html"><h3 class="title">Beanpod Candles Orange Vanilla, Tea Light</h3></a>
-						<div class="review">
-							<a class="plus" href="#"></a>
-							<a class="plus" href="#"></a>
-							<a class="plus" href="#"></a>
-							<a href="#"></a>
-							<a href="#"></a>
-							<span>1 REVIEW(S)</span>
-						</div>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pharetra faucibus congue. Aenean luctus dolor et purus malesuada luctus. Quisque ullamcorper ante viverra lectus fermentum quis rutrum erat sollicitudin. Fusce tortor massa.</p>
-						<a class="more" href="product_page.html">Learn More</a>
-					</div><!-- .entry_content -->
-				</div><!-- .grid_4 -->
-				
-				<div class="grid_2">
-					<div class="cart">
-						<div class="price">
-							<div class="price_new">$550.00</div>
-							<div class="price_old">$725.00</div>
-						</div>
-						<a href="#" class="bay">Add to Cart</a>
-						<a href="#" class="obn"></a>
-						<a href="#" class="like"></a>
-					</div><!-- .cart -->
-				</div><!-- .grid_2 -->
-				
-				<div class="clear"></div>
-			</div><!-- .article -->
-			
-			<div class="product_li">
-				<div class="grid_3">
-					<div class="prev">
-						<a href="product_page.html"><img src="images/product_4.png" alt="" title="" /></a>
-					</div><!-- .prev -->
-				</div><!-- .grid_3 -->
-				
-				<div class="grid_4">
-					<div class="entry_content">
-						<a href="product_page.html"><h3 class="title">Beanpod Candles Orange Vanilla, Tea Light</h3></a>
-						<div class="review">
-							<a class="plus" href="#"></a>
-							<a class="plus" href="#"></a>
-							<a class="plus" href="#"></a>
-							<a href="#"></a>
-							<a href="#"></a>
-							<span>1 REVIEW(S)</span>
-						</div>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pharetra faucibus congue. Aenean luctus dolor et purus malesuada luctus. Quisque ullamcorper ante viverra lectus fermentum quis rutrum erat sollicitudin. Fusce tortor massa.</p>
-						<a class="more" href="product_page.html">Learn More</a>
-					</div><!-- .entry_content -->
-				</div><!-- .grid_4 -->
-				
-				<div class="grid_2">
-					<div class="cart">
-						<div class="price">
-							<div class="price_new">$550.00</div>
-							<div class="price_old">$725.00</div>
-						</div>
-						<a href="#" class="bay">Add to Cart</a>
-						<a href="#" class="obn"></a>
-						<a href="#" class="like"></a>
-					</div><!-- .cart -->
-				</div><!-- .grid_2 -->
-				
-				<div class="clear"></div>
-			</div><!-- .article -->
-			
-			<div class="product_li">
-				<div class="grid_3">
-					<img class="sale" src="images/new.png" alt="New"/>
-					<div class="prev">
-						<a href="product_page.html"><img src="images/product_5.png" alt="" title="" /></a>
-					</div><!-- .prev -->
-				</div><!-- .grid_3 -->
-				
-				<div class="grid_4">
-					<div class="entry_content">
-						<a href="product_page.html"><h3 class="title">Beanpod Candles Orange Vanilla, Tea Light</h3></a>
-						<div class="review">
-							<a class="plus" href="#"></a>
-							<a class="plus" href="#"></a>
-							<a class="plus" href="#"></a>
-							<a href="#"></a>
-							<a href="#"></a>
-							<span>1 REVIEW(S)</span>
-						</div>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pharetra faucibus congue. Aenean luctus dolor et purus malesuada luctus. Quisque ullamcorper ante viverra lectus fermentum quis rutrum erat sollicitudin. Fusce tortor massa.</p>
-						<a class="more" href="product_page.html">Learn More</a>
-					</div><!-- .entry_content -->
-				</div><!-- .grid_4 -->
-				
-				<div class="grid_2">
-					<div class="cart">
-						<div class="price">
-							<div class="price_new">$550.00</div>
-							<div class="price_old">$725.00</div>
-						</div>
-						<a href="#" class="bay">Add to Cart</a>
-						<a href="#" class="obn"></a>
-						<a href="#" class="like"></a>
-					</div><!-- .cart -->
-				</div><!-- .grid_2 -->
-				
-				<div class="clear"></div>
-			</div><!-- .article -->
-			
-			<div class="product_li">
-				<div class="grid_3">
-					<div class="prev">
-						<a href="product_page.html"><img src="images/product_6.png" alt="" title="" /></a>
-					</div><!-- .prev -->
-				</div><!-- .grid_3 -->
-				
-				<div class="grid_4">
-					<div class="entry_content">
-						<a href="product_page.html"><h3 class="title">Beanpod Candles Orange Vanilla, Tea Light</h3></a>
-						<div class="review">
-							<a class="plus" href="#"></a>
-							<a class="plus" href="#"></a>
-							<a class="plus" href="#"></a>
-							<a href="#"></a>
-							<a href="#"></a>
-							<span>1 REVIEW(S)</span>
-						</div>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pharetra faucibus congue. Aenean luctus dolor et purus malesuada luctus. Quisque ullamcorper ante viverra lectus fermentum quis rutrum erat sollicitudin. Fusce tortor massa.</p>
-						<a class="more" href="product_page.html">Learn More</a>
-					</div><!-- .entry_content -->
-				</div><!-- .grid_4 -->
-				
-				<div class="grid_2">
-					<div class="cart">
-						<div class="price">
-							<div class="price_new">$550.00</div>
-							<div class="price_old">$725.00</div>
-						</div>
-						<a href="#" class="bay">Add to Cart</a>
-						<a href="#" class="obn"></a>
-						<a href="#" class="like"></a>
-					</div><!-- .cart -->
-				</div><!-- .grid_2 -->
-				
-				<div class="clear"></div>
-			</div><!-- .article -->
-	    
+			<% endfor %>
 	      <div class="clear"></div>
 	      </div><!-- .listing_product -->
 	      

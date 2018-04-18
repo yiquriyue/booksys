@@ -13,7 +13,7 @@ app.url_map.converters['regex'] = RegexConverter
 app.config.from_object('app.setting')
 
 def general():
-	return render_template('index.html')
+	return render_template('user_index.html')
 
 url_list = URL_LIST
 for url in url_list:
