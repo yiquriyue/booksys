@@ -9,14 +9,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{url_for('static',filename='assets/images/favicon.png')}}">
     <title>Monster Admin Template - The Most Complete & Trusted Bootstrap 4 Admin Template</title>
     <!-- Bootstrap Core CSS -->
-    <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{url_for('static',filename='assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="{{url_for('static',filename='css/style.css')}}" rel="stylesheet">
     <!-- You can change the theme colors from here -->
-    <link href="css/colors/blue.css" id="theme" rel="stylesheet">
+    <link href="{{url_for('static',filename='css/colors/blue.css')}}" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -51,17 +51,17 @@
                         <b>
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="../assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+                            <img src="{{url_for('static',filename='assets/images/logo-icon.png')}}" alt="homepage" class="dark-logo" />
                             <!-- Light Logo icon -->
-                            <img src="../assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
+                            <img src="{{url_for('static',filename='assets/images/logo-light-icon.png')}}" alt="homepage" class="light-logo" />
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text -->
                         <span>
                          <!-- dark Logo text -->
-                         <img src="../assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+                         <img src="{{url_for('static',filename='assets/images/logo-text.png')}}" alt="homepage" class="dark-logo" />
                          <!-- Light Logo text -->    
-                         <img src="../assets/images/logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
+                         <img src="{{url_for('static',filename='assets/images/logo-light-text.png')}}" class="light-logo" alt="homepage" /></span> </a>
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Logo -->
@@ -613,36 +613,24 @@
                         <div class="card card-block">
                             <h4 class="card-title">Default Horizontal Forms</h4>
                             <h6 class="card-subtitle"> All bootstrap element classies </h6>
-                            <form class="form-horizontal m-t-40">
+                            <form class="form-horizontal m-t-40" method="POST" enctype="multipart/form-data">
                                 <div class="form-group">
-                                    <label>Default Text <span class="help"> e.g. "George deo"</span></label>
-                                    <input type="text" class="form-control" value="George deo...">
+                                    <label>图书名称 <span class="help"> e.g. "解忧杂货铺"</span></label>
+                                    <input type="text" class="form-control" value="解忧杂货铺" name="book_name" >
                                 </div>
                                 <div class="form-group">
-                                    <label for="example-email">Email <span class="help"> e.g. "example@gmail.com"</span></label>
-                                    <input type="email" id="example-email" name="example-email" class="form-control" placeholder="Email">
+                                    <label for="example-email">作者 <span class="help"> e.g. "example@gmail.com"</span></label>
+                                    <input type="text" name="book_author" class="form-control" >
+                                </div>
+                                <div class="form-group row">
+                                    <label for="example-number-input" class="col-2 col-form-label">价格</label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="number" value="42" name="book_price">
+                                    </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Password</label>
-                                    <input type="password" class="form-control" value="password">
-                                </div>
-                                <div class="form-group">
-                                    <label>Placeholder</label>
-                                    <input type="text" class="form-control" placeholder="placeholder">
-                                </div>
-                                <div class="form-group">
-                                    <label>Text area</label>
-                                    <textarea class="form-control" rows="5"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label>Read only input</label>
-                                    <input class="form-control" type="text" placeholder="Readonly input here…" readonly>
-                                </div>
-                                <div class="form-group">
-                                    <fieldset disabled>
-                                        <label for="disabledTextInput">Disabled input</label>
-                                        <input type="text" id="disabledTextInput" class="form-control" placeholder="Disabled input">
-                                    </fieldset>
+                                    <label>描述</label>
+                                    <textarea class="form-control" rows="5" name="book_message"></textarea>
                                 </div>
                                 <div class="form-group row p-t-20">
                                     <div class="col-sm-4">
@@ -703,24 +691,13 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Input Select</label>
-                                    <select class="custom-select col-12" id="inlineFormCustomSelect">
+                                    <label>图书类别</label>
+                                    <select class="custom-select col-12" name="book_class">
                                         <option selected>Choose...</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        {% for class in class_list %}
+                                        <option value={{class.classify_id}}>{{class.classify_name}}</option>
+                                        {% endfor %}
                                     </select>
-                                </div>
-                                <fieldset class="form-group">
-                                    <label>Default file upload</label>
-                                    <label class="custom-file d-block">
-                                        <input type="file" id="file" class="custom-file-input">
-                                        <span class="custom-file-control"></span>
-                                    </label>
-                                </fieldset>
-                                <div class="form-group">
-                                    <label>Default file upload</label>
-                                    <input type="file" class="form-control" id="exampleInputFile" aria-describedby="fileHelp">
                                 </div>
                                 <div class="form-group">
                                     <label>Custom File upload</label>
@@ -732,14 +709,13 @@
                                         <span class="input-group-addon btn btn-secondary btn-file"> 
                                             <span class="fileinput-new">Select file</span>
                                         <span class="fileinput-exists">Change</span>
-                                        <input type="file" name="...">
+                                        <input type="file" name="book_image">
                                         </span>
                                         <a href="#" class="input-group-addon btn btn-secondary fileinput-exists" data-dismiss="fileinput">Remove</a> </div>
                                 </div>
                                 <div class="form-group">
-                                    <label>Helping text</label>
-                                    <input type="text" class="form-control" placeholder="Helping text">
-                                    <span class="help-block"><small>A block of help text that breaks onto a new line and may extend beyond one line.</small></span> </div>
+                                    <button type="submit" class="form-control" onclick="formSubmit()">确定</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -828,28 +804,28 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="../assets/plugins/jquery/jquery.min.js"></script>
+    <script src="{{url_for('static',filename='assets/plugins/jquery/jquery.min.js')}}"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="../assets/plugins/bootstrap/js/tether.min.js"></script>
-    <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="{{url_for('static',filename='assets/plugins/bootstrap/js/tether.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/plugins/bootstrap/js/bootstrap.min.js')}}"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="js/jquery.slimscroll.js"></script>
+    <script src="{{url_for('static',filename='js/jquery.slimscroll.js')}}"></script>
     <!--Wave Effects -->
-    <script src="js/waves.js"></script>
+    <script src="{{url_for('static',filename='js/waves.js')}}"></script>
     <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
+    <script src="{{url_for('static',filename='js/sidebarmenu.js')}}"></script>
     <!--stickey kit -->
-    <script src="../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="{{url_for('static',filename='assets/plugins/sticky-kit-master/dist/sticky-kit.min.js')}}"></script>
     <!--Custom JavaScript -->
-    <script src="js/custom.min.js"></script>
+    <script src="{{url_for('static',filename='js/custom.min.js')}}"></script>
     <!-- ============================================================== -->
     <!-- This page plugins -->
     <!-- ============================================================== -->
-    <script src="js/jasny-bootstrap.js"></script>
+    <script src="{{url_for('static',filename='js/jasny-bootstrap.js')}}"></script>
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
-    <script src="../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    <script src="{{url_for('static',filename='assets/plugins/styleswitcher/jQuery.style.switcher.js')}}"></script>
 </body>
 
 </html>

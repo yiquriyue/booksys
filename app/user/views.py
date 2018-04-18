@@ -6,7 +6,8 @@ import os
 from flask import request,render_template,flash,abort,url_for,redirect,session,Flask,g
 from app import app
 from app.models import DBOpera 
-
+from werkzeug import secure_filename
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
 @app.route('/user/login',methods=['GET','POST'])
 def login():
