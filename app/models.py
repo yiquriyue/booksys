@@ -233,6 +233,7 @@ class DBOpera():
                  book_price,book_message = ""):
         book = Book(book_name, book_author, book_price,book_class,book_message)
         try:
+            db.session.add(book)
             db.session.commit()
             print book.book_id
             return book.book_id
@@ -251,6 +252,16 @@ class DBOpera():
         except BaseException,e:
             print e
             return False
+            
+    def get_bookList(self,book_name=""):
+        book_name = '%' + book_name + '%'
+        books = Book.query.filter(Book.book_name.like(book_name)).all()
+        return books
+        
+    def get_bookAttach(self,book_id):
+        book = Book.query.filter(Book.book_id==book_id).first()
+        return book
+    
 #db.create_all()
 #db.drop_all()
 if __name__ == '__main__':

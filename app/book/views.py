@@ -9,8 +9,7 @@ from app.models import DBOpera
 
 from werkzeug import secure_filename
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
-app.config['UPLOAD_FOLDER'] = os.getcwd()
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+from app.setting import UPLOAD_FOLDER
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -19,7 +18,21 @@ def allowed_file(filename):
 @app.route('/book/list',methods=['GET','POST'])
 def book_list():
     if request.method == 'GET':
+        #search = request.form['search']
         db = DBOpera()
+        books = db.get_bookList()
+        book_list = []
+        for book in books:
+            abook={}
+            abook['id'] = str(book.book_id)
+            abook['name'] = book.book_name
+            abook['author'] = book.book_author
+            abook['message'] = book.book_message
+            abook['price'] = book.book_price
+            abook['image'] = 'files/'+abook['id']+'/'+book.book_image
+            book_list.append(abook)
+        return render_template('user_catalog_list.html',book_list=book_list)
+        
         #TODO(caoyue):在图书表中查找图书
                                
 @app.route('/book/add',methods=['GET','POST'])
@@ -38,13 +51,34 @@ def book_add():
         book_id = db.add_book(book_name,book_author,book_class,book_price,book_message)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            book_image = os.path.join(app.config['UPLOAD_FOLDER'], book_id,filename)
+            os.mkdir(os.path.join(UPLOAD_FOLDER,str(book_id)))
+            book_image = os.path.join(UPLOAD_FOLDER,str(book_id),filename)
+            fp = open(book_image,'w')
             file.save(book_image)
-            db.add_bookImag(book_id,book_image)
+            fp.close()
+            db.add_bookImag(book_id,filename)
         return redirect(url_for('book_add'))
-@app.route('/book/select',methods=['POST'])
-def book_select():
-    if request.method == 'POST':
-        bookname = request.form['bookname']
-        bookathor = request.form['bookathor']
+
+@app.route('/book/detail/<book_id>',methods=['POST','GET','PUT'])
+def book_detail(book_id):
+    if request.method == 'GET':
+        db = DBOpera()
+        book = db.get_bookAttach(book_id)
+        abook={}
+        abook['id'] = str(book.book_id)
+        abook['name'] = book.book_name
+        abook['author'] = book.book_author
+        abook['message'] = book.book_message
+        abook['price'] = book.book_price
+        abook['image'] = 'files/'+abook['id']+'/'+book.book_image
+        return render_template('user_product_page.html',book=abook)
+    if request.mothod == 'PUT':
+        return '1'
+        
+@app.route('/book/collect',methods=['GET','POST'])
+def book_collect():
+    if request.method == 'GET':
+        book_id = request.form['book_id']
+        #user_id =
+        return redirect(url_for('book_detail',book_id=book_id))
         

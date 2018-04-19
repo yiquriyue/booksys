@@ -22,9 +22,9 @@ def login():
             session.permanent = True
             return redirect(url_for('home'))
         else:
-            return render_template('login.html')
+            return render_template('user_login.html')
     if request.method == 'GET':
-        return render_template('login.html')
+        return render_template('user_login.html')
 
 @app.route('/user/register',methods=['GET','POST'])
 def register():
@@ -39,9 +39,9 @@ def register():
         if check:
             return redirect(url_for('.login'))
         else:
-            return render_template('register.html')
+            return render_template('user_register.html')
     if request.method == 'GET':
-        return render_template('register.html')
+        return render_template('user_register.html')
 
 @app.route('/user/homepage',methods=['GET','POST'])
 def homepage():
