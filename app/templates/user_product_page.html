@@ -423,7 +423,7 @@
 						</div>
 
 						<div class="cart">
-                            <form method='GET' action="/book/collect" id="thisform">
+                            <form method='POST' action="/book/collect" id="thisform">
                             <input type="hidden" name="book_id" value={{book['id']}}>
 							<a href="javascript:void(0)" class="bay" onclick="document.getElementById('thisform').submit()">Add to Cart</a>
 							<span>Quantity:</span>

@@ -1,4 +1,5 @@
 #-*- coding:utf-8 -*-
+from datetime import datetime
 from app import app
 from flask_login import UserMixin
 # from werkzeug.security import generate_password_hash, check_password_hash
@@ -62,13 +63,14 @@ class Book(db.Model):
     book_class = db.Column(db.Integer)
     book_message = db.Column(db.Text)
     book_image = db.Column(db.String(128))
-    def __init__(self, book_name, book_author, book_price,
-                 book_class,book_message = ""):
+    book_num = db.Column(db.Integer)
+    def __init__(self, book_name, book_author, book_price,book_class,book_num,book_message = ""):
         self.book_name = book_name
         self.book_author = book_author
         self.book_price = book_price
         self.book_class = book_class
         self.book_message = book_message
+        self.book_num = book_num
 
         
     def __repr__(self):
@@ -200,6 +202,19 @@ class Evaluate(db.Model):
     def __repr__(self):
         return '<Evaluate : %r>' % self.evaluate_id
 
+class Collect(db.Model):
+    '''收藏表，记录用户和商品之间多对多的关系'''
+    __tablename__ = 'Ser_collect'
+    collect_book_id = db.Column(db.Integer,primary_key =True)
+    collect_user_id = db.Column(db.Integer, primary_key =True)
+    evaluate_time = db.Column(db.DateTime, default=datetime.now)
+
+    def __init__(self, collect_book_id,collect_user_id):
+        self.collect_book_id = collect_book_id
+        self.collect_user_id = collect_user_id
+    def __repr__(self):
+        return '<Evaluate : %r>' % self.evaluate_id
+        
 class DBOpera():
     def user_check(self,username,password):
         user = User.query.filter_by(user_name = username).first()
@@ -229,14 +244,23 @@ class DBOpera():
         class_list = Classify.query.all()
         return class_list
         
+    def get_bookList(self,book_name=""):
+        book_name = '%' + book_name + '%'
+        books = Book.query.filter(Book.book_name.like(book_name)).all()
+        return books
+        
+    def get_bookAttach(self,book_id):
+        book = Book.query.filter(Book.book_id==book_id).first()
+        return book
+    
+        
     def add_book(self,book_name,book_author,book_class,
-                 book_price,book_message = ""):
-        book = Book(book_name, book_author, book_price,book_class,book_message)
+                 book_price,book_num,book_message = ""):
+        book = Book(book_name, book_author, book_price,book_class,book_num,book_message)
         try:
             db.session.add(book)
             db.session.commit()
             print book.book_id
-            return book.book_id
         except BaseException,e:
             print e
             return False
@@ -253,15 +277,14 @@ class DBOpera():
             print e
             return False
             
-    def get_bookList(self,book_name=""):
-        book_name = '%' + book_name + '%'
-        books = Book.query.filter(Book.book_name.like(book_name)).all()
-        return books
-        
-    def get_bookAttach(self,book_id):
-        book = Book.query.filter(Book.book_id==book_id).first()
-        return book
-    
+    def add_collect(self,user_id,book_id):
+        collect = Collect(book_id,user_id)
+        try:
+            db.session.add(collect)
+            db.session.commit()
+        except BaseException,e:
+            print e
+            return False
 #db.create_all()
 #db.drop_all()
 if __name__ == '__main__':
