@@ -1,0 +1,6 @@
+Dear {{user.user_name}}:
+欢迎加入个人书店！！
+点击以下链接确认您的账户信息，该链接将会在3600秒内失效：
+{{url_for('confirm',token=token,_external=True)}}
+感谢使用！！！
+--管理员

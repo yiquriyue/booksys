@@ -286,57 +286,28 @@
 
        <div id="content" class="grid_9">
 		<article class="post view_post">
-			<h1 class="post_title">Citrus Magic Solid Air Freshener</h1>
+			<h1 class="post_title">{{activity.activity_name}}</h1>
 			<div class="content_article">
-				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
-				<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text.</p>
-				<p>Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
+				<p>{{activity.activity_describe}}</p>
 			</div><!-- .content_article -->
 			<div class="footer_article">
-				<div class="number_c">3</div>
-				<span>Mike Example, <time datetime="2012-11-03">03.11.2012</time></span>  |  <span>Posted in <a href="#">Sports</a>, <a href="#">Movies</a></span>
+				<div class="number_c">{{activity.activity_count}}</div>
+				<span>{{activity.activity_guest}} <time datetime="2012-11-03">{{activity.activity_time}}</time></span>
 			</div>
 		</article>
+        <form class="add_comments">
+			<input type="submit" value="点我参与" />
+		</form><!-- .add_comments -->
 		<div class="comments_blog">
-			<h4>Comments</h4>
+			<h4>参与情况</h4>
 			<ul class="comments">
 				<li>
-					<div class="avatar"><img src="images/avatar.png" alt="Avatar"/></div>
-					<div class="autor">Mike Example</div>, <time datetime="2012-11-03">03.11.2012</time>
-					<p>Suspendisse at placerat turpis. Duis luctus erat vel magna pharetra aliquet. Maecenas tincidunt feugiat ultricies. Phasellus et dui risus. Vestibulum adipiscing, eros quis lobortis dictum.  Many desktop publishing packages and web page editors now use.</p>
-				</li>
-
-				<li>
-					<div class="avatar"><img src="images/avatar.png" alt="Avatar"/></div>
-					<div class="autor">Mike Example</div>, <time datetime="2012-11-03">03.11.2012</time>
-					<p>Suspendisse at placerat turpis. Duis luctus erat vel magna pharetra aliquet. Maecenas tincidunt feugiat ultricies. Phasellus et dui risus. Vestibulum adipiscing, eros quis lobortis dictum.  Many desktop publishing packages and web page editors now use.</p>
-				</li>
+					<div class="autor">姓名</div>, <time datetime="2012-11-03">03.11.2012状态</time><p>状态</p>
+                </li>
 			</ul><!-- .comments -->
 		</div><!-- .comments_blog -->
 
-		<form class="add_comments">
-			<h4>Leave a Reply</h4>
 
-			<div class="nickname">
-				<strong>Nickname</strong><sup class="surely">*</sup><br/>
-				<input type="text" name="" class="" value="" />
-			</div><!-- .nickname -->
-
-			<div class="your_review">
-				<strong>Email Address</strong><sup class="surely">*</sup><br/>
-				<input type="email" name="" class="" value="" />
-			</div><!-- .your_review -->
-
-			<div class="clear"></div>
-
-			<div class="text_review">
-				<strong>Comment</strong><br/>
-				<textarea name="text"></textarea>
-				<i>Note: HTML is not translated!</i>
-			</div><!-- .text_review -->
-
-			<input type="submit" value="Submit Comment" />
-		</form><!-- .add_comments -->
 
        </div><!-- #content -->
 

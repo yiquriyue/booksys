@@ -70,38 +70,7 @@
  </head>
 <body>
   <div class="container_12">
-    <div id="top">
-      <div class="grid_3">
-        <div class="phone_top">
-          Call Us +777 (100) 1234
-        </div><!-- .phone_top -->
-      </div><!-- .grid_3 -->
-   
-      <div class="grid_6">
-        <div class="welcome">
-          Welcome visitor you can <a href="login.html">login</a> or <a href="login.html">create an account</a>.
-        </div><!-- .welcome -->
-      </div><!-- .grid_6 -->
-   
-      <div class="grid_3">
-        <div class="valuta">
-          <ul>
-            <li class="curent"><a href="#">$</a></li>
-            <li><a href="#">&#8364;</a></li>
-            <li><a href="#">&#163;</a></li>
-          </ul>
-        </div><!-- .valuta -->
-    
-        <div class="lang">
-          <ul>
-            <li class="curent"><a href="#">EN</a></li>
-            <li><a href="#">FR</a></li>
-            <li><a href="#">GM</a></li>
-          </ul>
-        </div><!-- .lang -->
-      </div><!-- .grid_3 -->
-    </div><!-- #top -->
-  
+
     <div class="clear"></div>
    
     <header id="branding">
@@ -225,95 +194,6 @@
   
   <section id="main">
     <div class="container_12">
-       <div id="sidebar" class="grid_3">
-	      <aside id="categories_nav">
-		     <h3>Categories</h3>
-		     
-		     <nav class="left_menu">
-			    <ul>
-				   <li><a href="#">Solids <span>(21)</span></a></li>
-				   <li><a href="#">Liquids <span> (27)</span></a></li>
-				   <li><a href="#">Spray <span>(33)</span></a></li>
-				   <li><a href="#">Electric <span>(17)</span></a></li>
-				   <li><a href="#">For Cars <span>(23)</span></a></li>
-				   <li><a href="#">For Room <span>(7)</span></a></li>
-				   <li class="last"><a href="#">Other <span>(135)</span></a></li>
-			    </ul>
-		     </nav><!-- .left_menu -->
-	      </aside><!-- #categories_nav -->
-	      
-	      <aside id="shop_by">
-		     <h3>Shop By</h3>
-		     
-		     <div class="currently_shopping">
-			    <p>Currently Shopping by:</p>
-			    <ul>
-				   <li><a title="close" class="close" href="#"></a>Price: <span>$0.00 - $999.99</span></li>
-				   <li><a title="close" class="close" href="#"></a>Manufacturer: <span>Apple</span></li>
-			    </ul>
-			    
-			    <a class="clear_all" href="#">Clear All</a>
-			    
-			    <div class="clear"></div>
-		     </div><!-- .currently_shopping -->
-		     
-		     <h4>Category</h4>
-		     
-		     <form action="#" class="check_opt">
-			    <p><input class="niceCheck" type="checkbox" >For Home (23)</p>
-			    <p><input class="niceCheck" type="checkbox" name="" value="">For Car (27)</p>
-			    <p><input class="niceCheck" type="checkbox" name="" value="">For Office (9)</p>
-		     </form>
-		     
-		     <h4>Price</h4>
-		     
-		     <form action="#" class="check_opt">
-			    <p><input class="niceCheck" type="checkbox" name="" value="">0.00 - $49.99 (21)</p>
-			    <p><input class="niceCheck" type="checkbox" name="" value="">$50.00 - $99.99 (7)</p>
-			    <p><input class="niceCheck" type="checkbox" name="" value="">0$100.00 and above (15)</p>
-		     </form>
-	      </aside><!-- #shop_by -->
-	      
-	      <aside id="specials" class="specials">
-		     <h3>Specials</h3>
-		     
-		     <ul>
-			    <li>
-				   <div class="prev">
-					  <a href="product_page.html"><img src="images/special1.png" alt="" title="" /></a>
-				   </div>
-				   
-				   <div class="cont">
-					  <a href="product_page.html">Honeysuckle Flameless Luminary Refill</a>
-					  <div class="prise"><span class="old">$177.00</span>$75.00</div>
-				   </div>   
-			    </li>
-			    
-			    <li>
-				   <div class="prev">
-					  <a href="product_page.html"><img src="images/special2.png" alt="" title="" /></a>
-				   </div>
-				   
-				   <div class="cont">
-					  <a href="product_page.html">Honeysuckle Flameless Luminary Refill</a>
-					  <div class="prise"><span class="old">$177.00</span>$75.00</div>
-				   </div>   
-			    </li>
-		     </ul>
-	      </aside><!-- #specials -->
-	      
-	      <aside id="newsletter_signup">
-		     <h3>Newsletter Signup</h3>
-		     <p>Phasellus vel ultricies felis. Duis 
-		     rhoncus risus eu urna pretium.</p>
-		     
-		     <form class="newsletter">
-			    <input type="email" name="newsletter" class="your_email" value="" placeholder="Enter your email address..."/>
-			    <input type="submit" id="submit" value="Subscribe" />
-		     </form>
-	      </aside><!-- #newsletter_signup -->
-       </div><!-- .sidebar -->
-      
        <div id="content" class="grid_9">
 	      <h1 class="page_title">Product List</h1>
 	      
@@ -368,7 +248,7 @@
 				
 				<div class="grid_4">
 					<div class="entry_content">
-						<a href="product_page.html"><h3 class="title">{{book['name']}}</h3></a>
+						<a href="{{url_for('book_detail',book_id=book['id'])}}"><h3 class="title">{{book['name']}}</h3></a>
 						<div class="review">
 							<a class="plus" href="#"></a>
 							<a class="plus" href="#"></a>

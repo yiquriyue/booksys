@@ -1,0 +1,6 @@
+Dear {{user.user_name}}:
+welcome!!!
+Click the link below to confirm your account information, and the link will expire in 3600 seconds:
+{{url_for('confirm',token=token,_external=True)}}
+Thanks for using!!!!!
+--admin

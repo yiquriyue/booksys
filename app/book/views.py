@@ -6,19 +6,20 @@ import os
 from flask import request,render_template,flash,abort,url_for,redirect,session,Flask,g
 from app import app
 from app.models import DBOpera 
-
+from flask_login import login_required
 from werkzeug import secure_filename
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 from app.setting import UPLOAD_FOLDER
-
+import shutil
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @app.route('/book/list',methods=['GET','POST'])
+@login_required
 def book_list():
     if request.method == 'GET':
-        user_id = session.get('userid')
+        route = session.get('route')
         #search = request.form['search']
         db = DBOpera()
         books = db.get_bookList()
@@ -39,7 +40,7 @@ def book_list():
                 abook['image'] = ''
             book_list.append(abook)
             a=a+1
-        if user_id:
+        if route=='user':
             return render_template('user_catalog_list.html',book_list=book_list)
         else:
             return render_template('manage_booklist.html',book_list=book_list)
@@ -62,8 +63,10 @@ def book_add():
         book_num = request.form['book_num']
         book_id = db.add_book(book_name,book_author,book_class,book_price,book_num,book_message)
         if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
+            if os.path.exists(os.path.join(UPLOAD_FOLDER,str(book_id))):
+                shutil.rmtree(os.path.join(UPLOAD_FOLDER,str(book_id)))
             os.mkdir(os.path.join(UPLOAD_FOLDER,str(book_id)))
+            filename = 'buddha.' + file.filename.rsplit('.', 1)[1]
             book_image = os.path.join(UPLOAD_FOLDER,str(book_id),filename)
             fp = open(book_image,'w')
             file.save(book_image)
@@ -96,5 +99,25 @@ def book_collect():
         book_id = request.form['book_id']
         db = DBOpera()
         db.add_collect(book_id,user_id)
-        return redirect(url_for('book_detail',book_id=book_id))
+        return "success"
         
+        
+@app.route('/book/cart',methods=['GET','POST'])
+def book_cart():
+    if request.method == 'POST':
+        user_id = session.get('userid')
+        book_id = request.form['book_id']
+        db = DBOpera()
+        db.add_cart(book_id,user_id)
+        return "success"
+        
+@app.route('/book/add_detail',methods=['GET','POST']
+def add_detail():
+    if request.method=='POST':
+        carts = session.get('carts')
+        #数据库操作生成订单，返回订单编号
+        for cart in carts:
+            #按照订单编号插入订单详情
+            #并计算订单金额等信息
+            cart.book_id
+    

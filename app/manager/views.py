@@ -18,6 +18,7 @@ def manager_login():
         if check:
             session['username'] = username
             session['userid'] = check
+            session['route'] = 'manager'
             session.permanent = True
             return redirect(url_for('home'))
         else:

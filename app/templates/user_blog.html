@@ -336,118 +336,19 @@
        </div><!-- .sidebar -->
       
        <div id="content" class="grid_9">
-		<h1 class="page_title">Our Blog</h1>
-		
+		<h1 class="page_title">活动</h1>
+		{% for activity in activity_list%}
 		<article class="post">
-			<h2 class="title_article"><a href="blog_post.html">Citrus Magic Solid Air Freshener</a></h2>
+			<h2 class="title_article"><a href="{{url_for('activity_detail',activity_id=activity['id'])}}">{{activity['name']}}</a></h2>
 			<div class="content_article">
-				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
+				<p>{{activity['describe']}}</p>
 			</div><!-- .content_article -->
 			<div class="footer_article">
-				<div class="number_c">3</div>
-				<span>Mike Example, <time datetime="2012-11-03">03.11.2012</time></span>  |  <span>Posted in <a href="#">Sports</a>, <a href="#">Movies</a></span>
+				<div class="number_c">{{activity['count']}}</div>
+				<span>{{activity['guest']}}  |<time datetime="2012-11-03">{{activity['time']}}</time>
 			</div>
 		</article>
-		
-		<article class="post">
-			<h2 class="title_article"><a href="blog_post.html">Citrus Magic Solid Air Freshener</a></h2>
-			<div class="content_article">
-				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
-			</div><!-- .content_article -->
-			<div class="footer_article">
-				<div class="number_c">3</div>
-				<span>Mike Example, <time datetime="2012-11-03">03.11.2012</time></span>  |  <span>Posted in <a href="#">Sports</a>, <a href="#">Movies</a></span>
-			</div>
-		</article>
-		
-		<article class="post">
-			<h2 class="title_article"><a href="blog_post.html">Citrus Magic Solid Air Freshener</a></h2>
-			<div class="content_article">
-				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
-			</div><!-- .content_article -->
-			<div class="footer_article">
-				<div class="number_c">3</div>
-				<span>Mike Example, <time datetime="2012-11-03">03.11.2012</time></span>  |  <span>Posted in <a href="#">Sports</a>, <a href="#">Movies</a></span>
-			</div>
-		</article>
-		
-		<article class="post">
-			<h2 class="title_article"><a href="blog_post.html">Citrus Magic Solid Air Freshener</a></h2>
-			<div class="content_article">
-				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
-			</div><!-- .content_article -->
-			<div class="footer_article">
-				<div class="number_c">3</div>
-				<span>Mike Example, <time datetime="2012-11-03">03.11.2012</time></span>  |  <span>Posted in <a href="#">Sports</a>, <a href="#">Movies</a></span>
-			</div>
-		</article>
-		
-		<article class="post">
-			<h2 class="title_article"><a href="blog_post.html">Citrus Magic Solid Air Freshener</a></h2>
-			<div class="content_article">
-				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
-			</div><!-- .content_article -->
-			<div class="footer_article">
-				<div class="number_c">3</div>
-				<span>Mike Example, <time datetime="2012-11-03">03.11.2012</time></span>  |  <span>Posted in <a href="#">Sports</a>, <a href="#">Movies</a></span>
-			</div>
-		</article>
-		
-		<article class="post">
-			<h2 class="title_article"><a href="blog_post.html">Citrus Magic Solid Air Freshener</a></h2>
-			<div class="content_article">
-				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
-			</div><!-- .content_article -->
-			<div class="footer_article">
-				<div class="number_c">3</div>
-				<span>Mike Example, <time datetime="2012-11-03">03.11.2012</time></span>  |  <span>Posted in <a href="#">Sports</a>, <a href="#">Movies</a></span>
-			</div>
-		</article>
-		
-		<article class="post">
-			<h2 class="title_article"><a href="blog_post.html">Citrus Magic Solid Air Freshener</a></h2>
-			<div class="content_article">
-				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
-			</div><!-- .content_article -->
-			<div class="footer_article">
-				<div class="number_c">3</div>
-				<span>Mike Example, <time datetime="2012-11-03">03.11.2012</time></span>  |  <span>Posted in <a href="#">Sports</a>, <a href="#">Movies</a></span>
-			</div>
-		</article>
-		
-		<article class="post">
-			<h2 class="title_article"><a href="blog_post.html">Citrus Magic Solid Air Freshener</a></h2>
-			<div class="content_article">
-				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
-			</div><!-- .content_article -->
-			<div class="footer_article">
-				<div class="number_c">3</div>
-				<span>Mike Example, <time datetime="2012-11-03">03.11.2012</time></span>  |  <span>Posted in <a href="#">Sports</a>, <a href="#">Movies</a></span>
-			</div>
-		</article>
-		
-		<article class="post">
-			<h2 class="title_article"><a href="blog_post.html">Citrus Magic Solid Air Freshener</a></h2>
-			<div class="content_article">
-				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
-			</div><!-- .content_article -->
-			<div class="footer_article">
-				<div class="number_c">3</div>
-				<span>Mike Example, <time datetime="2012-11-03">03.11.2012</time></span>  |  <span>Posted in <a href="#">Sports</a>, <a href="#">Movies</a></span>
-			</div>
-		</article>
-		
-		<article class="post">
-			<h2 class="title_article"><a href="blog_post.html">Citrus Magic Solid Air Freshener</a></h2>
-			<div class="content_article">
-				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source.</p>
-			</div><!-- .content_article -->
-			<div class="footer_article">
-				<div class="number_c">3</div>
-				<span>Mike Example, <time datetime="2012-11-03">03.11.2012</time></span>  |  <span>Posted in <a href="#">Sports</a>, <a href="#">Movies</a></span>
-			</div>
-		</article>
-		
+		{%endfor%}
 		<div class="pagination">
 		     <ul>
 			    <li class="prev"><span>&#8592;</span></li>

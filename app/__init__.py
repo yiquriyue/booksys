@@ -1,7 +1,9 @@
 #-*- coding:utf-8 -*-
 from flask import Flask,render_template
+from flask_mail import Mail
 from werkzeug.routing import BaseConverter
 from setting import URL_LIST
+from flask_login import LoginManager
 
 class RegexConverter(BaseConverter):
 	def __init__(self,map,*arge):
@@ -11,7 +13,11 @@ class RegexConverter(BaseConverter):
 app = Flask(__name__)
 app.url_map.converters['regex'] = RegexConverter
 app.config.from_object('app.setting')
-
+login_manager = LoginManager()
+login_manager.session_protection = 'strong'
+login_manager.login_view = 'login'
+login_manager.init_app(app)
+mail= Mail(app)
 def general():
 	return render_template('user_index.html')
 
@@ -27,3 +33,5 @@ from book import book as book_blueprint
 app.register_blueprint(book_blueprint, url_prefix='/api')
 from manager import manager as manager_blueprint
 app.register_blueprint(manager_blueprint, url_prefix='/api')
+from activity import activity as activity_blueprint
+app.register_blueprint(activity_blueprint, url_prefix='/api')

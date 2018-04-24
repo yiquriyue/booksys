@@ -19,79 +19,47 @@
   <script src="{{url_for('static',filename='js/jquery.carouFredSel-5.2.2-packed.js')}}"></script>
 
   <script>
-	$(document).ready(function(){
-	    $("#myController").jFlow({
-			controller: ".control", // must be class, use . sign 
-			slideWrapper : "#jFlowSlider", // must be id, use # sign
-			slides: "#slider",  // the div where all your sliding divs are nested in
-			selectedWrapper: "jFlowSelected",  // just pure text, no sign
-			width: "984px",  // this is the width for the content-slider
-			height: "480px",  // this is the height for the content-slider
-			duration: 400,  // time in miliseconds to transition one slide
-			prev: ".slidprev", // must be class, use . sign
-			next: ".slidnext", // must be class, use . sign
-			auto: true
+    $(document).ready(function(){
+        $("#myController").jFlow({
+            controller: ".control", // must be class, use . sign 
+            slideWrapper : "#jFlowSlider", // must be id, use # sign
+            slides: "#slider",  // the div where all your sliding divs are nested in
+            selectedWrapper: "jFlowSelected",  // just pure text, no sign
+            width: "984px",  // this is the width for the content-slider
+            height: "480px",  // this is the height for the content-slider
+            duration: 400,  // time in miliseconds to transition one slide
+            prev: ".slidprev", // must be class, use . sign
+            next: ".slidnext", // must be class, use . sign
+            auto: true
     });
   });
   </script>
   <script>
-	$(function() {
-	  $('#list_product').carouFredSel({
-		prev: '#prev_c1',
-		next: '#next_c1',
-		auto: false
-	  });
+    $(function() {
+      $('#list_product').carouFredSel({
+        prev: '#prev_c1',
+        next: '#next_c1',
+        auto: false
+      });
           $('#list_product2').carouFredSel({
-		prev: '#prev_c2',
-		next: '#next_c2',
-		auto: false
-	  });
-	  $(window).resize();
-	});
+        prev: '#prev_c2',
+        next: '#next_c2',
+        auto: false
+      });
+      $(window).resize();
+    });
   </script>
   <script>
        $(document).ready(function(){
-	      $("button").click(function(){
-		     $(this).addClass('click')
-	      });
+          $("button").click(function(){
+             $(this).addClass('click')
+          });
        })
   </script>
 
 </head>
 <body>
   <div class="container_12">
-    <div id="top">
-      <div class="grid_3">
-        <div class="phone_top">
-          Call Us +777 (100) 1234
-        </div><!-- .phone_top -->
-      </div><!-- .grid_3 -->
-
-      <div class="grid_6">
-        <div class="welcome">
-          Welcome visitor you can <a href="{{url_for('login')}}">登陆</a> or <a href="login.html">注册</a>.
-        </div><!-- .welcome -->
-      </div><!-- .grid_6 -->
-
-      <div class="grid_3">
-        <div class="valuta">
-          <ul>
-            <li class="curent"><a href="#">$</a></li>
-            <li><a href="#">&#8364;</a></li>
-            <li><a href="#">&#163;</a></li>
-          </ul>
-        </div><!-- .valuta -->
-
-        <div class="lang">
-          <ul>
-            <li class="curent"><a href="#">EN</a></li>
-            <li><a href="#">FR</a></li>
-            <li><a href="#">GM</a></li>
-          </ul>
-        </div><!-- .lang -->
-      </div><!-- .grid_3 -->
-    </div><!-- #top -->
-
     <div class="clear"></div>
 
     <header id="branding">
@@ -105,15 +73,15 @@
       <div class="grid_3">
         <form class="search">
           <input type="text" name="search" class="entry_form" value="" placeholder="Search entire store here..."/>
-	</form>
+    </form>
       </div><!-- .grid_3 -->
 
       <div class="grid_6">
         <ul id="cart_nav">
           <li>
-            <a class="cart_li" href="#">Cart <span>$0.00</span></a>
+            <a class="cart_li" href="#">购物车 <span>$0.00</span></a>
             <ul class="cart_cont">
-              <li class="no_border"><p>Recently added item(s)</p></li>
+              <li class="no_border"><p>购物车商品</p></li>
               <li>
                 <a href="product_page.html" class="prev_cart"><div class="cart_vert"><img src="images/cart_img.png" alt="" title="" /></div></a>
                 <div class="cont_cart">
@@ -133,23 +101,27 @@
                 <a title="close" class="close" href="#"></a>
                 <div class="clear"></div>
               </li>
-	      <li class="no_border">
-		<a href="shopping_cart.html" class="view_cart">View shopping cart</a>
-		<a href="checkout.html" class="checkout">Procced to Checkout</a>
-	      </li>
+          <li class="no_border">
+        <a href="shopping_cart.html" class="view_cart">View shopping cart</a>
+        <a href="checkout.html" class="checkout">Procced to Checkout</a>
+          </li>
             </ul>
           </li>
         </ul>
 
         <nav class="private">
           <ul>
-            <li><a href="#">My Account</a></li>
-		<li class="separator">|</li>
-            <li><a href="#">My Wishlist</a></li>
-		<li class="separator">|</li>
-            <li><a href="login.html">Log In</a></li>
-		<li class="separator">|</li>
-            <li><a href="login.html">Sign Up</a></li>
+            <li><a href="#">我的账户</a></li>
+        <li class="separator">|</li>
+            <li><a href="{{url_for('collect')}}">收藏夹</a></li>
+        <li class="separator">|</li>
+            {% if current_user.is_authenticated%}
+                <li><a href="#">{{current_user.user_name}}</a></li>
+            {%else%}
+                <li><a href="{{url_for('login')}}">登陆</a></li>
+            {%endif%}
+        <li class="separator">|</li>
+            <li><a href="{{url_for('logout')}}">退出</a></li>
           </ul>
         </nav><!-- .private -->
       </div><!-- .grid_6 -->
@@ -163,36 +135,18 @@
       <div class="grid_12">
         <nav class="primary">
           <ul>
-            <li class="curent"><a href="index.html">Home</a></li>
-            <li><a href="catalog_grid.html">Solids</a></li>
-            <li><a href="catalog_grid.html">Liquids</a></li>
+            <li class="curent"><a href="{{url_for('homepage')}}">主页</a></li>
+            <li><a href="{{url_for('book_list')}}">商品</a></li>
+            <li><a href="{{url_for('activity_list')}}">活动</a></li>
             <li>
-              <a href="catalog_grid.html">Spray</a>
+              <a href="catalog_grid.html">用户</a>
               <ul class="sub">
-                <li><a href="catalog_grid.html">For home</a></li>
-                <li><a href="catalog_grid.html">For Garden</a></li>
-                <li><a href="catalog_grid.html">For Car</a></li>
-                <li><a href="catalog_grid.html">Other spray</a></li>
-              </ul>
-            </li>
-            <li><a href="catalog_grid.html">Electric</a></li>
-            <li><a href="catalog_grid.html">For cars</a></li>
-	    <li>
-              <a href="#">All pages</a>
-              <ul class="sub">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="text_page.html">Typography and basic styles</a></li>
-		<li><a href="catalog_grid.html">Catalog (grid view)</a></li>
-		<li><a href="catalog_list.html">Catalog (list type view)</a></li>
-		<li><a href="product_page.html">Product view</a></li>
-		<li><a href="shopping_cart.html">Shoping cart</a></li>
-		<li><a href="checkout.html">Proceed to checkout</a></li>
-		<li><a href="compare.html">Products comparison</a></li>
-		<li><a href="login.html">Login</a></li>
-		<li><a href="contact_us.html">Contact us</a></li>
-		<li><a href="404.html">404</a></li>
-		<li><a href="blog.html">Blog posts</a></li>
-		<li><a href="blog_post.html">Blog post view</a></li>
+                <li><a href="{{url_for('homepage')}}">主页</a></li>
+                <li><a href=" {{url_for('cart')}}">购物车</a></li>
+                <li><a href="catalog_grid.html">订单</a></li>
+                <li><a href="{{url_for('collect')}}">收藏夹</a></li>
+                <li><a href="catalog_grid.html">书架</a></li>
+                
               </ul>
             </li>
           </ul>
@@ -245,6 +199,24 @@
 
     </div><!-- .grid_12 -->
   </div><!-- .container_12 -->
+  {% for message in get_flashed_messages('ok') %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+  {% endfor %}
+  {% for message in get_flashed_messages('fail') %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+  {% endfor %}
+  {% for message in get_flashed_messages('again') %}
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+  {% endfor %}
   <div class="copyrights">Collect from <a href="http://www.moobnn.com/"  title="网站模板">网站模板</a></div>
   <div class="clear"></div>
 
@@ -277,7 +249,7 @@
       <div class="carousel">
         <div class="c_header">
           <div class="grid_10">
-            <h2>Best Sellers</h2>
+            <h2>销量最高</h2>
           </div><!-- .grid_10 -->
 
           <div class="grid_2">
@@ -398,7 +370,7 @@
       <div class="carousel">
         <div class="c_header">
           <div class="grid_10">
-            <h2>Featured Products</h2>
+            <h2>收藏最多</h2>
           </div><!-- .grid_10 -->
 
           <div class="grid_2">
@@ -553,8 +525,8 @@
             <p>Cursus in dapibus ultrices velit fusce. Felis lacus erat. Fermentum parturient lacus tristique habitant nullam morbi et odio nibh mus dictum tellus erat.</p>
             <form class="letter_form">
               <input type="email" name="newsletter" class="l_form" value="" placeholder="Enter your email address..."/>
-	      <input type="submit" id="submit" value="" />
-	    </form>
+          <input type="submit" id="submit" value="" />
+        </form>
             <div class="lettel_description">
               Vel lobortis gravida. Cursus in dapibus ultrices velit fusce. Felis lacus erat.
             </div><!-- .lettel_description -->

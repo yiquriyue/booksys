@@ -19,24 +19,23 @@ import hashlib
 ##-- Basic Table --##
 Ser_Collect  = db.Table('Ser_Collect',
     db.Column('user_id',db.Integer,db.ForeignKey('Bas_user.id')),
-    db.Column('book_id',db.Integer,db.ForeignKey('Bac_book.book_id')),
+    db.Column('book_id',db.Integer,db.ForeignKey('Bas_book.book_id')),
     db.Column('cart_time',db.DateTime,default=datetime.datetime.now),
     )
-
+    
 class Cart(db.Model):
     '''收藏表，记录用户和商品之间多对多的关系'''
     __tablename__ = 'Ser_cart'
+    cart_book_id = db.Column(db.Integer,db.ForeignKey('Bas_book.book_id'),primary_key =True)
     cart_user_id = db.Column(db.Integer,db.ForeignKey('Bas_user.id'),primary_key =True)
-    cart_book_id = db.Column(db.Integer,db.ForeignKey('Bac_book.book_id'),primary_key =True)
     cart_time = db.Column(db.DateTime,default=datetime.datetime.now)
     book_num = db.Column(db.Integer, default=1)
 
-    # def __init__(self, collect_book_id,collect_user_id):
-        # self.collect_book_id = collect_book_id
-        # self.collect_user_id = collect_user_id
-        
+    def __init__(self, collect_book_id,collect_user_id):
+        self.collect_book_id = collect_book_id
+        self.collect_user_id = collect_user_id
     def __repr__(self):
-        return '<cart_book_id : %r>' % self.cart_book_id
+        return '<Evaluate : %r>' % self.evaluate_id
         
 class User(UserMixin,db.Model):
     '''用户基本表，记录用户基本信息'''
@@ -51,7 +50,7 @@ class User(UserMixin,db.Model):
                             backref=db.backref('Bas_user',lazy='dynamic'),
                             lazy='dynamic')
     collect = db.relationship('Cart',
-                              foreign_keys=[Cart.cart_user_id],
+                              foreign_keys=[Cart.cart_book_id],
                               backref=db.backref('Book.collect',lazy='joined'),
                               lazy='dynamic',
                               cascade='all,delete-orphan')
@@ -116,7 +115,7 @@ class Book(db.Model):
     @param(book_class):图书类别编号
     
     '''
-    __tablename__ = 'Bac_book'
+    __tablename__ = 'Bas_book'
     book_id = db.Column(db.Integer, primary_key = True)
     book_name = db.Column(db.String(128))
     book_author = db.Column(db.String(128))
@@ -126,7 +125,7 @@ class Book(db.Model):
     book_image = db.Column(db.String(128))
     book_num = db.Column(db.Integer)
     collect = db.relationship('Cart',
-                              foreign_keys=[Cart.cart_book_id],
+                              foreign_keys=[Cart.cart_user_id],
                               backref=db.backref('User.collect',lazy='joined'),
                               lazy='dynamic',
                               cascade='all,delete-orphan')
@@ -258,29 +257,6 @@ class Evaluate(db.Model):
         return '<Evaluate : %r>' % self.evaluate_id
 
 
-        
-# class Cart(db.Model):
-    # '''购物车表，记录用户和商品之间多对多的关系'''
-    # __tablename__ = 'Ser_cart'
-    # cart_book_id = db.Column(db.Integer,primary_key =True)
-    # cart_user_id = db.Column(db.Integer, primary_key =True)
-    # cart_time = db.Column(db.DateTime)
-    # book_num = db.Column(db.Integer, default=datetime.datetime.now)
-    # def __init__(self, collect_book_id,collect_user_id,book_num=1):
-        # self.collect_book_id = collect_book_id
-        # self.collect_user_id = collect_user_id
-        # self.book_num = book_num
-    # def __repr__(self):
-        # return '<Evaluate : %r>' % self.evaluate_id
-        
-
-# class Care(db.Model):
-    # __tablename__ = 'Ser_cart'
-    # cart_book_id = db.Column(db.Integer,db.ForeignKey('user.id'),primary_key =True)
-    # cart_user_id = db.Column(db.Integer,db.ForeignKey('book.book_id'),primary_key =True)
-    # cart_time = db.Column(db.DateTime,default=datetime.datetime.now)
-    # book_num = db.Column(db.Integer, default=1)
-    
 class DBOpera():
     def user_check(self,username,password):
         user = User.query.filter_by(user_name = username).first()
@@ -321,8 +297,7 @@ class DBOpera():
         return activitys
         
     def get_bookAttach(self,book_id):
-        book = Book.query.filter(Book.book_id==book_id).first()
-        return book
+        book = Book.query.get(book_id)
     
     def get_activityAttach(self,activity_id):
         activity = Activity.query.filter(Activity.activity_id==activity_id).first()
@@ -333,13 +308,6 @@ class DBOpera():
         carts = user.Bac_book.all()
         return carts
         
-    def get_cart(self,user_id):
-        books = db.session.query(Book).select_from(Cart).\
-                                        filter_by(cart_user_id=user_id).\
-                                        join(Book,Cart.cart_book_id==Book.book_id)
-
-        return books
-        
     def add_book(self,book_name,book_author,book_class,
                  book_price,book_num,book_message = ""):
         book = Book(book_name, book_author, book_price,book_class,book_num,book_message)
@@ -347,14 +315,13 @@ class DBOpera():
             db.session.add(book)
             db.session.commit()
             print book.book_id
-            return book.book_id
         except BaseException,e:
             print e
             return False
             
 
     def add_bookImag(self,book_id,book_image):
-        book = Book.query.filter_by(book_id = book_id).first()
+        book = Book.query.get(book_id)
         book.book_image = book_image
         try:
             db.session.add(book)
@@ -364,41 +331,44 @@ class DBOpera():
             print e
             return False
             
+    def add_collect(self,user_id,book_id):
+        collect = Collect(book_id,user_id)
+        try:
+            db.session.add(collect)
+            db.session.commit()
+        except BaseException,e:
+            print e
+            return False
+            
     def add_collect(self,book_id,user_id):
-        book = Book.query.filter_by(book_id = book_id).first()
-        user = User.query.filter_by(id = user_id).first()
+        book = Book.query.get(book_id)
+        user = User.query.get(user_id)
         user.Bac_book.append(book)
         try:
             db.session.add(user)
             db.session.commit()
-            print user
         except BaseException,e:
             print e
             return False
-            
-
             
     def add_cart(self,book_id,user_id):
-        cart=Cart.query.filter(Cart.cart_book_id==book_id,Cart.cart_user_id==user_id).first()
+        cart=Cart.query.filter(cart_book_id==book_id,cart_user_id==user_id).first()
         if cart:
             cart.book_num = cart.book_num +1
-            db.session.add(cart)
         else:
-            cart_new = Cart(cart_book_id=book_id,cart_user_id=user_id)
-            db.session.add(cart_new)
+            cart = Cart(book_id,user_id)
         try:
-            
+            db.session.add(book)
             db.session.commit()
-            print 'cart',cart
+            print book.book_id
         except BaseException,e:
             print e
             return False
-            
-            
 @login_manager.user_loader
-def get_userinfo(userId):
-    user = User.query.filter(User.id==userId).first()
+def get_userinfo(user_id):
+    user = User.query.filter(id==int(user_id))
     return user
+    
 #db.create_all()
 #db.drop_all()
 if __name__ == '__main__':
