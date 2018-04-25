@@ -105,10 +105,9 @@ def book_collect():
 @app.route('/book/cart',methods=['GET','POST'])
 def book_cart():
     if request.method == 'POST':
-        user_id = session.get('userid')
         book_id = request.form['book_id']
         db = DBOpera()
-        db.add_cart(book_id,user_id)
+        db.add_cart(book_id,current_user.id)
         return "success"
         
 @app.route('/book/add_detail',methods=['GET','POST']
@@ -116,8 +115,11 @@ def add_detail():
     if request.method=='POST':
         carts = session.get('carts')
         #数据库操作生成订单，返回订单编号
+        db = DBOpera()
+        orders = db.add_order(current_user.id)
         for cart in carts:
-            #按照订单编号插入订单详情
-            #并计算订单金额等信息
-            cart.book_id
+            order_detail = db.add_order_detail(order.order_id,cart.cart_book_id,cart.book_num)
+            order.order_price += order_detail.orDetail_price
+        db.add_order_price(order.order_id,order.order_price)
+        return 
     

@@ -178,12 +178,11 @@ class Order(db.Model):
     order_id = db.Column(db.Integer, primary_key = True)
     order_user_id = db.Column(db.Integer)
     order_price = db.Column(db.Float)
-    order_time = db.Column(db.DateTime)
+    order_time = db.Column(db.DateTime,default=datetime.datetime.now())
     order_status = db.Column(db.String(16))
-    def __init__(self, order_user_id, order_price, order_time, order_status):
+    def __init__(self, order_user_id, order_price, order_status):
         self.order_user_id = order_user_id
         self.order_price = order_price
-        self.order_time = order_time
         self.order_status = order_status
     def __repr__(self):
         return '<Order : %r>' % self.order_id
@@ -196,7 +195,8 @@ class Order_detail(db.Model):
     orDetail_book_id = db.Column(db.Integer)
     orDetail_num = db.Column(db.Integer)
     orDetail_price = db.Column(db.Float)
-    def __init__(self, orDetail_book_id, orDetail_num,orDetail_price):
+    def __init__(self, orDetail_order_id,orDetail_book_id, orDetail_num,orDetail_price):
+        self.orDetail_order_id = orDetail_order_id
         self.orDetail_id = orDetail_id
         self.orDetail_num = orDetail_num
         self.orDetail_price = orDetail_price
@@ -257,30 +257,6 @@ class Evaluate(db.Model):
     def __repr__(self):
         return '<Evaluate : %r>' % self.evaluate_id
 
-
-        
-# class Cart(db.Model):
-    # '''购物车表，记录用户和商品之间多对多的关系'''
-    # __tablename__ = 'Ser_cart'
-    # cart_book_id = db.Column(db.Integer,primary_key =True)
-    # cart_user_id = db.Column(db.Integer, primary_key =True)
-    # cart_time = db.Column(db.DateTime)
-    # book_num = db.Column(db.Integer, default=datetime.datetime.now)
-    # def __init__(self, collect_book_id,collect_user_id,book_num=1):
-        # self.collect_book_id = collect_book_id
-        # self.collect_user_id = collect_user_id
-        # self.book_num = book_num
-    # def __repr__(self):
-        # return '<Evaluate : %r>' % self.evaluate_id
-        
-
-# class Care(db.Model):
-    # __tablename__ = 'Ser_cart'
-    # cart_book_id = db.Column(db.Integer,db.ForeignKey('user.id'),primary_key =True)
-    # cart_user_id = db.Column(db.Integer,db.ForeignKey('book.book_id'),primary_key =True)
-    # cart_time = db.Column(db.DateTime,default=datetime.datetime.now)
-    # book_num = db.Column(db.Integer, default=1)
-    
 class DBOpera():
     def user_check(self,username,password):
         user = User.query.filter_by(user_name = username).first()
@@ -387,14 +363,45 @@ class DBOpera():
             cart_new = Cart(cart_book_id=book_id,cart_user_id=user_id)
             db.session.add(cart_new)
         try:
-            
             db.session.commit()
             print 'cart',cart
         except BaseException,e:
             print e
             return False
             
+    def add_order(self,user_id):
+        order = Order(user_id,0,'obligation')
+        try:
+            db.session.add(order)
+            db.session.commit()
+            return order
+        except BaseException,e:
+            print e
+            return False
             
+    def add_order_price(self,order_id,price):
+        order = Order.session.get(order_id)
+        order.order_price = price
+        try:
+            db.session.commit()
+            return True
+        except BaseException,e:
+            print e
+            return False
+            
+    def add_order_detail(self,order_id,book_id,book_num):
+        book = Book.session.get(book_id)
+        price = bok.book_price * book_num
+        order_detail = Oredr_detail(order_id,book_id,book_num,price,)
+        try:
+            db.session.add(order_detail)
+            db.session.commit()
+            return order_detail
+        except BaseException,e:
+            print e
+            return False
+    def delete_cart(self,user_id):
+        
 @login_manager.user_loader
 def get_userinfo(userId):
     user = User.query.filter(User.id==userId).first()
