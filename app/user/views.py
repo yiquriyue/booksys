@@ -104,8 +104,13 @@ def cart():
     if request.method =='GET':
         manager = DBOpera()
         carts = manager.get_cart(current_user.id)
-        
-        return render_template('user_shopping_cart.html',carts = carts)
+        list = []
+        for cart in carts:
+            dict = {}
+            dict["book_id"]= int(cart[0].book_id)
+            dict["book_num"]= int(cart[1])
+            list.append(dict)
+        return render_template('user_shopping_cart.html',carts = carts,books_id = list)
 
 @app.route('/user/collect',methods=['GET','POST'])
 def collect():

@@ -33,4 +33,6 @@
 - failed 失败 （订单失效）
 
 
+提交订单返回信息：
 
+[{'book_num': 1, 'book_id': 2}, {'book_num': 1, 'book_id': 8}]

@@ -191,13 +191,14 @@ class Order_detail(db.Model):
     '''订单明细业务表，记录订单中书籍详情'''
     __tablename__ = 'Bas_order_detail'
     orDetail_id = db.Column(db.Integer, primary_key = True)
-    orDetail_order_id = db.Column(db.Integer, primary_key = True)
+    orDetail_order_id = db.Column(db.Integer)
     orDetail_book_id = db.Column(db.Integer)
     orDetail_num = db.Column(db.Integer)
     orDetail_price = db.Column(db.Float)
+    
     def __init__(self, orDetail_order_id,orDetail_book_id, orDetail_num,orDetail_price):
         self.orDetail_order_id = orDetail_order_id
-        self.orDetail_id = orDetail_id
+        self.orDetail_book_id = orDetail_book_id
         self.orDetail_num = orDetail_num
         self.orDetail_price = orDetail_price
     def __repr__(self):
@@ -310,7 +311,7 @@ class DBOpera():
         return carts
         
     def get_cart(self,user_id):
-        books = db.session.query(Book).select_from(Cart).\
+        books = db.session.query(Book,Cart.book_num).select_from(Cart).\
                                         filter_by(cart_user_id=user_id).\
                                         join(Book,Cart.cart_book_id==Book.book_id)
 
@@ -380,7 +381,7 @@ class DBOpera():
             return False
             
     def add_order_price(self,order_id,price):
-        order = Order.session.get(order_id)
+        order = Order.query.get(order_id)
         order.order_price = price
         try:
             db.session.commit()
@@ -390,9 +391,9 @@ class DBOpera():
             return False
             
     def add_order_detail(self,order_id,book_id,book_num):
-        book = Book.session.get(book_id)
-        price = bok.book_price * book_num
-        order_detail = Oredr_detail(order_id,book_id,book_num,price,)
+        book = Book.query.get(book_id)
+        price = book.book_price * book_num
+        order_detail = Order_detail(int(order_id),book_id,book_num,price,)
         try:
             db.session.add(order_detail)
             db.session.commit()
@@ -400,7 +401,12 @@ class DBOpera():
         except BaseException,e:
             print e
             return False
+            
     def delete_cart(self,user_id):
+        carts = Cart.query.filter(Cart.cart_user_id==user_id)
+        for cart in carts:
+            db.session.delete(cart)
+        db.session.commit()
         
 @login_manager.user_loader
 def get_userinfo(userId):

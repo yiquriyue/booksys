@@ -2,6 +2,7 @@
 #from app.models import User
 from flask_login import login_required,login_user,logout_user,current_user
 import os
+import json
 # from . import auth
 from flask import request,render_template,flash,abort,url_for,redirect,session,Flask,g
 from app import app
@@ -110,16 +111,20 @@ def book_cart():
         db.add_cart(book_id,current_user.id)
         return "success"
         
-@app.route('/book/add_detail',methods=['GET','POST']
+@app.route('/book/add_detail',methods=['GET','POST'])
 def add_detail():
     if request.method=='POST':
-        carts = session.get('carts')
+        books_id = str(request.form['books_id'])
         #数据库操作生成订单，返回订单编号
+        books_id = books_id.replace('\'', '\"')
+        book_id = json.loads(books_id)
         db = DBOpera()
-        orders = db.add_order(current_user.id)
-        for cart in carts:
-            order_detail = db.add_order_detail(order.order_id,cart.cart_book_id,cart.book_num)
+        order = db.add_order(current_user.id)
+        for book in book_id:
+            order_detail = db.add_order_detail(str(order.order_id),int(book['book_id']),int(book['book_num']))
             order.order_price += order_detail.orDetail_price
-        db.add_order_price(order.order_id,order.order_price)
-        return 
-    
+        db.add_order_price(str(order.order_id),order.order_price)
+        db.delete_cart(current_user.id)
+        return redirect(url_for('cart'))
+
+
