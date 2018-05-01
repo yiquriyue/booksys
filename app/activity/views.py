@@ -9,6 +9,9 @@ from app.models import DBOpera
 
 @app.route('/activity/list',methods=['GET','POST'])
 def activity_list():
+    '''
+    列出所有活动
+    '''
     if request.method == 'GET':
         route = session.get('route')
         #search = request.form['search']
@@ -34,8 +37,29 @@ def activity_list():
 
 @app.route('/activity/detail/<activity_id>',methods=['POST','GET','PUT'])
 def activity_detail(activity_id):
+    '''
+    活动详情
+    '''
     if request.method == 'GET':
         db = DBOpera()
         activity = db.get_activityAttach(activity_id)
         return render_template('user_blog_post.html',activity=activity)
-        
+
+@app.route('/activity/add',methods=['GET','POST'])
+def activity_add():
+    '''
+    活动发布
+    '''
+    db = DBOpera()
+    if request.method == 'GET':
+        return render_template('manage_activityAdd.html')
+    if request.method =='POST':
+        activity_name = request.form['activity_name']
+        activity_guest = request.form['activity_guest']
+        activity_num = request.form['activity_num']
+        activity_message = request.form['activity_message']
+        activity_datetime = request.files['activity_datetime']
+        print activity_datetime
+        activity_num = int(activity_num)
+        activity_id = db.add_activity(activity_name,activity_guest,activity_num,activity_message,activity_datetime)
+        return redirect(url_for('activity_add'))

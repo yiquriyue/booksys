@@ -402,6 +402,16 @@ class DBOpera():
             print e
             return False
             
+    def add_activity(self,activity_name,activity_guest,activity_num,activity_message,activity_datetime):
+        activity = Activity(activity_name, activity_guest, activity_num, activity_message,activity_datetime)
+        try:
+            db.session.add(activity)
+            db.session.commit()
+            return activity.activity_id
+        except BaseException,e:
+            print e
+            return False
+            
     def delete_cart(self,user_id):
         carts = Cart.query.filter(Cart.cart_user_id==user_id)
         for cart in carts:

@@ -19,6 +19,9 @@ def allowed_file(filename):
 @app.route('/book/list',methods=['GET','POST'])
 @login_required
 def book_list():
+    '''
+    图书列表
+    '''
     if request.method == 'GET':
         route = session.get('route')
         #search = request.form['search']
@@ -50,6 +53,9 @@ def book_list():
                                
 @app.route('/book/add',methods=['GET','POST'])
 def book_add():
+    '''
+    图书入库
+    '''
     db = DBOpera()
     if request.method == 'GET':
         class_list = db.get_classList()
@@ -77,6 +83,9 @@ def book_add():
 
 @app.route('/book/detail/<book_id>',methods=['POST','GET','PUT'])
 def book_detail(book_id):
+    '''
+    图书详情
+    '''
     if request.method == 'GET':
         db = DBOpera()
         book = db.get_bookAttach(book_id)
@@ -95,6 +104,9 @@ def book_detail(book_id):
         
 @app.route('/book/collect',methods=['GET','POST'])
 def book_collect():
+    '''
+    用户添加收藏夹
+    '''
     if request.method == 'POST':
         user_id = session.get('userid')
         book_id = request.form['book_id']
@@ -105,6 +117,9 @@ def book_collect():
         
 @app.route('/book/cart',methods=['GET','POST'])
 def book_cart():
+    '''
+    用户添加购物车
+    '''
     if request.method == 'POST':
         book_id = request.form['book_id']
         db = DBOpera()
@@ -113,6 +128,9 @@ def book_cart():
         
 @app.route('/book/add_detail',methods=['GET','POST'])
 def add_detail():
+    '''
+    用户提交订单
+    '''
     if request.method=='POST':
         books_id = str(request.form['books_id'])
         #数据库操作生成订单，返回订单编号

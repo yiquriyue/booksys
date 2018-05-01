@@ -15,5 +15,8 @@ from app import app
 
 @app.route('/home',methods=['GET','POST'])
 def home():
+    '''
+    用户主页
+    '''
     if request.method == 'GET':
         return render_template('login.html')

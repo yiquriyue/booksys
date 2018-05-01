@@ -14,6 +14,9 @@ from app.setting import UPLOAD_FOLDER
 
 @app.route('/class/add',methods=['GET','POST'])
 def class_add():
+    '''
+    类别添加
+    '''
     if request.method == 'GET':
         
         #TODO(caoyue):在图书表中查找图书

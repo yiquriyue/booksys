@@ -9,14 +9,14 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{url_for('static',filename='assets/images/favicon.png')}}">
     <title>Monster Admin Template - The Most Complete & Trusted Bootstrap 4 Admin Template</title>
     <!-- Bootstrap Core CSS -->
-    <link href="../assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{url_for('static',filename='assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="css/style.css" rel="stylesheet">
+    <link href="{{url_for('static',filename='css/style.css')}}" rel="stylesheet">
     <!-- You can change the theme colors from here -->
-    <link href="css/colors/blue.css" id="theme" rel="stylesheet">
+    <link href="{{url_for('static',filename='css/colors/blue.css')}}" id="theme" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -51,17 +51,17 @@
                         <b>
                             <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
                             <!-- Dark Logo icon -->
-                            <img src="../assets/images/logo-icon.png" alt="homepage" class="dark-logo" />
+                            <img src="{{url_for('static',filename='assets/images/logo-icon.png')}}" alt="homepage" class="dark-logo" />
                             <!-- Light Logo icon -->
-                            <img src="../assets/images/logo-light-icon.png" alt="homepage" class="light-logo" />
+                            <img src="{{url_for('static',filename='assets/images/logo-light-icon.png')}}" alt="homepage" class="light-logo" />
                         </b>
                         <!--End Logo icon -->
                         <!-- Logo text -->
                         <span>
                          <!-- dark Logo text -->
-                         <img src="../assets/images/logo-text.png" alt="homepage" class="dark-logo" />
+                         <img src="{{url_for('static',filename='assets/images/logo-text.png')}}" alt="homepage" class="dark-logo" />
                          <!-- Light Logo text -->    
-                         <img src="../assets/images/logo-light-text.png" class="light-logo" alt="homepage" /></span> </a>
+                         <img src="{{url_for('static',filename='assets/images/logo-light-text.png')}}" class="light-logo" alt="homepage" /></span> </a>
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Logo -->
@@ -582,8 +582,8 @@
                     <div class="col-md-6 col-8 align-self-center">
                         <h3 class="text-themecolor m-b-0 m-t-0">Forms</h3>
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">主页</a></li>
-                            <li class="breadcrumb-item active">新书入库</li>
+                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                            <li class="breadcrumb-item active">Form Basic</li>
                         </ol>
                     </div>
                     <div class="col-md-6 col-4 align-self-center">
@@ -607,83 +607,47 @@
                 <!-- ============================================================== -->
                 <!-- Start Page Content -->
                 <!-- ============================================================== -->
-
-                <!-- Row -->
+                <!-- .row -->
                 <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card card-outline-info">
-                            <div class="card-header">
-                                <h4 class="m-b-0 text-white">新书入库 (<small>newbook</small>)</h4>
-                            </div>
-                            <div class="card-block">
-                                <form action="#" class="form-horizontal form-bordered">
-                                    <div class="form-body">
-                                        <div class="form-group row">
-                                            <label class="control-label text-right col-md-3">书名</label>
-                                            <div class="col-md-9">
-                                                <input type="text" placeholder="small" class="form-control" name="bookname">
-                                                <small class="form-control-feedback"> This is inline help </small> </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="control-label text-right col-md-3">作者</label>
-                                            <div class="col-md-9">
-                                                <input type="text" placeholder="medium" class="form-control" name=bookauthor>
-                                                <small class="form-control-feedback"> This is inline help </small> </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="control-label text-right col-md-3">上架时间</label>
-                                            <div class="col-md-9">
-                                                <input type="date" class="form-control" placeholder="dd/mm/yyyy">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="control-label text-right col-md-3">一级分类</label>
-                                            <div class="col-md-9">
-                                                <select class="form-control custom-select">
-                                                    <option value="Category 1">Category 1</option>
-                                                    <option value="Category 2">Category 2</option>
-                                                    <option value="Category 3">Category 5</option>
-                                                    <option value="Category 4">Category 4</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="control-label text-right col-md-3">状态</label>
-                                            <div class="col-md-9">
-                                                <div class="radio-list">
-                                                    <label class="custom-control custom-radio">
-                                                        <input id="radio3" name="radio" type="radio" checked="" class="custom-control-input">
-                                                        <span class="custom-control-indicator"></span>
-                                                        <span class="custom-control-description">开放</span>
-                                                    </label>
-                                                    <label class="custom-control custom-radio">
-                                                        <input id="radio4" name="radio" type="radio" class="custom-control-input">
-                                                        <span class="custom-control-indicator"></span>
-                                                        <span class="custom-control-description">锁定</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
+                    <div class="col-sm-12">
+                        <div class="card card-block">
+                            <h4 class="card-title">Default Horizontal Forms</h4>
+                            <h6 class="card-subtitle"> All bootstrap element classies </h6>
+                            <form class="form-horizontal m-t-40" method="POST" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label>活动名称 <span class="help"> e.g. "品三国"</span></label>
+                                    <input type="text" class="form-control" value="品三国" name="activity_name" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="example-email">嘉宾 <span class="help"> </span></label>
+                                    <input type="text" name="activity_guest" class="form-control" >
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="example-number-input" class="col-2 col-form-label">人数</label>
+                                    <div class="col-10">
+                                        <input class="form-control" type="number" value="42" name="activity_num">
                                     </div>
-                                    <div class="form-actions">
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <div class="row">
-                                                    <div class="offset-sm-3 col-md-9">
-                                                        <button type="submit" class="btn btn-success"> <i class="fa fa-check"></i> 确定</button>
-                                                        <button type="button" class="btn btn-inverse">Cancel</button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                </div>
+                                <div class="form-group row">
+                                        <label for="example-datetime-local-input" class="col-2 col-form-label">Date and time</label>
+                                        <div class="col-10">
+                                            <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00" id="example-datetime-local-input" name="activity_datetime">
                                         </div>
-                                    </div>
-                                </form>
-                            </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>描述</label>
+                                    <textarea class="form-control" rows="5" name="activity_message"></textarea>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <button type="submit" class="form-control" onclick="formSubmit()">确定</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <!-- Row -->
-                <!-- ============================================================== -->
+                <!-- /.row -->
                 <!-- End PAge Content -->
                 <!-- ============================================================== -->
                 <!-- ============================================================== -->
@@ -767,24 +731,28 @@
     <!-- ============================================================== -->
     <!-- All Jquery -->
     <!-- ============================================================== -->
-    <script src="../assets/plugins/jquery/jquery.min.js"></script>
+    <script src="{{url_for('static',filename='assets/plugins/jquery/jquery.min.js')}}"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="../assets/plugins/bootstrap/js/tether.min.js"></script>
-    <script src="../assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="{{url_for('static',filename='assets/plugins/bootstrap/js/tether.min.js')}}"></script>
+    <script src="{{url_for('static',filename='assets/plugins/bootstrap/js/bootstrap.min.js')}}"></script>
     <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="js/jquery.slimscroll.js"></script>
+    <script src="{{url_for('static',filename='js/jquery.slimscroll.js')}}"></script>
     <!--Wave Effects -->
-    <script src="js/waves.js"></script>
+    <script src="{{url_for('static',filename='js/waves.js')}}"></script>
     <!--Menu sidebar -->
-    <script src="js/sidebarmenu.js"></script>
+    <script src="{{url_for('static',filename='js/sidebarmenu.js')}}"></script>
     <!--stickey kit -->
-    <script src="../assets/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="{{url_for('static',filename='assets/plugins/sticky-kit-master/dist/sticky-kit.min.js')}}"></script>
     <!--Custom JavaScript -->
-    <script src="js/custom.min.js"></script>
+    <script src="{{url_for('static',filename='js/custom.min.js')}}"></script>
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
+    <script src="{{url_for('static',filename='js/jasny-bootstrap.js')}}"></script>
     <!-- ============================================================== -->
     <!-- Style switcher -->
     <!-- ============================================================== -->
-    <script src="../assets/plugins/styleswitcher/jQuery.style.switcher.js"></script>
+    <script src="{{url_for('static',filename='assets/plugins/styleswitcher/jQuery.style.switcher.js')}}"></script>
 </body>
 
 </html>

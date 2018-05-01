@@ -12,6 +12,9 @@ from flask_login import login_user,logout_user
 from app.send_email import send_email
 @app.route('/user/login',methods=['GET','POST'])
 def login():
+    '''
+    用户登陆
+    '''
     if request.method == 'POST':
         username=request.form['username']
         password=request.form['password']
@@ -32,6 +35,9 @@ def login():
 
 @app.route('/user/logout')
 def logout():
+    '''
+    用户登出
+    '''
     logout_user()
     if 'route' in session:
         session.pop('route')
@@ -39,6 +45,9 @@ def logout():
 
 @app.route('/user/register',methods=['GET','POST'])
 def register():
+    '''
+    用户注册
+    '''
     if request.method == 'POST':
         username=request.form['username']
         password=request.form['password']
@@ -56,6 +65,9 @@ def register():
 @app.route('/user/confirm/<token>',methods=['GET','POST'])
 @login_required
 def confirm(token):
+    '''
+    用户激活验证
+    '''
     if current_user.confirmed:
         return redirect(url_for('home'))
     if current_user.confirm(token):
@@ -66,6 +78,9 @@ def confirm(token):
 
 @app.route('/user/reconfirm')
 def re_confirm():
+    '''
+    用户再次发送激活邮件
+    '''
     token = current_user.get_confirmation()
     send_email(current_user.user_email,'Confirm Your Account','user/confirm_1',user=current_user,token=token)
     flash("plese check in your email!",'again')
@@ -79,6 +94,9 @@ def re_confirm():
 
 @app.route('/user/unconfirmed')        
 def unconfirmed():
+    '''
+    用户未激活
+    '''
     if current_user.is_anonymous or current_user.confirmed:
         return redirect(url_for('home'))
     return render_template('unconfirmed.html')
@@ -86,6 +104,9 @@ def unconfirmed():
 @app.route('/user/homepage',methods=['GET','POST'])
 @login_required
 def homepage():
+    '''
+    用户首页
+    '''
     if current_user.is_authenticated:
         if request.method == 'GET':
             manager = DBOpera()
@@ -101,6 +122,9 @@ def password():
 
 @app.route('/user/cart',methods=['GET','POST'])
 def cart():
+    '''
+    用户购物车
+    '''
     if request.method =='GET':
         manager = DBOpera()
         carts = manager.get_cart(current_user.id)
@@ -114,6 +138,9 @@ def cart():
 
 @app.route('/user/collect',methods=['GET','POST'])
 def collect():
+    '''
+    用户收藏夹
+    '''
     if request.method =='GET':
         manager = DBOpera()
         books = manager.get_collect(current_user.id)

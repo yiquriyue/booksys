@@ -10,6 +10,9 @@ from app.models import DBOpera
 
 @app.route('/manager/login',methods=['GET','POST'])
 def manager_login():
+    '''
+    管理员登陆验证
+    '''
     if request.method == 'POST':
         username=request.form['username']
         password=request.form['password']
@@ -28,6 +31,9 @@ def manager_login():
 
 @app.route('/manager/register',methods=['GET','POST'])
 def manager_register():
+    '''
+    管理员注册
+    '''
     if request.method == 'POST':
         username=request.form['username']
         password=request.form['password']
@@ -45,15 +51,18 @@ def manager_register():
 
 @app.route('/manager/homepage',methods=['GET','POST'])
 def manager_homepage():
-	userid = session.get('userid')
-	if userid:
-	    if request.method == 'GET':
-	    	manager = DBOpera()
-	    	user = manager.get_userinfo(userid)
-	        return render_template('userData.html',userName= user.user_name,
-	        	password= user.user_password,iphone= user.user_phone,email= user.user_email)
-	else:
-		 return render_template('login.html')      
+    '''
+    管理员首页
+    '''
+    userid = session.get('userid')
+    if userid:
+        if request.method == 'GET':
+            manager = DBOpera()
+            user = manager.get_userinfo(userid)
+            return render_template('userData.html',userName= user.user_name,
+                password= user.user_password,iphone= user.user_phone,email= user.user_email)
+    else:
+         return render_template('login.html')      
 
 @app.route('/manager/password',methods=['GET','POST'])
 def manager_password():
