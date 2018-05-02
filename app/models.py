@@ -246,7 +246,7 @@ class Ticket(db.Model):
     '''门票表，记录活动的门票信息'''
     __tablename__ = 'Ser_ticket'
     ticket_id = db.Column(db.Integer, primary_key = True)
-    ticket_activity_id = db.Column(db.Integer, primary_key = True)
+    ticket_activity_id = db.Column(db.Integer)
     ticket_user_id = db.Column(db.Integer)
     ticket_Entry_code = db.Column(db.String(64))
     ticket_status = db.Column(db.String(32))
@@ -255,8 +255,8 @@ class Ticket(db.Model):
         self.ticket_activity_id = ticket_activity_id
         self.ticket_status = ticket_status
         m2 = hashlib.md5()   
+        src = str(ticket_activity_id)+str(ticket_user_id)+str(time.time())
         m2.update(src)
-        src = srt(ticket_activity_id)+str(ticket_user_id)+str(time.time())
         self.ticket_Entry_code = m2.hexdigest()
     def __repr__(self):
         return '<Ticket : %r>' % self.ticket_id
@@ -340,13 +340,14 @@ class DBOpera():
         users = User.query.filter(User.confirmed==True).all()
         return users
         
-    def get_activity_query(self):
-        activitys = Activity.query.filter(Activity.activity_status=='pending').all()
+    def get_activity_query(self,status):
+        activitys = Activity.query.filter(Activity.activity_status==status).all()
         return activitys
         
     def get_activity_userquery(self,activity_id):
-        Activity_details = Activity_detail.query.filter(Activity_details.actDetail_activiity_id==activity_id).all()
-        return Activity_details
+        activity_details = Activity_detail.query.filter(Activity_detail.actDetail_activiity_id==activity_id).all()
+        #这里还需要对user进行排序，通过积分，但是积分还没有建立好
+        return activity_details
         
     def add_book(self,book_name,book_author,book_class,
                  book_price,book_num,book_message = ""):
@@ -459,7 +460,7 @@ class DBOpera():
         try:
             db.session.add(ticket)
             db.session.commit()
-            send_email(user.user_email,'A ticket','user/ticket',user=user,postcode=ticket.ticket_Entry_code)
+            send_email(user.user_email,'A ticket','user/ticket',user_name=user.user_name,postcode=ticket.ticket_Entry_code)
             return True
         except BaseException,e:
             print e
@@ -472,7 +473,37 @@ class DBOpera():
             db.session.delete(cart)
         db.session.commit()
         
-        
+    def update_activity_detail(self,activity_id,user_id,status):
+        activity_detail = Activity_detail.query.filter(Activity_detail.actDetail_activiity_id==activity_id,\
+                            Activity_detail.actDetail_user_id==user_id).first()
+        activity_detail.actDetail_status = status
+        try:
+            db.session.add(activity_detail)
+            db.session.commit()
+            return True
+        except BaseException,e:
+            print e
+            return False
+            
+    def update_activity_status(self,activity_id,status):
+        activity = Activity.query.get(activity_id)
+        activity.activity_status = status
+        try:
+            db.session.add(activity)
+            db.session.commit()
+            return True
+        except BaseException,e:
+            print e
+            return False
+    def ticket_check(self,postcode):
+        ticket = Ticket.query.filter(Ticket.ticket_Entry_code==postcode,Ticket.ticket_status=='pending').first()
+        if ticket:
+            ticket.ticket_status='success'
+            db.session.add(ticket)
+            db.session.commit()
+            return True
+        else:
+            return False
 @login_manager.user_loader
 def get_userinfo(userId):
     user = User.query.filter(User.id==userId).first()

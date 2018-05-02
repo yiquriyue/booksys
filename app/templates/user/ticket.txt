@@ -1,5 +1,5 @@
-Dear {{user.user_name}}:
-this is a ticket foryou ,and the ticket post code is:
+Dear {{user_name}}:
+this is a ticket for you ,and the ticket post code is:
 {{postcode}}
 you can use the code to join ,but the code can only use one time!
 

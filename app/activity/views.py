@@ -74,10 +74,17 @@ def activity_confirm():
     '''
     验证入场码
     '''
+    db = DBOpera()
     if request.method == 'GET':
         return render_template('manage_activityconfirm.html')
     if request.method =='POST':
         postcode = request.form['postcode']
+        if db.ticket_check(postcode):
+            pass
+            #验证成功，需要加成功提示在前端
+        else:
+            pass
+            #验证失败，需要加失败提示在前端
         return redirect(url_for('activity_confirm'))
     
     
