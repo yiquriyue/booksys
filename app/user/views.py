@@ -161,3 +161,4 @@ def collect():
                 abook['image'] = ''
             book_list.append(abook)
         return render_template('user_collect.html',collects = book_list)
+        

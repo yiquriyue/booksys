@@ -8,7 +8,7 @@ SQLALCHEMY_TRACK_MODIFICATIONS = True
 SECRET_KEY='59_^13$$*&61%2_+6+8$%^&/*'
 
 #mysql数据库连接信息,这里改为自己的账号
-SQLALCHEMY_DATABASE_URI = "mysql://root://////@localhost:3306/test?charset=utf8"
+SQLALCHEMY_DATABASE_URI = "mysql://root:original123@172.31.50.197:3306/test?charset=utf8"
 
 
 UPLOAD_FOLDER = os.path.join(os.getcwd(),'app','static','files')

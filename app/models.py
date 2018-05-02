@@ -163,15 +163,34 @@ class Activity(db.Model):
     activity_count = db.Column(db.Integer)
     activity_describe = db.Column(db.Text)
     activity_time = db.Column(db.DateTime)
+    activity_status = db.Column(db.String(16))
     def __init__(self, activity_name, activity_guest, activity_count, activity_describe,activity_time):
         self.activity_name = activity_name
         self.activity_guest = activity_guest
         self.activity_count = activity_count
         self.activity_describe = activity_describe
         self.activity_time = activity_time
+        self.activity_status = 'pending'
     def __repr__(self):
         return '<Activity : %r>' % self.activity_id        
 
+        
+class Activity_detail(db.Model):
+    '''订单明细业务表，记录订单中书籍详情'''
+    __tablename__ = 'Ser_activity_detail'
+    actDetail_id = db.Column(db.Integer, primary_key = True)
+    actDetail_activiity_id = db.Column(db.Integer)
+    actDetail_user_id = db.Column(db.Integer)
+    actDetail_status = db.Column(db.String(16))
+    
+    def __init__(self, actDetail_activiity_id,actDetail_user_id, actDetail_status):
+        self.actDetail_activiity_id = actDetail_activiity_id
+        self.actDetail_user_id = actDetail_user_id
+        self.actDetail_status = actDetail_status
+
+    def __repr__(self):
+        return '<Activity_detail : %r>' % self.actDetail_id
+        
 class Order(db.Model):
     '''订单表，记录订单中用户及金额等信息'''
     __tablename__ = 'Bas_order'
@@ -317,6 +336,18 @@ class DBOpera():
 
         return books
         
+    def get_confirmUser(self):
+        users = User.query.filter(User.confirmed==True).all()
+        return users
+        
+    def get_activity_query(self):
+        activitys = Activity.query.filter(Activity.activity_status=='pending').all()
+        return activitys
+        
+    def get_activity_userquery(self,activity_id):
+        Activity_details = Activity_detail.query.filter(Activity_details.actDetail_activiity_id==activity_id).all()
+        return Activity_details
+        
     def add_book(self,book_name,book_author,book_class,
                  book_price,book_num,book_message = ""):
         book = Book(book_name, book_author, book_price,book_class,book_num,book_message)
@@ -402,6 +433,16 @@ class DBOpera():
             print e
             return False
             
+    def add_activity_detail(self,activity_id,user_id):
+        activity_detail = Activity_detail(int(activity_id),int(user_id),'pending')
+        try:
+            db.session.add(activity_detail)
+            db.session.commit()
+            return activity_detail
+        except BaseException,e:
+            print e
+            return False
+            
     def add_activity(self,activity_name,activity_guest,activity_num,activity_message,activity_datetime):
         activity = Activity(activity_name, activity_guest, activity_num, activity_message,activity_datetime)
         try:
@@ -412,11 +453,25 @@ class DBOpera():
             print e
             return False
             
+    def add_ticket(self,ticket_activity_id, user_id):
+        ticket = Ticket(ticket_activity_id, user_id)
+        user = User.query.get(user_id)
+        try:
+            db.session.add(ticket)
+            db.session.commit()
+            send_email(user.user_email,'A ticket','user/ticket',user=user,postcode=ticket.ticket_Entry_code)
+            return True
+        except BaseException,e:
+            print e
+            return False
+        
+            
     def delete_cart(self,user_id):
         carts = Cart.query.filter(Cart.cart_user_id==user_id)
         for cart in carts:
             db.session.delete(cart)
         db.session.commit()
+        
         
 @login_manager.user_loader
 def get_userinfo(userId):

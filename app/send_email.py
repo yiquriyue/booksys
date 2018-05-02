@@ -13,15 +13,6 @@ my_pass = 'kjcazhzusclljdcb'              # 发件人邮箱密码
 
 def send_email(to,subject,template,**kwargs):
     try:
-        # print to,subject,template
-        # print kwargs
-        # msg = Message('[bookShop]'+subject,sender='admin<1341799937@qq.com>',recipients=[to],charset='utf-8')
-        # print "0000000000000000000"
-        #print render_template(template+'.txt',**kwargs)
-        #msg.body = render_template(template+'.txt',**kwargs).decode('utf8')
-        #msg.html = render_template(template+'.html',**kwargs)
-        # with open(os.path.join(os.path.dirname(),template,user,confirm.txt)) as f:
-            # s=f.read()
         mail_msg =render_template(template+'.txt',**kwargs)
         msg=MIMEText(mail_msg,'plain','utf-8')
         msg['From']=formataddr(["FromBookShop",my_sender]) 

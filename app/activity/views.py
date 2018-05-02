@@ -6,7 +6,7 @@ import os
 from flask import request,render_template,flash,abort,url_for,redirect,session,Flask,g
 from app import app
 from app.models import DBOpera 
-
+from app.send_email import send_email
 @app.route('/activity/list',methods=['GET','POST'])
 def activity_list():
     '''
@@ -58,8 +58,37 @@ def activity_add():
         activity_guest = request.form['activity_guest']
         activity_num = request.form['activity_num']
         activity_message = request.form['activity_message']
-        activity_datetime = request.files['activity_datetime']
+        activity_datetime = request.form['activity_datetime']
         print activity_datetime
         activity_num = int(activity_num)
         activity_id = db.add_activity(activity_name,activity_guest,activity_num,activity_message,activity_datetime)
+        #TODO(caoyue):when add a new activity,we send a email to user who have confirm
+        users = db.get_confirmUser()
+        for user in users:
+            send_email(user.user_email,'A new activity looks forward to your participation.','user/activity',user=user,\
+                       time=activity_datetime,guest=activity_guest,activity_id=activity_id)
         return redirect(url_for('activity_add'))
+        
+@app.route('/activity/confirm',methods=['GET','POST'])
+def activity_confirm():
+    '''
+    验证入场码
+    '''
+    if request.method == 'GET':
+        return render_template('manage_activityconfirm.html')
+    if request.method =='POST':
+        postcode = request.form['postcode']
+        return redirect(url_for('activity_confirm'))
+    
+    
+@app.route('/activity/apply',methods=['GET','POST'])
+def activity_apply():
+    '''
+    用户参与活动，生成添加活动详情
+    '''
+    if request.method == 'POST':
+        activity_id = request.form['activity_id']
+        db = DBOpera()
+        print activity_id,current_user.id
+        db.add_activity_detail(activity_id,current_user.id)
+        return redirect(url_for('activity_detail',activity_id=activity_id))

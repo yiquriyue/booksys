@@ -1,0 +1,6 @@
+Dear {{user.user_name}}:
+In {{time}},we invite {{guest}} to our bookstore for discussion!
+Click on the link below
+{{url_for('activity_detail',activity_id=activity_id,_external=True)}}
+we look forward to your participation.
+--admin
