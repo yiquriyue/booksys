@@ -132,10 +132,11 @@ def book_cart_delete():
     用户删除购物车商品
     '''
     if request.method == 'GET':
-        book_id = request.form['book_id']
+        book_id = request.args.get('user')
+        #book_id = request.form['book_id']
         db = DBOpera()
         db.delete_cart(current_user.id,book_id)
-        return "success"
+        return redirect(url_for('cart'))
         
 @app.route('/book/add_detail',methods=['GET','POST'])
 def add_detail():
