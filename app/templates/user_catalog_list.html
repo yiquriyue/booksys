@@ -142,36 +142,18 @@
       <div class="grid_12">
         <nav class="primary">
           <ul>
-            <li class="curent"><a href="index.html">Home</a></li>
-            <li><a href="catalog_grid.html">Solids</a></li>
-            <li><a href="catalog_grid.html">Liquids</a></li>
+            <li class="curent"><a href="{{url_for('general')}}">主页</a></li>
+            <li><a href="{{url_for('book_list')}}">图书</a></li>
+            <li><a href="{{url_for('activity_list')}}">活动</a></li>
             <li>
-              <a href="catalog_grid.html">Spray</a>
+              <a href="catalog_grid.html">用户</a>
               <ul class="sub">
-                <li><a href="catalog_grid.html">For home</a></li>
-                <li><a href="catalog_grid.html">For Garden</a></li>
-                <li><a href="catalog_grid.html">For Car</a></li>
-                <li><a href="catalog_grid.html">Other spray</a></li>
-              </ul>
-            </li>
-            <li><a href="catalog_grid.html">Electric</a></li>
-            <li><a href="catalog_grid.html">For cars</a></li>
-	    <li>
-              <a href="#">All pages</a>
-              <ul class="sub">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="text_page.html">Typography and basic styles</a></li>
-		<li><a href="catalog_grid.html">Catalog (grid view)</a></li>
-		<li><a href="catalog_list.html">Catalog (list type view)</a></li>
-		<li><a href="product_page.html">Product view</a></li>
-		<li><a href="shopping_cart.html">Shoping cart</a></li>
-		<li><a href="checkout.html">Proceed to checkout</a></li>
-		<li><a href="compare.html">Products comparison</a></li>
-		<li><a href="login.html">Login</a></li>
-		<li><a href="contact_us.html">Contact us</a></li>
-		<li><a href="404.html">404</a></li>
-		<li><a href="blog.html">Blog posts</a></li>
-		<li><a href="blog_post.html">Blog post view</a></li>
+                <li><a href="{{url_for('user_home')}}">主页</a></li>
+                <li><a href=" {{url_for('cart')}}">购物车</a></li>
+                <li><a href="{{url_for('user_order')}}">订单</a></li>
+                <li><a href="{{url_for('collect')}}">收藏夹</a></li>
+                <li><a href="{{url_for('bookshelf')}}">书架</a></li>
+                
               </ul>
             </li>
           </ul>

@@ -135,17 +135,17 @@
       <div class="grid_12">
         <nav class="primary">
           <ul>
-            <li class="curent"><a href="{{url_for('homepage')}}">主页</a></li>
-            <li><a href="{{url_for('book_list')}}">商品</a></li>
+            <li class="curent"><a href="{{url_for('general')}}">主页</a></li>
+            <li><a href="{{url_for('book_list')}}">图书</a></li>
             <li><a href="{{url_for('activity_list')}}">活动</a></li>
             <li>
               <a href="catalog_grid.html">用户</a>
               <ul class="sub">
-                <li><a href="{{url_for('homepage')}}">主页</a></li>
+                <li><a href="{{url_for('user_home')}}">主页</a></li>
                 <li><a href=" {{url_for('cart')}}">购物车</a></li>
-                <li><a href="catalog_grid.html">订单</a></li>
+                <li><a href="{{url_for('user_order')}}">订单</a></li>
                 <li><a href="{{url_for('collect')}}">收藏夹</a></li>
-                <li><a href="catalog_grid.html">书架</a></li>
+                <li><a href="{{url_for('bookshelf')}}">书架</a></li>
                 
               </ul>
             </li>

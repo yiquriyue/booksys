@@ -176,3 +176,14 @@ def collect():
             book_list.append(abook)
         return render_template('user_collect.html',collects = book_list)
         
+@app.route('/user/home',methods=['GET','POST'])
+def user_home():
+    pass
+    
+@app.route('/user/order',methods=['GET','POST'])
+def user_order():
+    pass
+    
+@app.route('/user/shelf',methods=['GET','POST'])
+def bookshelf():
+    pass

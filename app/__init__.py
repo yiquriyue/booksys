@@ -18,6 +18,7 @@ login_manager.session_protection = 'strong'
 login_manager.login_view = 'login'
 login_manager.init_app(app)
 mail= Mail(app)
+
 def general():
 	return render_template('user_index.html')
 
