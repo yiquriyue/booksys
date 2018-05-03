@@ -125,6 +125,17 @@ def book_cart():
         db = DBOpera()
         db.add_cart(book_id,current_user.id)
         return "success"
+
+@app.route('/book/cart_delete',methods=['GET','POST'])
+def book_cart_delete():
+    '''
+    用户删除购物车商品
+    '''
+    if request.method == 'GET':
+        book_id = request.form['book_id']
+        db = DBOpera()
+        db.delete_cart(current_user.id,book_id)
+        return "success"
         
 @app.route('/book/add_detail',methods=['GET','POST'])
 def add_detail():
@@ -139,10 +150,14 @@ def add_detail():
         db = DBOpera()
         order = db.add_order(current_user.id)
         for book in book_id:
+            print book
             order_detail = db.add_order_detail(str(order.order_id),int(book['book_id']),int(book['book_num']))
             order.order_price += order_detail.orDetail_price
         db.add_order_price(str(order.order_id),order.order_price)
         db.delete_cart(current_user.id)
         return redirect(url_for('cart'))
+        
+        
 
+        
 

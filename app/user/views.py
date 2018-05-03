@@ -129,13 +129,27 @@ def cart():
         manager = DBOpera()
         carts = manager.get_cart(current_user.id)
         list = []
+        list1 = []
         for cart in carts:
             dict = {}
+            dict1={}
             dict["book_id"]= int(cart[0].book_id)
+            dict1["book_id"]= int(cart[0].book_id)
+            dict["book_name"]= cart[0].book_name
+            dict["book_price"]= cart[0].book_price
+            if cart[0].book_image:
+                dict["book_image"] = 'files/'+str(dict["book_id"])+'/'+cart[0].book_image
+            else:
+                dict["book_image"] = ''
             dict["book_num"]= int(cart[1])
+            dict1["book_num"]= int(cart[1])
             list.append(dict)
-        return render_template('user_shopping_cart.html',carts = carts,books_id = list)
+            list1.append(dict1)
+        return render_template('user_shopping_cart.html',books = list,book_id=list1)
 
+
+        
+        
 @app.route('/user/collect',methods=['GET','POST'])
 def collect():
     '''

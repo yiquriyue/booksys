@@ -35,3 +35,5 @@ from manager import manager as manager_blueprint
 app.register_blueprint(manager_blueprint, url_prefix='/api')
 from activity import activity as activity_blueprint
 app.register_blueprint(activity_blueprint, url_prefix='/api')
+from order import order as order_blueprint
+app.register_blueprint(order_blueprint, url_prefix='/api')

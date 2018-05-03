@@ -311,6 +311,16 @@ class DBOpera():
         books = Book.query.filter(Book.book_name.like(book_name)).all()
         return books
     
+    def get_orderList(self,user_name=""):
+        if user_name:
+            user = User.query.filter(User.user_name==user_name).first()
+            orders = Order.query.filter(Order.order_user_id == user.user_id,Order.order_status=='pending').all()
+        else:
+            orders = Order.query.filter(Order.order_status=='obligation').all()
+        print orders
+        return orders
+        
+    
     def get_activityList(self,activity_name=""):
         activity_name = '%' + activity_name + '%'
         activitys = Activity.query.filter(Activity.activity_name.like(activity_name)).all()
@@ -332,9 +342,10 @@ class DBOpera():
     def get_cart(self,user_id):
         books = db.session.query(Book,Cart.book_num).select_from(Cart).\
                                         filter_by(cart_user_id=user_id).\
-                                        join(Book,Cart.cart_book_id==Book.book_id)
-
+                                        join(Book,Cart.cart_book_id==Book.book_id).all()
         return books
+        
+        
         
     def get_confirmUser(self):
         users = User.query.filter(User.confirmed==True).all()
@@ -467,10 +478,14 @@ class DBOpera():
             return False
         
             
-    def delete_cart(self,user_id):
-        carts = Cart.query.filter(Cart.cart_user_id==user_id)
-        for cart in carts:
+    def delete_cart(self,user_id,book_id=""):
+        if book_id:
+            cart = Cart.query.filter(Cart.cart_book_id==book_id,Cart.cart_user_id==user_id)
             db.session.delete(cart)
+        else:
+            carts = Cart.query.filter(Cart.cart_user_id==user_id)
+            for cart in carts:
+                db.session.delete(cart)
         db.session.commit()
         
     def update_activity_detail(self,activity_id,user_id,status):

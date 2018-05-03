@@ -227,18 +227,18 @@
 		     <th class="close"> </th>
 	      </tr>
           <form method='POST' action="/book/add_detail">
-          {%for cart in carts%}
+          {%for book in books%}
 	      <tr>
 		     <td class="images"><a href="product_page.html"><img src="images/product_6.png" alt="Product 6"></a></td>
-		     <td class="bg name">{{cart.book_name}}<br/> Jasmine, 4-Ounces</td>
+		     <td class="bg name">{{book["book_name"]}}<br/></td>
 		     <td class="edit"><a title="Edit" href="#">Edit</a></td>
-		     <td class="bg price">$75.00</td>
+		     <td class="bg price">{{book["book_price"]}}</td>
 		     <td class="qty"><input type="text" name="" value="" placeholder="1000" /></td>
 		     <td class="bg subtotal">$750.00</td>
-		     <td class="close"><a title="close" class="close" href="#"></a></td>
+		     <td class="close"><a title="close" class="close" href="{{url_for('book_cart_delete',book_id =book["book_id"])}}" onclick="document.getElementById('thisform').submit()"></a></td>
 	      </tr>
           {%endfor%}
-            <input type="hidden" value='{{books_id}}' name="books_id">
+            <input type="hidden" value='{{book_id}}' name="books_id">
             
 	      <tr>
 		     <td colspan="7" class="cart_but">
