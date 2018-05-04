@@ -2,14 +2,14 @@
 import time
 import datetime 
 from app import app
-from flask_login import UserMixin
+from flask_login import UserMixin,current_user
 from . import login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from send_email import send_email
 try:
-    from sqlalchemy import Column
+    from sqlalchemy import Column,and_
     from sqlalchemy import Integer,String,Float,DateTime,Boolean,Text,backref
 except ImportError:
     print "sqlalchemy library not found"
@@ -314,12 +314,20 @@ class DBOpera():
     def get_orderList(self,user_name=""):
         if user_name:
             user = User.query.filter(User.user_name==user_name).first()
-            orders = Order.query.filter(Order.order_user_id == user.user_id,Order.order_status=='pending').all()
+            orders = Order.query.filter(Order.order_user_id == user.id,Order.order_status=='obligation').all()
         else:
             orders = Order.query.filter(Order.order_status=='obligation').all()
-        print orders
         return orders
         
+    def get_orderPrice(self,order_id):
+        order = Order.query.get(order_id)
+        return order.order_price
+        
+    def get_orderAttach(self,order_id):
+        books = db.session.query(Book,Order_detail.orDetail_num).select_from(Order_detail).\
+                                    filter_by(orDetail_order_id=order_id).\
+                                    join(Book,Order_detail.orDetail_book_id==Book.book_id).all()
+        return books
     
     def get_activityList(self,activity_name=""):
         activity_name = '%' + activity_name + '%'
@@ -359,6 +367,14 @@ class DBOpera():
         activity_details = Activity_detail.query.filter(Activity_detail.actDetail_activiity_id==activity_id).all()
         #这里还需要对user进行排序，通过积分，但是积分还没有建立好
         return activity_details
+        
+    def get_userBoughtBook(self,user_id):
+        books = db.session.query(Book).select_from(Order).\
+                filter(Order.order_user_id==user_id,Order.order_status=='success').\
+                join(Order_detail,and_(Order.order_id==Order_detail.orDetail_order_id)).\
+                join(Book,and_(Order_detail.orDetail_book_id==Book.book_id)).all()
+                
+        return books
         
     def add_book(self,book_name,book_author,book_class,
                  book_price,book_num,book_message = ""):
@@ -510,6 +526,23 @@ class DBOpera():
         except BaseException,e:
             print e
             return False
+            
+    def update_user(self,password,email,phone):
+        user = User.query.get(current_user.id)
+        user.user_password = generate_password_hash(password)
+        user.user_email = email
+        user.user_phone = phone
+        user.confirmed = False
+        try:
+            db.session.add(user)
+            db.session.commit()
+            token= user.get_confirmation()
+            send_email(user.user_email,'Confirm Your Account','user/confirm_1',user=user,token=token)
+            return True
+        except BaseException,e:
+            print e
+            return False
+            
     def ticket_check(self,postcode):
         ticket = Ticket.query.filter(Ticket.ticket_Entry_code==postcode,Ticket.ticket_status=='pending').first()
         if ticket:

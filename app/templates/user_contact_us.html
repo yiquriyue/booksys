@@ -178,36 +178,18 @@
       <div class="grid_12">
         <nav class="primary">
           <ul>
-            <li class="curent"><a href="index.html">Home</a></li>
-            <li><a href="catalog_grid.html">Solids</a></li>
-            <li><a href="catalog_grid.html">Liquids</a></li>
+            <li class="curent"><a href="{{url_for('general')}}">主页</a></li>
+            <li><a href="{{url_for('book_list')}}">图书</a></li>
+            <li><a href="{{url_for('activity_list')}}">活动</a></li>
             <li>
-              <a href="catalog_grid.html">Spray</a>
+              <a href="catalog_grid.html">用户</a>
               <ul class="sub">
-                <li><a href="catalog_grid.html">For home</a></li>
-                <li><a href="catalog_grid.html">For Garden</a></li>
-                <li><a href="catalog_grid.html">For Car</a></li>
-                <li><a href="catalog_grid.html">Other spray</a></li>
-              </ul>
-            </li>
-            <li><a href="catalog_grid.html">Electric</a></li>
-            <li><a href="catalog_grid.html">For cars</a></li>
-	    <li>
-              <a href="#">All pages</a>
-              <ul class="sub">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="text_page.html">Typography and basic styles</a></li>
-		<li><a href="catalog_grid.html">Catalog (grid view)</a></li>
-		<li><a href="catalog_list.html">Catalog (list type view)</a></li>
-		<li><a href="product_page.html">Product view</a></li>
-		<li><a href="shopping_cart.html">Shoping cart</a></li>
-		<li><a href="checkout.html">Proceed to checkout</a></li>
-		<li><a href="compare.html">Products comparison</a></li>
-		<li><a href="login.html">Login</a></li>
-		<li><a href="contact_us.html">Contact us</a></li>
-		<li><a href="404.html">404</a></li>
-		<li><a href="blog.html">Blog posts</a></li>
-		<li><a href="blog_post.html">Blog post view</a></li>
+                <li><a href="{{url_for('user_home')}}">主页</a></li>
+                <li><a href=" {{url_for('cart')}}">购物车</a></li>
+                <li><a href="{{url_for('user_order')}}">订单</a></li>
+                <li><a href="{{url_for('collect')}}">收藏夹</a></li>
+                <li><a href="{{url_for('bookshelf')}}">书架</a></li>
+                
               </ul>
             </li>
           </ul>
@@ -222,53 +204,62 @@
     <div class="container_12">      
        <div id="content">
 		<div class="grid_12">
-			<h1 class="page_title">Contact Us</h1>
+			<h1 class="page_title">个人资料</h1>
 		</div><!-- .grid_12 -->
 		
 		<div class="grid_4 adress">
-			<h3>Address</h3>
-			<p>49 Archdale, 2B Charleston, New York City, USA</p>
+			<h3>用户名</h3>
+			<p>{{userName}}</p>
 			<hr>
 			
-			<h3>Phones</h3>
+			<h3>积分</h3>
 			<p>Support: <span>+777 (100) 1234</span><br/>
 			Sales manager: <span>+777 (100) 4321</span><br/>
 			Director: <span>+777 (100) 1243</span></p>
 			<hr>
 			
-			<h3>Email Addresses</h3>
+			<h3>等级</h3>
 			<p>Support: <span>support@example.com</span><br/>
 			Sales manager: <span>manager@example.com</span><br/>
 			Director: <span>chief@example.com</span></p>
                 </div><!-- .adress -->
 		
 		<div class="grid_8">
-			<form class="contact">
+			<form class="contact" method='POST'>
 				<h2>Quick Contact</h2>
 							
 				<div class="name">
-					<strong>Name:</strong><sup class="surely">*</sup><br/>
-					<input type="text" name="name" value="" />
+					<strong>旧密码:</strong><sup class="surely">*</sup><br/>
+					<input type="text" name="password" value="" />
 				</div><!-- .name -->
-				
+                <br><br>
+                <br>
+                <br>
+				<div class="name">
+					<strong>新密码:</strong><sup class="surely">*</sup><br/>
+					<input type="text" name="new_password" value="" />
+				</div><!-- .name -->
 				<div class="email">
-					<strong>Email Adress: </strong><sup class="surely">*</sup><br/>
-					<input type="email" name="email" value="" />
+					<strong>邮箱地址: </strong><sup class="surely">*</sup><br/>
+					<input type="email" name="email" value="{{email}}" />
 				</div><!-- .email -->
 							
-				<div class="phone">
-					<strong>Telephone:</strong><br/>
-					<input type="text" name="phone" value="" />
+				<div class="name">
+					<strong>手机号:</strong><br/>
+					<input type="text" name="phone" value="{{iphone}}" />
 				</div><!-- .phone -->
-				
-				<div class="comment">
-					<strong>Comment:</strong><sup class="surely">*</sup><br/>
-					<textarea name="comment"></textarea>
-				</div><!-- .comment -->
-				
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
 				<div class="submit">
-					<div class="field"><sup class="surely">*</sup><span>Required Field</span></div>
-					<input type="submit" value="Submit" />
+					<div class="field"><sup class="surely">*</sup><span>必填</span></div>
+					<input type="submit" value="提交修改" />
 				</div><!-- .submit -->
 			</form><!-- .contact -->
                 </div><!-- .grid_8 -->

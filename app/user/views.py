@@ -101,20 +101,6 @@ def unconfirmed():
         return redirect(url_for('home'))
     return render_template('unconfirmed.html')
     
-@app.route('/user/homepage',methods=['GET','POST'])
-@login_required
-def homepage():
-    '''
-    用户首页
-    '''
-    if current_user.is_authenticated:
-        if request.method == 'GET':
-            manager = DBOpera()
-            user = manager.get_userinfo(userid)
-            return render_template('userData.html',userName= user.user_name,
-                password= user.user_password,iphone= user.user_phone,email= user.user_email)
-    else:
-         return render_template('login.html')
 
 @app.route('/user/password',methods=['GET','POST'])
 def password():
@@ -177,13 +163,78 @@ def collect():
         return render_template('user_collect.html',collects = book_list)
         
 @app.route('/user/home',methods=['GET','POST'])
+@login_required
 def user_home():
-    pass
-    
+    '''
+    用户信息展示
+    '''
+    if request.method == 'GET':
+        return render_template('user_contact_us.html',userName= current_user.user_name,
+            iphone= current_user.user_phone,email= current_user.user_email)
+    if request.method == 'POST':
+        password=request.form['password']
+        new_password=request.form['new_password']
+        email=request.form['email']
+        phone=request.form['phone']
+        manager = DBOpera()
+        check = manager.user_check(current_user.user_name,password)
+        if check:
+            manager.update_user(new_password,email,phone)
+            return redirect(url_for('user_home'))
+        else:
+            return "密码错误"
+        
+
 @app.route('/user/order',methods=['GET','POST'])
 def user_order():
-    pass
+    db = DBOpera()
+    if request.method == 'GET':
+        order_lists = db.get_orderList(current_user.user_name)
+        return render_template('user_order_list.html',order_lists = order_lists)
+        
+@app.route('/user/order/<order_id>',methods=['GET','POST'])
+def order_detail(order_id):
+    db = DBOpera()
+    if request.method == 'GET':
+        books = db.get_orderAttach(order_id)
+        list = []
+        for cart in books:
+            dict = {}
+            dict["book_id"]= int(cart[0].book_id)
+            dict["book_name"]= cart[0].book_name
+            dict["book_price"]= cart[0].book_price
+            if cart[0].book_image:
+                dict["book_image"] = 'files/'+str(dict["book_id"])+'/'+cart[0].book_image
+            else:
+                dict["book_image"] = ''
+            dict["book_num"]= int(cart[1])
+            list.append(dict)
+        price = db.get_orderPrice(order_id)
+        return render_template('user_orderAttach.html',book_list=list,price=price,order_id=order_id)
+        
     
 @app.route('/user/shelf',methods=['GET','POST'])
 def bookshelf():
-    pass
+    if request.method == 'GET':
+        route = session.get('route')
+        #search = request.form['search']
+        db = DBOpera()
+        books = db.get_userBoughtBook(current_user.id)
+        book_list = []
+        a=1
+        for book in books:
+            abook={}
+            abook['no'] = a
+            abook['id'] = str(book.book_id)
+            abook['name'] = book.book_name
+            abook['author'] = book.book_author
+            abook['message'] = book.book_message
+            abook['price'] = book.book_price
+            abook['num'] = book.book_num
+            if book.book_image:
+                abook['image'] = 'files/'+abook['id']+'/'+book.book_image
+            else:
+                abook['image'] = ''
+            book_list.append(abook)
+            a=a+1
+        return render_template('user_catalog_list.html',book_list=book_list)
