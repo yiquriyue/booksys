@@ -47,15 +47,20 @@ def book_list():
         if route=='user':
             return render_template('user_catalog_list.html',book_list=book_list)
         else:
-            return render_template('manage_booklist.html',book_list=book_list)
+            return render_template('manage_booklist.html',book_list=book_list,book_list1=str(book_list))
     if request.method == 'POST':
-    
-        book_id = request.form['book_id']
-        num = request.form['number']
-        print "0000000000000000000000000"
-        print book_id
+        books = str(request.form['books'])
+        print books
+        num = str(request.form['1'])
         print num
+        for book in books:
+            print book
+            book_id = book['id']
+            book_num = request.form[book_id]
+            print book_id
+            print book_num
         return "success"
+        
         
         #TODO(caoyue):在图书表中查找图书
         

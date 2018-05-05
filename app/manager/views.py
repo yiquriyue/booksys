@@ -23,9 +23,12 @@ def manager_login():
             session['userid'] = check
             session['route'] = 'manager'
             session.permanent = True
-            return redirect(url_for('home'))
+            user = get_userinfo(check)
+            login_user(user)
+            return redirect(url_for('book_list'))
         else:
             return render_template('manage_login.html')
     if request.method == 'GET':
         return render_template('manage_login.html')
 
+        

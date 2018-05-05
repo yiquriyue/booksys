@@ -434,8 +434,9 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {% for book in book_list%}
+                                            {% for book in book_list %}
                                             <tr>
+                                                <input type="hidden" name="book" value={{book}}>
                                                 <td>{{book['no']}}</td>
                                                 <td>{{book['id']}}</td>
                                                 <td>
@@ -444,8 +445,8 @@
                                                 <td>{{book['author']}}</td>
                                                 <td>{{book['price']}}</td>
                                                 <td>{{book['num']}}</td>
-                                                <td><input type="number" name="number" value='0'></td>
-                                                <input type="hidden" name="book_id" value={{book['id']}}>
+                                                <td><input type="number" name={{book['id']}} value='0'></td>
+                                                
                                                 <td><input type="checkbox" name="ifbuy" ></td>
                                             </tr>
                                             {% endfor %}
