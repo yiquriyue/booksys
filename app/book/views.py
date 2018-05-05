@@ -48,8 +48,17 @@ def book_list():
             return render_template('user_catalog_list.html',book_list=book_list)
         else:
             return render_template('manage_booklist.html',book_list=book_list)
+    if request.method == 'POST':
+    
+        book_id = request.form['book_id']
+        num = request.form['number']
+        print "0000000000000000000000000"
+        print book_id
+        print num
+        return "success"
         
         #TODO(caoyue):在图书表中查找图书
+        
                                
 @app.route('/book/add',methods=['GET','POST'])
 def book_add():

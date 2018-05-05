@@ -31,7 +31,7 @@ def activity_list():
         if route=='user':
             return render_template('user_blog.html',activity_list=activity_list)
         else:
-            return render_template('manage_booklist.html',activity_list=activity_list)
+            return render_template('manage_activitylist.html',activity_list=activity_list)
         
         #TODO(caoyue):在图书表中查找图书
 

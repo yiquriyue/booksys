@@ -269,6 +269,7 @@ class Evaluate(db.Model):
     evaluate_user_id = db.Column(db.Integer)
     evaluate_describe = db.Column(db.Text)
     evaluate_score = db.Column(db.Float)
+    evaluate_ststus = db.Column(db.Boolean,default=False)
     def __init__(self, evaluate_book_id, evaluate_user_id, evaluate_describe, evaluate_score):
         self.evaluate_book_id = evaluate_book_id
         self.evaluate_user_id = evaluate_user_id

@@ -237,4 +237,4 @@ def bookshelf():
                 abook['image'] = ''
             book_list.append(abook)
             a=a+1
-        return render_template('user_catalog_list.html',book_list=book_list)
+        return render_template('user_shelf.html',book_list=book_list)
