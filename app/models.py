@@ -176,8 +176,8 @@ class Activity(db.Model):
 
         
 class Activity_detail(db.Model):
-    '''订单明细业务表，记录订单中书籍详情'''
-    __tablename__ = 'Ser_activity_detail'
+    '''活动详情表，记录参与活动的信息'''
+    __tablename__ = 'Bas_activity_detail'
     actDetail_id = db.Column(db.Integer, primary_key = True)
     actDetail_activiity_id = db.Column(db.Integer)
     actDetail_user_id = db.Column(db.Integer)

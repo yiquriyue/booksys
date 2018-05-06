@@ -1248,7 +1248,7 @@ h1.post_title{
 .grid_product .product{margin-bottom: 32px;}
 .listing_product{
 	margin: 42px -1px 10px;
-	width: 984px;
+	width: 734px;
 }
 .listing_product .product_li{
 	margin-bottom: 32px;
@@ -1279,11 +1279,11 @@ h1.post_title{
 }
 .listing_product .product_li .prev img{
 	max-height: 210px;
-	max-width: 300px;
+	max-width: 210px;
 }
 .listing_product .product_li .entry_content{
 	padding: 20px 0 0 0;
-	height: auto;
+	height: 204px;
 	border-right: 1px solid #e0e0e0;
 }
 .listing_product .product_li .entry_content a{text-decoration: none;}
