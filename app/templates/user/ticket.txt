@@ -1,6 +1,7 @@
 Dear {{user_name}}:
 this is a ticket for you ,and the ticket post code is:
 {{postcode}}
+<img src="{{url_for('static',filename=code_imag)}}" /> 
 you can use the code to join ,but the code can only use one time!
 
 --admin

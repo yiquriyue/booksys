@@ -1,6 +1,7 @@
 #-*- coding:utf-8 -*-
 import time
 import datetime 
+import qrcode
 from app import app
 from flask_login import UserMixin,current_user
 from . import login_manager
@@ -16,6 +17,7 @@ except ImportError:
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy(app)
 import hashlib  
+from setting import QRCODE_FOLDER
 ##-- Basic Table --##
 Ser_Collect  = db.Table('Ser_Collect',
     db.Column('user_id',db.Integer,db.ForeignKey('Bas_user.id')),
@@ -488,7 +490,15 @@ class DBOpera():
         try:
             db.session.add(ticket)
             db.session.commit()
-            send_email(user.user_email,'A ticket','user/ticket',user_name=user.user_name,postcode=ticket.ticket_Entry_code)
+            img = qrcode.make(ticket.ticket_Entry_code)
+            if os.path.exists(os.path.join(QRCODE_FOLDER,ticket.ticket_Entry_code)):
+                shutil.rmtree(os.path.join(QRCODE_FOLDER,ticket.ticket_Entry_code))
+            os.mkdir(os.path.join(QRCODE_FOLDER,ticket.ticket_Entry_code))
+            filename = 'qrcode.jpg'
+            qrcode_image = os.path.join(UPLOAD_FOLDER,ticket.ticket_Entry_code,filename)
+            img.save(qrcode_image)
+            code_imag = 'qrcode/'+ ticket.ticket_Entry_code +'qrcode.jpg'
+            send_email(user.user_email,'A ticket','user/ticket',user_name=user.user_name,postcode=ticket.ticket_Entry_code,code_imag=code_imag)
             return True
         except BaseException,e:
             print e

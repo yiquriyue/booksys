@@ -1,3 +1,4 @@
+#-*- coding:utf-8 -*-
 from app.models import DBOpera
 import datetime
 def process():
