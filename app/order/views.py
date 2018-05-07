@@ -22,8 +22,17 @@ def order_list():
         db = DBOpera()
         orders = db.get_orderList()
         return render_template('manage_orderlist.html',orders=orders)
-        
         #TODO(caoyue):在图书表中查找图书
 
-
+@app.route('/order/confirm',methods=['GET','POST'])
+@login_required
+def order_confirm():
+    '''
+    管理员,确认订单
+    '''
+    if request.method == 'POST':
+        order_id = request.form["order_id"]
+        db = DBOpera()
+        db.update_order_status(order_id)
+        return redirect(url_for('order_list'))
 

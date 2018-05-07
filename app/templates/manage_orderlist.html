@@ -435,7 +435,11 @@
                                                 <td>{{order.order_price}}</td>
                                                 <td>{{order.order_time}}</td>
                                                 <td>{{order.order_status}}</td>
-                                                <td><input type="button" name="ifbuy" value="付款"></td>
+                                                <form method="POST" action='/order/confirm' id="order_confirm">
+                                                <input type="hidden" value={{order.order_id}} name="order_id">
+                                                <td><input type="button" name="ifbuy" value="付款" onclick=></td>
+                                                <td><button type="submit" form="order_confirm" value="提交">fukuan</button></td>
+                                                </form>
                                             </tr>
                                             {% endfor %}
                                         </tbody>

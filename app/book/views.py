@@ -3,6 +3,7 @@
 from flask_login import login_required,login_user,logout_user,current_user
 import os
 import json
+import time
 # from . import auth
 from flask import request,render_template,flash,abort,url_for,redirect,session,Flask,g
 from app import app
@@ -84,10 +85,10 @@ def book_add():
         book_num = request.form['book_num']
         book_id = db.add_book(book_name,book_author,book_class,book_price,book_num,book_message)
         if file and allowed_file(file.filename):
-            if os.path.exists(os.path.join(UPLOAD_FOLDER,str(book_id))):
-                shutil.rmtree(os.path.join(UPLOAD_FOLDER,str(book_id)))
-            os.mkdir(os.path.join(UPLOAD_FOLDER,str(book_id)))
-            filename = 'buddha.' + file.filename.rsplit('.', 1)[1]
+            if not os.path.exists(os.path.join(UPLOAD_FOLDER,str(book_id))):
+                os.mkdir(os.path.join(UPLOAD_FOLDER,str(book_id)))
+            buddha = str(time.time())
+            filename = buddha + '.' + file.filename.rsplit('.', 1)[1]
             book_image = os.path.join(UPLOAD_FOLDER,str(book_id),filename)
             fp = open(book_image,'w')
             file.save(book_image)
@@ -172,7 +173,34 @@ def add_detail():
         db.delete_cart(current_user.id)
         return redirect(url_for('cart'))
         
-        
-
-        
-
+@app.route('/book/update/<book_id>',methods=['GET','POST'])
+def book_update(book_id):
+    db = DBOpera()
+    if request.method == 'GET':
+        book = db.get_bookAttach(book_id)
+        class_list = db.get_classList()
+        return render_template('manage_updatebook.html',book=book,class_list=class_list)
+    if request.method == 'POST':
+        book_name = request.form['book_name']
+        book_author = request.form['book_author']
+        book_price = request.form['book_price']
+        book_class = request.form['book_class']
+        book_message = request.form['book_message']
+        file = request.files['book_image']
+        book_num = request.form['book_num']
+        db.update_book(book_id,book_name,book_author,book_class,book_message,book_num,book_price)
+        if file and allowed_file(file.filename):
+            try:
+                if not os.path.exists(os.path.join(UPLOAD_FOLDER,str(book_id))):
+                    os.mkdir(os.path.join(UPLOAD_FOLDER,str(book_id)))
+                buddha = str(time.time())
+                filename = buddha + '.' + file.filename.rsplit('.', 1)[1]
+                book_image = os.path.join(UPLOAD_FOLDER,str(book_id),filename)
+                fp = open(book_image,'w')
+                file.save(book_image)
+                fp.close()
+                db.add_bookImag(book_id,filename)
+            except BaseException,e:
+                print e
+        return redirect(url_for('book_list'))
+    

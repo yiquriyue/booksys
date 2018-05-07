@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -429,14 +430,12 @@
                                                 <th>作者</th>
                                                 <th>价格</th>
                                                 <th>总数</th>
-                                                <th>新增数量</th>
-                                                <th>加入</th>
+                                                <th>操作</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {% for book in book_list %}
                                             <tr>
-                                                <input type="hidden" name="book" value={{book}}>
                                                 <td>{{book['no']}}</td>
                                                 <td>{{book['id']}}</td>
                                                 <td>
@@ -445,16 +444,14 @@
                                                 <td>{{book['author']}}</td>
                                                 <td>{{book['price']}}</td>
                                                 <td>{{book['num']}}</td>
-                                                <td><input type="number" name={{book['id']}} value='0'></td>
-                                                
-                                                <td><input type="checkbox" name="ifbuy" ></td>
+                                                <td><a href="{{url_for('book_update',book_id=book['id'])}}">修改</a></td>
                                             </tr>
                                             {% endfor %}
                                         </tbody>
                                         <tfoot>
                                             <tr>
                                                 <td colspan="2">
-                                                    <button type="button" class="btn btn-info btn-rounded" data-toggle="modal" data-target="#add-contact">Add New Contact</button>
+                                                    <button type="button" class="btn btn-info btn-rounded" data-toggle="modal" data-target="#add-contact">搜索</button>
                                                 </td>
                                                 <div id="add-contact" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
@@ -462,14 +459,12 @@
                                                           
                                                             <div class="modal-header">
                                                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                                                <h4 class="modal-title" id="myModalLabel">输入用户名</h4> </div>
+                                                                <h4 class="modal-title" id="myModalLabel">输入书名</h4> </div>
                                                             <div class="modal-body">
-                                                                
                                                                     <div class="form-group">
                                                                         <div class="col-md-12 m-b-20">
-                                                                            <input type="text" class="form-control" placeholder="用户名" name="user_name"> </div>
+                                                                            <input type="text" class="form-control" placeholder="书名" name="book_name"> </div>
                                                                     </div>
-                                                                
                                                             </div>
                                                             <div class="modal-footer">
                                                             

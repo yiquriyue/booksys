@@ -10,7 +10,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
 from send_email import send_email
 try:
-    from sqlalchemy import Column,and_
+    from sqlalchemy import Column,and_,or_
     from sqlalchemy import Integer,String,Float,DateTime,Boolean,Text,backref
 except ImportError:
     print "sqlalchemy library not found"
@@ -309,9 +309,9 @@ class DBOpera():
         class_list = Classify.query.all()
         return class_list
         
-    def get_bookList(self,book_name=""):
-        book_name = '%' + book_name + '%'
-        books = Book.query.filter(Book.book_name.like(book_name)).all()
+    def get_bookList(self,keyword=""):
+        keyword = '%' + keyword + '%'
+        books = Book.query.filter(Book.book_name.like(keyword),or_(Book.book_author.like(keyword))).all()
         return books
     
     def get_orderList(self,user_name=""):
@@ -332,9 +332,9 @@ class DBOpera():
                                     join(Book,Order_detail.orDetail_book_id==Book.book_id).all()
         return books
     
-    def get_activityList(self,activity_name=""):
-        activity_name = '%' + activity_name + '%'
-        activitys = Activity.query.filter(Activity.activity_name.like(activity_name)).all()
+    def get_activityList(self,keyword=""):
+        keyword = '%' + keyword + '%'
+        activitys = Activity.query.filter(Activity.activity_name.like(keyword),or_(Activity.activity_guest.like(keyword))).all()
         return activitys
         
     def get_bookAttach(self,book_id):
@@ -490,6 +490,8 @@ class DBOpera():
         try:
             db.session.add(ticket)
             db.session.commit()
+            '''
+            #TODO(CAOYUE):这里用来生成二维码，但是PIL和image库没有添加成功，待完善
             img = qrcode.make(ticket.ticket_Entry_code)
             if os.path.exists(os.path.join(QRCODE_FOLDER,ticket.ticket_Entry_code)):
                 shutil.rmtree(os.path.join(QRCODE_FOLDER,ticket.ticket_Entry_code))
@@ -499,6 +501,8 @@ class DBOpera():
             img.save(qrcode_image)
             code_imag = 'qrcode/'+ ticket.ticket_Entry_code +'qrcode.jpg'
             send_email(user.user_email,'A ticket','user/ticket',user_name=user.user_name,postcode=ticket.ticket_Entry_code,code_imag=code_imag)
+            '''
+            send_email(user.user_email,'A ticket','user/ticket',user_name=user.user_name,postcode=ticket.ticket_Entry_code)
             return True
         except BaseException,e:
             print e
@@ -553,7 +557,48 @@ class DBOpera():
         except BaseException,e:
             print e
             return False
-            
+    
+    def update_book(self,book_id,book_name,book_author,book_class,book_message,book_num,book_price):
+        book = Book.query.get(book_id)
+        book.book_name = book_name
+        book.book_author = book_author
+        book.book_class = book_class
+        book.book_message = book_message
+        book.book_num = book_num
+        book.book_price = book_price
+        try:
+            db.session.add(book)
+            db.session.commit()
+            return True
+        except BaseException,e:
+            print e
+            return False
+    
+    def update_order_status(self,order_id):
+        order = Order.query.get(order_id)
+        order.order_status = 'success'
+        try:
+            db.session.add(order)
+            db.session.commit()
+            return True
+        except BaseException,e:
+            print e
+            return False
+    
+    def update_activity(self,activity_id,activity_name,activity_guest,activity_num,activity_message,activity_datetime):
+        activity = Activity.query.get(activity_id)
+        activity.activity_name = activity_name
+        activity.activity_guest = activity_guest
+        activity.activity_num = activity_num
+        activity.activity_message = activity_message
+        activity.activity_datetime = activity_datetime
+        try:
+            db.session.add(activity)
+            db.session.commit()
+            return True
+        except BaseException,e:
+            print e
+            return False
     def ticket_check(self,postcode):
         ticket = Ticket.query.filter(Ticket.ticket_Entry_code==postcode,Ticket.ticket_status=='pending').first()
         if ticket:
