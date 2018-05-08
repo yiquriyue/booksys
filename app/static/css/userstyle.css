@@ -221,6 +221,16 @@ input[type="text"]{
 	-khtml-border-radius: 2px;
 	behavior: url(PIE.htc);
 }
+input[type="number"]{
+	height: 33px;
+	padding: 0 10px;
+	border: 1px solid #ccc;
+	color: #777;
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-khtml-border-radius: 2px;
+	behavior: url(PIE.htc);
+}
 input[type="email"]:focus,
 input[type="text"]:focus,
 textarea:focus{

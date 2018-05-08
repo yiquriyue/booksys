@@ -304,14 +304,22 @@ class DBOpera():
         except BaseException,e:
             print e
             return False
-        
+    
+    def check_evaluate(self,book_id):
+        user_id = current_user.id
+        evaluate = Evaluate.query.filter_by(evaluate_book_id=book_id,evaluate_user_id=user_id).all()
+        if evaluate:
+            return  True
+        else:
+            return False
+    
     def get_classList(self):
         class_list = Classify.query.all()
         return class_list
         
     def get_bookList(self,keyword=""):
         keyword = '%' + keyword + '%'
-        books = Book.query.filter(Book.book_name.like(keyword),or_(Book.book_author.like(keyword))).all()
+        books = Book.query.filter(or_(Book.book_author.like(keyword),Book.book_name.like(keyword))).all()
         return books
     
     def get_orderList(self,user_name=""):
@@ -334,7 +342,11 @@ class DBOpera():
     
     def get_activityList(self,keyword=""):
         keyword = '%' + keyword + '%'
-        activitys = Activity.query.filter(Activity.activity_name.like(keyword),or_(Activity.activity_guest.like(keyword))).all()
+        activitys = Activity.query.filter(or_(Activity.activity_name.like(keyword),Activity.activity_guest.like(keyword)))
+        print activitys
+        activitys = activitys.all()
+        
+        
         return activitys
         
     def get_bookAttach(self,book_id):
@@ -508,7 +520,17 @@ class DBOpera():
             print e
             return False
         
-            
+    
+    def add_evaluate(self,book_id,scort,message):
+        evaluate = Evaluate(book_id,current_user.id,message,scort)
+        try:
+            db.session.add(evaluate)
+            db.session.commit()
+            return True
+        except BaseException,e:
+            print e
+            return False
+    
     def delete_cart(self,user_id,book_id=""):
         if book_id:
             cart = Cart.query.filter(Cart.cart_book_id==book_id,Cart.cart_user_id==user_id)

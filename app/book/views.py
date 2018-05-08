@@ -50,17 +50,31 @@ def book_list():
         else:
             return render_template('manage_booklist.html',book_list=book_list,book_list1=str(book_list))
     if request.method == 'POST':
-        books = str(request.form['books'])
-        print books
-        num = str(request.form['1'])
-        print num
+        route = session.get('route')
+        keyword = request.form['keyword']
+        db = DBOpera()
+        books = db.get_bookList(keyword)
+        book_list = []
+        a=1
         for book in books:
-            print book
-            book_id = book['id']
-            book_num = request.form[book_id]
-            print book_id
-            print book_num
-        return "success"
+            abook={}
+            abook['no'] = a
+            abook['id'] = str(book.book_id)
+            abook['name'] = book.book_name
+            abook['author'] = book.book_author
+            abook['message'] = book.book_message
+            abook['price'] = book.book_price
+            abook['num'] = book.book_num
+            if book.book_image:
+                abook['image'] = 'files/'+abook['id']+'/'+book.book_image
+            else:
+                abook['image'] = ''
+            book_list.append(abook)
+            a=a+1
+        if route=='user':
+            return render_template('user_catalog_list.html',book_list=book_list)
+        else:
+            return render_template('manage_booklist.html',book_list=book_list,book_list1=str(book_list))
         
         
         #TODO(caoyue):在图书表中查找图书
@@ -203,4 +217,17 @@ def book_update(book_id):
             except BaseException,e:
                 print e
         return redirect(url_for('book_list'))
-    
+
+@app.route('/book/evaluate/<book_id>',methods=['GET','POST'])
+def book_evaluate(book_id):
+    db = DBOpera()
+    if request.method == 'GET':
+        if db.check_evaluate(book_id):
+            return redirect(url_for('bookshelf'))
+        else:
+            return render_template('user_evaluate.html')
+    if request.method == 'POST':
+        scort = request.form['scort']
+        message = request.form['message']
+        db.add_evaluate(book_id,scort,message)
+        return redirect(url_for('book_list'))

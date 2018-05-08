@@ -37,7 +37,6 @@ def activity_list():
         #search = request.form['search']
         db = DBOpera()
         keyword = request.form['keyword']
-        print keyword
         activitys = db.get_activityList(keyword)
         activity_list = []
         a=1

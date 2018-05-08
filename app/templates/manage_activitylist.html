@@ -242,7 +242,7 @@
                                     <li class="col-lg-3  m-b-30">
                                         <h4 class="m-b-20">CONTACT US</h4>
                                         <!-- Contact -->
-                                        <form>
+                                        
                                             <div class="form-group">
                                                 <input type="text" class="form-control" id="exampleInputname1" placeholder="Enter Name"> </div>
                                             <div class="form-group">
@@ -251,7 +251,7 @@
                                                 <textarea class="form-control" id="exampleTextarea" rows="3" placeholder="Message"></textarea>
                                             </div>
                                             <button type="submit" class="btn btn-info">Submit</button>
-                                        </form>
+                                        
                                     </li>
                                     <li class="col-lg-3 col-xlg-4 m-b-30">
                                         <h4 class="m-b-20">List style</h4>
@@ -275,10 +275,7 @@
                     <!-- User profile and search -->
                     <!-- ============================================================== -->
                     <ul class="navbar-nav my-lg-0">
-                        <li class="nav-item hidden-sm-down">
-                            <form class="app-search">
-                                <input type="text" class="form-control" placeholder="Search for..."> <a class="srh-btn"><i class="ti-search"></i></a> </form>
-                        </li>
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="../assets/images/users/1.jpg" alt="user" class="profile-pic" /></a>
                             <div class="dropdown-menu dropdown-menu-right animated flipInY">
@@ -388,7 +385,7 @@
                 <!-- ============================================================== -->
                 <!-- Bread crumb and right sidebar toggle -->
                 <!-- ============================================================== -->
-                <form method="POST" enctype="multipart/form-data">
+                
                 <div class="row page-titles">
                     <div class="col-md-6 col-8 align-self-center">
                         <h3 class="text-themecolor m-b-0 m-t-0">Table</h3>
@@ -450,29 +447,27 @@
                                                 <td colspan="2">
                                                     <button type="button" class="btn btn-info btn-rounded" data-toggle="modal" data-target="#add-contact">搜索</button>
                                                 </td>
+                                                
                                                 <div id="add-contact" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
+                                                        <form method='POST' action="/activity/list" id="search_activity" name="search_activity" enctype="multipart/form-data">
                                                         <div class="modal-content">
-                                                          <form method='POST' action="/book/list" id="search_book">
                                                             <div class="modal-header">
                                                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                                                                 <h4 class="modal-title" id="myModalLabel">输入关键字</h4> </div>
                                                             <div class="modal-body">
                                                                     <div class="form-group">
                                                                         <div class="col-md-12 m-b-20">
-                                                                            
                                                                             <input type="text" class="form-control" placeholder="活动名称或嘉宾名称" name="keyword">
-                                                                            
                                                                         </div>
                                                                     </div>
                                                             </div>
                                                             <div class="modal-footer">
-                                                            
-                                                                <button  class="btn btn-info waves-effect" form="search_book">确定</button>
-                                                            
+                                                                <button  class="btn btn-info waves-effect" form="search_activity">确定</button>
+                                                               
                                                             </div>
-                                                          </form>
                                                         </div>
+                                                        </form>
                                                         <!-- /.modal-content -->
                                                     </div>
                                                     <!-- /.modal-dialog -->
@@ -550,7 +545,7 @@
                 <!-- ============================================================== -->
                 <!-- End Right sidebar -->
                 <!-- ============================================================== -->
-                </form>
+                
             </div>
             <!-- ============================================================== -->
             <!-- End Container fluid  -->
