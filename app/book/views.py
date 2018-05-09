@@ -30,6 +30,7 @@ def book_list():
         books = db.get_bookList()
         book_list = []
         a=1
+        #TODO(caoyue):书本信息的列表统计
         for book in books:
             abook={}
             abook['no'] = a
@@ -118,6 +119,7 @@ def book_detail(book_id):
     if request.method == 'GET':
         db = DBOpera()
         book = db.get_bookAttach(book_id)
+        #########################图书信息字典###################################
         abook={}
         abook['id'] = str(book.book_id)
         abook['name'] = book.book_name
@@ -128,44 +130,69 @@ def book_detail(book_id):
                 abook['image'] = 'files/'+abook['id']+'/'+book.book_image
         else:
             abook['image'] = ''
-        return render_template('user_product_page.html',book=abook)
+        ########################################################################
+        evaluates = db.get_evaluate(book_id)
+        evaluate_list = []
+        for evaluate in evaluates:
+            evaluate_dict = {}
+            evaluate_dict['user_name'] = evaluate[1]
+            evaluate_dict['datatime'] = evaluate[0].evaluate_time
+            evaluate_dict['message'] = evaluate[0].evaluate_describe
+            score = int(evaluate[0].evaluate_score)
+            list0=[]
+            list1=[]
+            for i in range(score):
+                list0.append(i)
+            for i in range(10-score):
+                list1.append(i)
+            evaluate_dict['score'] = list0
+            evaluate_dict['no_score'] = list1
+            evaluate_list.append(evaluate_dict)
+        print evaluate_list
+        return render_template('user_product_page.html',book=abook,evaluates=evaluate_list)
 
         
-@app.route('/book/collect',methods=['GET','POST'])
-def book_collect():
+@app.route('/book/collect/<book_id>',methods=['GET','POST'])
+def book_collect(book_id):
     '''
     用户添加收藏夹
     '''
-    if request.method == 'POST':
-        user_id = session.get('userid')
-        book_id = request.form['book_id']
+    if request.method == 'GET':
         db = DBOpera()
-        db.add_collect(book_id,user_id)
+        db.add_collect(book_id,current_user.id)
         return "success"
         
         
-@app.route('/book/cart',methods=['GET','POST'])
-def book_cart():
+@app.route('/book/cart/<book_id>',methods=['GET','POST'])
+def book_cart(book_id):
     '''
     用户添加购物车
     '''
-    if request.method == 'POST':
-        book_id = request.form['book_id']
+    if request.method == 'GET':
         db = DBOpera()
         db.add_cart(book_id,current_user.id)
         return "success"
 
-@app.route('/book/cart_delete',methods=['GET','POST'])
-def book_cart_delete():
+@app.route('/book/cart_delete/<book_id>',methods=['GET','POST'])
+def book_cart_delete(book_id):
     '''
     用户删除购物车商品
     '''
     if request.method == 'GET':
-        book_id = request.args.get('user')
-        #book_id = request.form['book_id']
         db = DBOpera()
         db.delete_cart(current_user.id,book_id)
         return redirect(url_for('cart'))
+
+@app.route('/book/collect_delete/<book_id>',methods=['GET','POST'])
+def book_collect_delete(book_id):
+    '''
+    用户删除收藏夹商品
+    '''
+    if request.method == 'GET':
+        #book_id = request.form['book_id']
+        db = DBOpera()
+        db.delete_collect(current_user.id,book_id)
+        return redirect(url_for('collect'))
         
 @app.route('/book/add_detail',methods=['GET','POST'])
 def add_detail():

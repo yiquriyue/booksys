@@ -206,36 +206,36 @@
 		<div class="grid_12">
 			<h1 class="page_title">Login or Create an Account</h1>
 		</div><!-- .grid_12 -->
-		
-		<div class="grid_6 new_customers">
-			<h2>New Customers</h2>
-			<p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>
-			<div class="clear"></div>
-			<button class="account">添加评论</button>
-                </div><!-- .grid_6 -->
-		
 		<div class="grid_6">
-			<form class="registed" method="post">
-				<h2>Registed Customers</h2>
-							
-				<p>If you have an account with us, please log in.</p>
-							
-				<div class="email">
-					<strong>评分:</strong><sup class="surely">*</sup><br/>
-					<input type="number" name="scort" min="1" max="10" class=""/>
-				</div><!-- .email -->
-							
-				<div class="password">
-					<strong>内容：</strong><sup class="surely">*</sup><br/>
-					<input type="text" name="message" class="" value="" />
-				</div><!-- .password -->
-				
-				
-				<div class="submit">										
-					<input type="submit" value="Login" />
-					<sup class="surely">*</sup><span>Required Field</span>
-				</div><!-- .submit -->
-			</form><!-- .registed -->
+			
+            <form class="add_comments" method='POST'>
+
+							<div class="evaluation">
+								<div class="price">
+									<strong>评分</strong><sup class="surely">*</sup>
+									<input class="niceRadio" type="radio" name="scort" value="1" /><span class="eva_num">1</span>
+									<input class="niceRadio" type="radio" name="scort" value="2" /><span class="eva_num">2</span>
+									<input class="niceRadio" type="radio" name="scort" value="3" /><span class="eva_num">3</span>
+									<input class="niceRadio" type="radio" name="scort" value="4" /><span class="eva_num">4</span>
+									<input class="niceRadio" type="radio" name="scort" value="5" /><span class="eva_num">5</span>
+									<input class="niceRadio" type="radio" name="scort" value="6" /><span class="eva_num">6</span>
+									<input class="niceRadio" type="radio" name="scort" value="7" /><span class="eva_num">7</span>
+									<input class="niceRadio" type="radio" name="scort" value="8" /><span class="eva_num">8</span>
+									<input class="niceRadio" type="radio" name="scort" value="9" /><span class="eva_num">9</span>
+									<input class="niceRadio" type="radio" name="scort" value="10" /><span class="eva_num">10</span>
+								</div>
+								<div class="clear"></div>
+							</div><!-- .evaluation -->
+							<div class="clear"></div>
+
+							<div class="text_review">
+								<strong>内容</strong><sup class="surely">*</sup><br/>
+								<textarea name="message"></textarea>
+								<i>Note: HTML is not translated!</i>
+							</div><!-- .text_review -->
+
+							<input type="submit" value="Submit Review" />
+						</form><!-- .add_comments -->
                 </div><!-- .grid_6 -->
        </div><!-- #content -->
        

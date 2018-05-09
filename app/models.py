@@ -26,7 +26,7 @@ Ser_Collect  = db.Table('Ser_Collect',
     )
 
 class Cart(db.Model):
-    '''收藏表，记录用户和商品之间多对多的关系'''
+    '''购物车表，记录用户和商品之间多对多的关系'''
     __tablename__ = 'Ser_cart'
     cart_user_id = db.Column(db.Integer,db.ForeignKey('Bas_user.id'),primary_key =True)
     cart_book_id = db.Column(db.Integer,db.ForeignKey('Bac_book.book_id'),primary_key =True)
@@ -272,6 +272,7 @@ class Evaluate(db.Model):
     evaluate_describe = db.Column(db.Text)
     evaluate_score = db.Column(db.Float)
     evaluate_ststus = db.Column(db.Boolean,default=False)
+    evaluate_time = db.Column(db.DateTime,default=datetime.datetime.now)
     def __init__(self, evaluate_book_id, evaluate_user_id, evaluate_describe, evaluate_score):
         self.evaluate_book_id = evaluate_book_id
         self.evaluate_user_id = evaluate_user_id
@@ -391,6 +392,14 @@ class DBOpera():
                 
         return books
         
+    def get_evaluate(self,book_id):
+        evaluates = db.session.query(Evaluate,User.user_name).select_from(Evaluate).\
+                    filter(Evaluate.evaluate_book_id==book_id).\
+                    join(User,and_(Evaluate.evaluate_user_id==User.id)).all()
+        print evaluates
+        return evaluates
+        
+        
     def add_book(self,book_name,book_author,book_class,
                  book_price,book_num,book_message = ""):
         book = Book(book_name, book_author, book_price,book_class,book_num,book_message)
@@ -423,6 +432,7 @@ class DBOpera():
             db.session.add(user)
             db.session.commit()
             print user
+            return True
         except BaseException,e:
             print e
             return False
@@ -533,13 +543,27 @@ class DBOpera():
     
     def delete_cart(self,user_id,book_id=""):
         if book_id:
+            #TODO(caoyue):用户删除购物车中指定图书
             cart = Cart.query.filter(Cart.cart_book_id==book_id,Cart.cart_user_id==user_id)
             db.session.delete(cart)
         else:
+            #TODO(caoyue):清空购物车，提交订单后执行该操作
             carts = Cart.query.filter(Cart.cart_user_id==user_id)
             for cart in carts:
                 db.session.delete(cart)
         db.session.commit()
+        
+    def delete_collect(self,user_id,book_id):
+        book = Book.query.filter_by(book_id = book_id).first()
+        user = User.query.filter_by(id = user_id).first()
+        user.Bac_book.remove(book)
+        try:
+            db.session.add(user)
+            db.session.commit()
+            return True
+        except BaseException,e:
+            print e
+            return False
         
     def update_activity_detail(self,activity_id,user_id,status):
         activity_detail = Activity_detail.query.filter(Activity_detail.actDetail_activiity_id==activity_id,\

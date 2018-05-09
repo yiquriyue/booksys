@@ -2567,6 +2567,7 @@ img.sale{
 }
 .product .cart .obn,
 .product .cart .like,
+.product .cart .none,
 .product .cart .bay{
 	width: 42px;
 	display: block;
@@ -2577,12 +2578,14 @@ img.sale{
 }
 .product .cart .obn{background: url(../images/bg_obn.png) no-repeat 50% 50%;}
 .product .cart .like{background: url(../images/bg_like.png) no-repeat 50% 50%;}
+.product .cart .none{background: url(../images/bg_none.png) no-repeat 50% 50%;}
 .product .cart .bay{
 	background: url(../images/bg_bay.png) no-repeat 50% 50% #f5f7f9;
 	border: 0 none;
 }
 .product .cart a:hover.obn,
 .product .cart a:hover.like,
+.product .cart a:hover.none,
 .product .cart a:hover.bay{
 	background-color: #eff7ff;
 }

@@ -211,11 +211,7 @@
   <div class="clear"></div>
 
   <div class="container_12">
-    <div class="grid_12">
-       <div class="breadcrumbs">
-	      <a href="index.html">Home</a><span>&#8250;</span><a href="#">Category</a><span>&#8250;</span><span class="current">This page</span>
-       </div><!-- .breadcrumbs -->
-    </div><!-- .grid_12 -->
+
   </div><!-- .container_12 -->
 
   <div class="clear"></div>
@@ -239,15 +235,6 @@
 
 			<div class="grid_5">
 				<div class="entry_content">
-					<div class="review">
-						<a class="plus" href="#"></a>
-						<a class="plus" href="#"></a>
-						<a class="plus" href="#"></a>
-						<a href="#"></a>
-						<a href="#"></a>
-						<span>1 REVIEW(S)</span>
-						<a class="add_review" href="#">ADD YOUR REVIEW</a>
-					</div>
 					<p>{{book['message']}}</p>
 					<div class="ava_price">
 						<div class="availability_sku">
@@ -267,17 +254,13 @@
 
 					<div class="block_cart">
 						<div class="obn_like">
-                            <form method='POST' action="/book/collect" id="thisform1">
-                                <input type="hidden" name="book_id" value={{book['id']}}>
-                                <div class="like"><a href="javascript:void(0)" class="like" onclick="document.getElementById('thisform1').submit()">添加收藏夹</a></div>
-                            </form>
+
+                                <div class="like"><a href="{{url_for('book_collect',book_id=book['id'])}}" class="like" onclick="document.getElementById('thisform1').submit()">添加收藏夹</a></div>
                             <iframe id="thisform1" name="id_iframe" style="display:none;" src="about:blank"></iframe> 
 						</div>
 
 						<div class="cart">
-                            <form method='POST' action="/book/cart" id="thisform">
-                            <input type="hidden" name="book_id" value={{book['id']}}>
-							<a href="javascript:void(0)" class="bay" onclick="document.getElementById('thisform').submit()">加入购物车</a>
+							<a href="{{url_for('book_cart',book_id=book['id'])}}" class="bay">加入购物车</a>
 							<span>Quantity:</span>
                             </form>
                             <iframe id="thisform" name="id_iframe" style="display:none" src="about:blank"></iframe> 
@@ -294,161 +277,38 @@
 			<div class="clear"></div>
 
 			<div class="grid_9" >
-				<div id="wrapper_tab" class="tab1">
-					<a href="#" class="tab1 tab_link">Description</a>
-					<a href="#" class="tab2 tab_link">Reviews</a>
-					<a href="#" class="tab3 tab_link">Custom Tab</a>
+				<div id="wrapper_tab" class="tab2">
+					<a href="#" class="tab2 tab_link">评价</a>
 
 					<div class="clear"></div>
 
-					<div class="tab1 tab_body">
-						<h4>Tables Style</h4>
-						<p>Suspendisse at placerat turpis. Duis luctus erat vel magna pharetra aliquet. Maecenas tincidunt feugiat ultricies. Phasellus et dui risus. Vestibulum adipiscing, eros quis lobortis dictum. Etiam mollis volutpat odio, id euismod justo gravida a. Aliquam erat volutpat. Phasellus faucibus venenatis lorem, vitae commodo elit pretium et. Duis rhoncus lobortis congue. Vestibulum et purus dui, vel porta lectus. Sed vulputate pulvinar adipiscing.</p>
-						<ul>
-							<li>She was walking to the mall.</li>
-							<li>Ted might eat the cake.</li>
-							<li>You must go right now.</li>
-							<li>Words were spoken.</li>
-							<li>The teacher is writing a report.</li>
-						</ul>
-
-						<p>Here are some verb phrase examples where the verb phrase is the predicate of a sentence. In this case, the verb phrase consists of the main verb plus any auxiliary, or helping, verbs. Nulla nec velit. Mauris pulvinar erat non massa. Suspendisse tortor turpis, porta nec, tempus vitae, iaculis semper, pede.</p>
-						<ol>
-							<li>Shipping & Delivery.</li>
-							<li>Privacy & Security.</li>
-							<li>Returns & Replacements.</li>
-							<li>Payment, Pricing & Promotions.</li>
-							<li>Viewing Orders.</li>
-						</ol>
-
-						<p>Next are some verb phrase examples of verb phrases where the phrase has a single function which means it can act like an adverb or an adjective. The phrase would include the verb and any modifiers, complements, or objects. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Morbi luctus. Duis lobortis.  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nec posuere odio. Proin vel ultrices erat. </p>
-
-						<table>
-							<tr>
-								<th class="bg">First Column</th><th>Second Column</th><th class="bg">Third Column</th><th>Fourth Column</th>
-							</tr>
-							<tr>
-								<td class="bg">One</td><td>no</td><td class="bg">yes</td><td>yes, all</td>
-							</tr>
-							<tr>
-								<td class="bg">Two</td><td>0</td><td class="bg">1</td><td>all</td>
-							</tr>
-							<tr>
-								<td class="bg">Three</td><td>$399</td><td class="bg">$599</td><td>$799</td>
-							</tr>
-							<tr>
-								<td class="bg">Four</td><td><a href="#">Call action</a></td><td class="bg"><a href="#">Call action</a></td><td><a href="#">Call action</a></td>
-							</tr>
-						</table>
-					<div class="clear"></div>
-					</div><!-- .tab1 .tab_body -->
 
 					<div class="tab2 tab_body">
-						<h4>Customer reviews</h4>
+						<h4>图书评价</h4>
 						<ul class="comments">
+                            {% for evaluate in evaluates %}
 							<li>
-								<div class="autor">Mike Example</div>, <time datetime="2012-11-03">03.11.2012</time>
+								<div class="autor">{{evaluate['user_name']}}</div>, <time datetime="2012-11-03">{{evaluate['datetime']}}</time>
 
 								<div class="evaluation">
-									<div class="quality">
-										<strong>Quality</strong>
-										<a class="plus" href="#"></a>
-										<a class="plus" href="#"></a>
-										<a class="plus" href="#"></a>
-										<a href="#"></a>
-										<a href="#"></a>
-									</div>
 									<div class="price">
-										<strong>Price</strong>
+										<strong>评分</strong>
+                                        {% for start in evaluate['score'] %}
 										<a class="plus" href="#"></a>
-										<a class="plus" href="#"></a>
-										<a class="plus" href="#"></a>
-										<a class="plus_minus" href="#"></a>
+										{% endfor %}
+                                        {% for start in evaluate['no_score'] %}
 										<a href="#"></a>
+										{% endfor %}
 									</div>
 									<div class="clear"></div>
 								</div><!-- .evaluation -->
-
-								<p>Suspendisse at placerat turpis. Duis luctus erat vel magna pharetra aliquet. Maecenas tincidunt feugiat ultricies. Phasellus et dui risus. Vestibulum adipiscing, eros quis lobortis dictum.</p>
+								<p>{{evaluate['message']}}</p>
 							</li>
-
-							<li>
-								<div class="autor">Mike Example</div>, <time datetime="2012-11-03">03.11.2012</time>
-
-								<div class="evaluation">
-									<div class="quality">
-										<strong>Quality</strong>
-										<a class="plus" href="#"></a>
-										<a class="plus" href="#"></a>
-										<a class="plus" href="#"></a>
-										<a class="plus" href="#"></a>
-										<a class="plus_minus" href="#"></a>
-									</div>
-									<div class="price">
-										<strong>Price</strong>
-										<a class="plus" href="#"></a>
-										<a class="plus" href="#"></a>
-										<a class="plus" href="#"></a>
-										<a class="plus" href="#"></a>
-										<a href="#"></a>
-									</div>
-									<div class="clear"></div>
-								</div><!-- .evaluation -->
-
-								<p>Etiam mollis volutpat odio, id euismod justo gravida a. Aliquam erat volutpat. Phasellus faucibus venenatis lorem, vitae commodo elit pretium et. Duis rhoncus lobortis congue. Vestibulum et purus dui, vel porta lectus. Sed vulputate pulvinar adipiscing.</p>
-							</li>
+                            {% endfor %}
 						</ul><!-- .comments -->
 
-						<form class="add_comments">
-							<h4>Write Your Own Review</h4>
-
-							<div class="evaluation">
-								<div class="quality">
-									<strong>Quality</strong><sup class="surely">*</sup>
-									<input class="niceRadio" type="radio" name="quality" value="1" /><span class="eva_num">1</span>
-									<input class="niceRadio" type="radio" name="quality" value="2" /><span class="eva_num">2</span>
-									<input class="niceRadio" type="radio" name="quality" value="3" /><span class="eva_num">3</span>
-									<input class="niceRadio" type="radio" name="quality" value="4" /><span class="eva_num">4</span>
-									<input class="niceRadio" type="radio" name="quality" value="5" /><span class="eva_num">5</span>
-								</div>
-								<div class="price">
-									<strong>Price</strong><sup class="surely">*</sup>
-									<input class="niceRadio" type="radio" name="price" value="1" /><span class="eva_num">1</span>
-									<input class="niceRadio" type="radio" name="price" value="2" /><span class="eva_num">2</span>
-									<input class="niceRadio" type="radio" name="price" value="3" /><span class="eva_num">3</span>
-									<input class="niceRadio" type="radio" name="price" value="4" /><span class="eva_num">4</span>
-									<input class="niceRadio" type="radio" name="price" value="5" /><span class="eva_num">5</span>
-								</div>
-								<div class="clear"></div>
-							</div><!-- .evaluation -->
-
-							<div class="nickname">
-								<strong>Nickname</strong><sup class="surely">*</sup><br/>
-								<input type="text" name="" class="" value="" />
-							</div><!-- .nickname -->
-
-							<div class="your_review">
-								<strong>Summary of Your Review</strong><sup class="surely">*</sup><br/>
-								<input type="text" name="" class="" value="" />
-							</div><!-- .your_review -->
-
-							<div class="clear"></div>
-
-							<div class="text_review">
-								<strong>Review</strong><sup class="surely">*</sup><br/>
-								<textarea name="text"></textarea>
-								<i>Note: HTML is not translated!</i>
-							</div><!-- .text_review -->
-
-							<input type="submit" value="Submit Review" />
-						</form><!-- .add_comments -->
 					<div class="clear"></div>
 					</div><!-- .tab2 .tab_body -->
-
-					<div class="tab3 tab_body">
-						<h4>Custom Tab</h4>
-					<div class="clear"></div>
-					</div><!-- .tab3 .tab_body -->
 					<div class="clear"></div>
 				</div>​<!-- #wrapper_tab -->
 				<div class="clear"></div>

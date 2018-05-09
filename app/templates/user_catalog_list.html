@@ -177,7 +177,7 @@
   <section id="main">
     <div class="container_12">
        <div id="content" class="grid_9">
-	      <h1 class="page_title">Product List</h1>
+	      <h1 class="page_title">图书列表</h1>
 	      
 	      <div class="options">
 		     <div class="grid-list">
@@ -251,9 +251,9 @@
 							<div class="price_new">${{book['price']}}</div>
 							<div class="price_old">$725.00</div>
 						</div>
-						<a href="#" class="bay">Add to Cart</a>
-						<a href="#" class="obn"></a>
-						<a href="#" class="like"></a>
+						<a href="{{url_for('book_cart',book_id=book['id'])}}" class="bay">添加购物车</a>
+						<a href="#" class="none"></a>
+						<a href="{{url_for('book_collect',book_id=book['id'])}}" class="like"></a>
 					</div><!-- .cart -->
 				</div><!-- .grid_2 -->
 				

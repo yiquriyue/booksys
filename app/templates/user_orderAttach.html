@@ -220,9 +220,9 @@
 							<div class="price_new">${{book['book_price']}}</div>
 							<div class="price_old">数量：{{book['book_num']}}</div>
 						</div>
-						<a href="#" class="bay">Add to Cart</a>
-						<a href="#" class="obn"></a>
-						<a href="#" class="like"></a>
+						<a href="{{url_for('book_cart',book_id=book['id'])}}" class="bay">加入购物车</a>
+						<a href="#" class="none"></a>
+						<a href="{{url_for('book_collect',book_id=book['id'])}}" class="like"></a>
 					</div><!-- .cart -->
 				</div><!-- .grid_2 -->
 				
