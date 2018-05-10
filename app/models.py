@@ -263,7 +263,7 @@ class Ticket(db.Model):
     def __repr__(self):
         return '<Ticket : %r>' % self.ticket_id
 
-class Evaluate(db.Model):
+class Evaluate( ):
     '''评分表，记录用户对书籍的评价'''
     __tablename__ = 'Ser_evaluate'
     evaluate_id = db.Column(db.Integer, primary_key =True)
