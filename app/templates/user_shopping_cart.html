@@ -163,9 +163,12 @@
       </div><!-- .grid_6 -->
     </header><!-- #branding -->
   </div><!-- .container_12 -->
-
   <div class="clear"></div>
-
+    {% if reminder %}
+        <script language="javascript">
+            alert("{{reminder['message']}}");
+        </script>
+    {% endif %}
   <div id="block_nav_primary">
     <div class="container_12">
       <div class="grid_12">

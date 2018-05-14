@@ -107,7 +107,7 @@ def password():
     return render_template('user_Password.html')
 
 @app.route('/user/cart',methods=['GET','POST'])
-def cart():
+def cart(status=0):
     '''
     用户购物车
     '''
@@ -116,6 +116,8 @@ def cart():
         carts = manager.get_cart(current_user.id)
         list = []
         list1 = []
+        status = 1
+        reminder = {'message':u'成功'}
         for cart in carts:
             dict = {}
             dict1={}
@@ -131,7 +133,7 @@ def cart():
             dict1["book_num"]= int(cart[1])
             list.append(dict)
             list1.append(dict1)
-        return render_template('user_shopping_cart.html',books = list,book_id=list1)
+        return render_template('user_shopping_cart.html',books = list,book_id=list1,reminder=reminder)
 
 
         
