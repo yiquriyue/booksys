@@ -351,7 +351,6 @@
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="{{url_for('book_add')}}">图书上架</a></li>
                                 <li><a href="{{url_for('book_list')}}">图书列表</a></li>
-                                <li><a href="#">信息调整</a></li>
                             </ul>
                         </li>
                         <li>
@@ -448,43 +447,25 @@
                                     <label>描述</label>
                                     <textarea class="form-control" rows="5" name="book_message"></textarea>
                                 </div>
-                                <div class="form-group row p-t-20">
-                                    <div class="col-sm-4">
-                                        <div class="form-check has-success">
-                                            <label class="form-check-label">
-                                                <input type="checkbox" class="form-check-input" id="checkboxSuccess" value="option1"> Checkbox with success
-                                            </label>
-                                        </div>
-                                        <div class="form-check has-warning">
-                                            <label class="form-check-label">
-                                                <input type="checkbox" class="form-check-input" id="checkboxWarning" value="option1"> Checkbox with warning
-                                            </label>
-                                        </div>
-                                        <div class="form-check has-danger">
-                                            <label class="form-check-label">
-                                                <input type="checkbox" class="form-check-input" id="checkboxDanger" value="option1"> Checkbox with danger
-                                            </label>
-                                        </div>
-                                    </div>
                                 <div class="form-group">
                                     <label>图书类别</label>
                                     <select class="custom-select col-12" name="book_class">
-                                        <option selected value=1>Choose...</option>
+                                        <option selected value=1>请选择...</option>
                                         {% for class in class_list %}
                                         <option value={{class.classify_id}}>{{class.classify_name}}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>Custom File upload</label>
+                                    <label>上传图片</label>
                                     <div class="fileinput fileinput-new input-group" data-provides="fileinput">
                                         <div class="form-control" data-trigger="fileinput">
                                             <i class="fa fa-file fileinput-exists"></i>
                                             <span class="fileinput-filename"></span>
                                         </div>
                                         <span class="input-group-addon btn btn-secondary btn-file"> 
-                                            <span class="fileinput-new">Select file</span>
-                                        <span class="fileinput-exists">Change</span>
+                                            <span class="fileinput-new">选择文件</span>
+                                        <span class="fileinput-exists">更改</span>
                                         <input type="file" name="book_image">
                                         </span>
                                         <a href="#" class="input-group-addon btn btn-secondary fileinput-exists" data-dismiss="fileinput">Remove</a> </div>

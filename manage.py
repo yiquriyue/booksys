@@ -4,6 +4,9 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 from app.models import db
 
+
+# app.config['HOST']='0.0.0.0'
+# app.config['PORT']=80
 migrate = Migrate(app,db)
 manager = Manager(app)
 manager.add_command('db',MigrateCommand)

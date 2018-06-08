@@ -36,8 +36,13 @@ def order_confirm(order_id):
     '''
     管理员,确认订单
     '''
-    if request.method == 'POST':
+    if request.method == 'GET':
         db = DBOpera()
         db.update_order_status(order_id)
+        num = db.get_orderPrice(order_id)
+        user_id = db.get_orderUser(order_id)
+        num = int(num)
+        db.update_integral(user_id,num)
         return redirect(url_for('order_list'))
+        
 

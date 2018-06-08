@@ -17,7 +17,7 @@ def manager_login():
         username=request.form['username']
         password=request.form['password']
         manager = DBOpera()
-        check = manager.user_check(username,password)
+        check = manager.manager_check(username,password)
         if check:
             session['username'] = username
             session['userid'] = check

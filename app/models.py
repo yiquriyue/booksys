@@ -49,6 +49,7 @@ class User(UserMixin,db.Model):
     user_password = db.Column(db.String(128))
     user_email = db.Column(db.String(32))
     confirmed = db.Column(db.Boolean,default=False)
+    route = db.Column(db.Boolean,default=False)
     Bac_book = db.relationship('Book',secondary=Ser_Collect,
                             backref=db.backref('Bas_user',lazy='dynamic'),
                             lazy='dynamic')
@@ -127,6 +128,7 @@ class Book(db.Model):
     book_message = db.Column(db.Text)
     book_image = db.Column(db.String(128))
     book_num = db.Column(db.Integer)
+    book_time = db.Column(db.DateTime,default=datetime.datetime.now())
     collect = db.relationship('Cart',
                               foreign_keys=[Cart.cart_book_id],
                               backref=db.backref('User.collect',lazy='joined'),
@@ -233,16 +235,14 @@ class Integral(db.Model):
     __tablename__ = 'Ser_integral'
     integral_id = db.Column(db.Integer, primary_key = True)
     integral_user_id = db.Column(db.Integer)
-    integral_grade = db.Column(db.String(64))
+    integral_grade = db.Column(db.Integer)
     integral_score = db.Column(db.Integer)
     def __init__(self, integral_user_id, integral_grade_id, integral_score):
         self.integral_user_id = integral_user_id
-        self.integral_grade_id = integral_grade_id
+        self.integral_grade = integral_grade_id
         self.integral_score = integral_score
     def __repr__(self):
         return '<Integral : %r>' % self.integral_id
-
-
 
 class Ticket(db.Model):
     '''门票表，记录活动的门票信息'''
@@ -263,7 +263,7 @@ class Ticket(db.Model):
     def __repr__(self):
         return '<Ticket : %r>' % self.ticket_id
 
-class Evaluate( ):
+class Evaluate(db.Model):
     '''评分表，记录用户对书籍的评价'''
     __tablename__ = 'Ser_evaluate'
     evaluate_id = db.Column(db.Integer, primary_key =True)
@@ -281,6 +281,19 @@ class Evaluate( ):
     def __repr__(self):
         return '<Evaluate : %r>' % self.evaluate_id
 
+class Statics(db.Model):
+    '''统计表，用于统计销量，收藏量，等信息'''
+    __tablename__ = 'Ser_statics'
+    statics_id = db.Column(db.Integer, primary_key = True)
+    book_id = db.Column(db.Integer)
+    sale_num = db.Column(db.Integer,default=0)
+    collect_num = db.Column(db.Integer,default=0)
+    def __init__(self,book_id):
+        self.book_id = book_id
+    def __repr__(self):
+        return '<Status : %r>' % self.statics_id
+    
+
 class DBOpera():
     def user_check(self,username,password):
         user = User.query.filter_by(user_name = username).first()
@@ -292,6 +305,18 @@ class DBOpera():
         else:
             return False
     
+    def manager_check(self,username,password):
+        user = User.query.filter_by(user_name = username).first()
+        if user:
+            if user.verify_password(password):
+                if user.route:
+                    return user.id
+                else:
+                    return False
+            else:
+                return False
+        else:
+            return False
     
     def user_register(self,username,password,email,phone):
         user = User(username,phone,email)
@@ -323,6 +348,15 @@ class DBOpera():
         books = Book.query.filter(or_(Book.book_author.like(keyword),Book.book_name.like(keyword))).all()
         return books
     
+    def get_NewBook(self):
+        books = Book.query.order_by(Book.book_time.desc()).limit(8)
+        return books
+    
+    def get_bassSaleBook(self):
+        books = db.session.query(Book).join(Statics,Statics.book_id==Book.book_id).\
+                order_by(Statics.sale_num.desc()).limit(8)
+        return books
+        
     def get_orderList(self,user_name=""):
         if user_name:
             user = User.query.filter(User.user_name==user_name).first()
@@ -335,6 +369,10 @@ class DBOpera():
         order = Order.query.get(order_id)
         return order.order_price
         
+    def get_orderUser(self,order_id):
+        order = Order.query.get(order_id)
+        return order.order_user_id
+        
     def get_orderAttach(self,order_id):
         books = db.session.query(Book,Order_detail.orDetail_num).select_from(Order_detail).\
                                     filter_by(orDetail_order_id=order_id).\
@@ -346,8 +384,10 @@ class DBOpera():
         activitys = Activity.query.filter(or_(Activity.activity_name.like(keyword),Activity.activity_guest.like(keyword)))
         print activitys
         activitys = activitys.all()
+        return activitys
         
-        
+    def get_NewActivity(self):
+        activitys = Activity.query.order_by(Activity.activity_time.desc()).limit(3)
         return activitys
         
     def get_bookAttach(self,book_id):
@@ -383,7 +423,15 @@ class DBOpera():
         activity_details = Activity_detail.query.filter(Activity_detail.actDetail_activiity_id==activity_id).all()
         #这里还需要对user进行排序，通过积分，但是积分还没有建立好
         return activity_details
-        
+     
+    def get_grade_query(self):
+        grades = Integral.query.all()
+        return grades
+    
+    def get_integral(self,user_id):
+        integral = Integral.query.filter(Integral.integral_user_id==user_id).first()
+        return integral
+    
     def get_userBoughtBook(self,user_id):
         books = db.session.query(Book).select_from(Order).\
                 filter(Order.order_user_id==user_id,Order.order_status=='success').\
@@ -393,10 +441,9 @@ class DBOpera():
         return books
         
     def get_evaluate(self,book_id):
-        evaluates = db.session.query(Evaluate,User.user_name).select_from(Evaluate).\
+        evaluates = Evaluate.query.\
                     filter(Evaluate.evaluate_book_id==book_id).\
-                    join(User,and_(Evaluate.evaluate_user_id==User.id)).all()
-        print evaluates
+                    all()
         return evaluates
         
         
@@ -541,13 +588,33 @@ class DBOpera():
             print e
             return False
     
+    def add_integral(self,user_id):
+        integral = Integral(user_id,0,0)
+        try:
+            db.session.add(integral)
+            db.session.commit()
+            return True
+        except BaseException,e:
+            print e
+            return False
+    
+    def add_statics(self,book_id):
+        statics = Statics(book_id)
+        try:
+            db.session.add(statics)
+            db.session.commit()
+            return True
+        except BaseException,e:
+            print e
+            return False
+    
     def delete_cart(self,user_id,book_id=""):
         if book_id:
-            #TODO(caoyue):用户删除购物车中指定图书
-            cart = Cart.query.filter(Cart.cart_book_id==book_id,Cart.cart_user_id==user_id)
+            #DOND(caoyue):用户删除购物车中指定图书
+            cart = Cart.query.filter(Cart.cart_book_id==book_id,Cart.cart_user_id==user_id).first()
             db.session.delete(cart)
         else:
-            #TODO(caoyue):清空购物车，提交订单后执行该操作
+            #DOND(caoyue):清空购物车，提交订单后执行该操作
             carts = Cart.query.filter(Cart.cart_user_id==user_id)
             for cart in carts:
                 db.session.delete(cart)
@@ -620,9 +687,26 @@ class DBOpera():
             print e
             return False
     
+    def update_book_num(self,book_id,num,opera):
+        book = Book.query.get(book_id)
+        if opera=='+':
+            book.book_num = book.book_num + num
+        elif opera == '-':
+            book.book_num = book.book_num - num
+        try:
+            db.session.add(book)
+            db.session.commit()
+            return True
+        except BaseException,e:
+            print e
+            return False
     def update_order_status(self,order_id):
-        order = Order.query.get(order_id)
+        order = Order.query.filter(Order.order_id==order_id).first()
         order.order_status = 'success'
+        orderDtls = Order_detail.query.filter(Order_detail.orDetail_order_id==order_id).all()
+        for orderDtl in orderDtls:
+            self.update_book_num(orderDtl.orDetail_book_id,orderDtl.orDetail_num,'-')
+            self.update_statics(orderDtl.orDetail_book_id,orderDtl.orDetail_num)
         try:
             db.session.add(order)
             db.session.commit()
@@ -645,13 +729,84 @@ class DBOpera():
         except BaseException,e:
             print e
             return False
+    def update_ticket(self,activity_id):
+        tickets = Ticket.query.filter(Ticket.ticket_activity_id==activity_id,Ticket.ticket_status=='pending').first()
+        for ticket in tickets:
+            ticket.ticket_status='failure'
+            self.minus_integral(ticket.ticket_user_id,30)
+            db.session.add(ticket)
+            db.session.commit()
+            return ticket.ticket_user_id
+        else:
+            return False
+    def update_integral(self,user_id,num):
+        integral = Integral.query.filter(Integral.integral_user_id==user_id).first()
+        if integral:
+            integral.integral_score = integral.integral_score + num
+            try:
+                db.session.add(integral)
+                db.session.commit()
+                return True
+            except:
+                return False
+    
+    def update_integral_grade(self,user_id,status):
+        integral = Integral.query.filter(Integral.integral_user_id==user_id).first()
+        if integral:
+            integral.integral_grade = status
+            try:
+                db.session.add(integral)
+                db.session.commit()
+                return True
+            except:
+                return False
+    
+    def update_grade_num(self,user_id,num):
+        integrals = Integral.query.\
+                   order_by(Integral.integral_grade.desc()).limit(num)
+        integral_user = Integral.query.filter(Integral.integral_user_id==user_id).first()
+        if integral_user in integrals:
+            return True
+        else :
+            return False
+    
+    def update_statics(self,book_id,sale_num=0,collect_num=0):
+        statics = Statics.query.filter(Statics.book_id==book_id).first()
+        if not statics:
+            statics = Statics(book_id)
+            try:
+                db.session.add(statics)
+                db.session.commit()
+            except:
+                return False
+        statics.sale_num = statics.sale_num + sale_num
+        statics.collect_num = statics.collect_num + collect_num
+        try:
+            db.session.add(statics)
+            db.session.commit()
+            return True
+        except:
+            return False
+        
+    def minus_integral(self,user_id,num):
+        integral = Integral.query.filter(Integral.integral_user_id==user_id).first()
+        if integral:
+            integral.integral_score = integral.integral_score - num
+            try:
+                db.session.add(integral)
+                db.session.commit()
+                return True
+            except:
+                return False
+                
+                
     def ticket_check(self,postcode):
         ticket = Ticket.query.filter(Ticket.ticket_Entry_code==postcode,Ticket.ticket_status=='pending').first()
         if ticket:
             ticket.ticket_status='success'
             db.session.add(ticket)
             db.session.commit()
-            return True
+            return ticket.ticket_user_id
         else:
             return False
 @login_manager.user_loader

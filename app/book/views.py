@@ -18,16 +18,21 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @app.route('/book/list',methods=['GET','POST'])
-@login_required
 def book_list():
     '''
     图书列表
     '''
     if request.method == 'GET':
         route = session.get('route')
-        #search = request.form['search']
+        try:
+            search = request.args['search']
+        except:
+            search = None
         db = DBOpera()
-        books = db.get_bookList()
+        if search:
+            books = db.get_bookList(search)
+        else:
+            books = db.get_bookList()
         book_list = []
         a=1
         #TODO(caoyue):书本信息的列表统计
@@ -46,7 +51,7 @@ def book_list():
                 abook['image'] = ''
             book_list.append(abook)
             a=a+1
-        if route=='user':
+        if not route or route=='user':
             return render_template('user_catalog_list.html',book_list=book_list)
         else:
             return render_template('manage_booklist.html',book_list=book_list,book_list1=str(book_list))
@@ -82,6 +87,7 @@ def book_list():
         
                                
 @app.route('/book/add',methods=['GET','POST'])
+@login_required
 def book_add():
     '''
     图书入库
@@ -99,6 +105,7 @@ def book_add():
         file = request.files['book_image']
         book_num = request.form['book_num']
         book_id = db.add_book(book_name,book_author,book_class,book_price,book_num,book_message)
+        db.add_statics(book_id)
         if file and allowed_file(file.filename):
             if not os.path.exists(os.path.join(UPLOAD_FOLDER,str(book_id))):
                 os.mkdir(os.path.join(UPLOAD_FOLDER,str(book_id)))
@@ -133,26 +140,28 @@ def book_detail(book_id):
         ########################################################################
         evaluates = db.get_evaluate(book_id)
         evaluate_list = []
-        for evaluate in evaluates:
-            evaluate_dict = {}
-            evaluate_dict['user_name'] = evaluate[1]
-            evaluate_dict['datatime'] = evaluate[0].evaluate_time
-            evaluate_dict['message'] = evaluate[0].evaluate_describe
-            score = int(evaluate[0].evaluate_score)
-            list0=[]
-            list1=[]
-            for i in range(score):
-                list0.append(i)
-            for i in range(10-score):
-                list1.append(i)
-            evaluate_dict['score'] = list0
-            evaluate_dict['no_score'] = list1
-            evaluate_list.append(evaluate_dict)
-        print evaluate_list
+        if evaluates:
+            for evaluate in evaluates:
+                evaluate_dict = {}
+                evaluate_dict['user_name'] = evaluate.evaluate_user_id
+                evaluate_dict['datatime'] = evaluate.evaluate_time
+                evaluate_dict['message'] = evaluate.evaluate_describe
+                score = int(evaluate.evaluate_score)
+                list0=[]
+                list1=[]
+                for i in range(score):
+                    list0.append(i)
+                for i in range(10-score):
+                    list1.append(i)
+                evaluate_dict['score'] = list0
+                evaluate_dict['no_score'] = list1
+                evaluate_list.append(evaluate_dict)
+        #print evaluate_list
         return render_template('user_product_page.html',book=abook,evaluates=evaluate_list)
 
         
 @app.route('/book/collect/<book_id>',methods=['GET','POST'])
+@login_required
 def book_collect(book_id):
     '''
     用户添加收藏夹
@@ -164,6 +173,7 @@ def book_collect(book_id):
         
         
 @app.route('/book/cart/<book_id>',methods=['GET','POST'])
+@login_required
 def book_cart(book_id):
     '''
     用户添加购物车
@@ -174,6 +184,7 @@ def book_cart(book_id):
         return "success"
 
 @app.route('/book/cart_delete/<book_id>',methods=['GET','POST'])
+@login_required
 def book_cart_delete(book_id):
     '''
     用户删除购物车商品
@@ -184,6 +195,7 @@ def book_cart_delete(book_id):
         return redirect(url_for('cart'))
 
 @app.route('/book/collect_delete/<book_id>',methods=['GET','POST'])
+@login_required
 def book_collect_delete(book_id):
     '''
     用户删除收藏夹商品
@@ -195,6 +207,7 @@ def book_collect_delete(book_id):
         return redirect(url_for('collect'))
         
 @app.route('/book/add_detail',methods=['GET','POST'])
+@login_required
 def add_detail():
     '''
     用户提交订单
@@ -207,14 +220,14 @@ def add_detail():
         db = DBOpera()
         order = db.add_order(current_user.id)
         for book in book_id:
-            print book
             order_detail = db.add_order_detail(str(order.order_id),int(book['book_id']),int(book['book_num']))
             order.order_price += order_detail.orDetail_price
         db.add_order_price(str(order.order_id),order.order_price)
         db.delete_cart(current_user.id)
-        return redirect(url_for('cart'))
+        return redirect(url_for('cart',status = 1))
         
 @app.route('/book/update/<book_id>',methods=['GET','POST'])
+@login_required
 def book_update(book_id):
     db = DBOpera()
     if request.method == 'GET':
@@ -246,6 +259,7 @@ def book_update(book_id):
         return redirect(url_for('book_list'))
 
 @app.route('/book/evaluate/<book_id>',methods=['GET','POST'])
+@login_required
 def book_evaluate(book_id):
     db = DBOpera()
     if request.method == 'GET':
@@ -257,4 +271,5 @@ def book_evaluate(book_id):
         scort = request.form['scort']
         message = request.form['message']
         db.add_evaluate(book_id,scort,message)
+        db.update_integral(current_user.id,5)
         return redirect(url_for('book_list'))

@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="keywords" content="">
 
-  <title>Catalog (list type view)</title>
+  <title>图书列表</title>
 
   <link rel="shortcut icon" href="{{url_for('static',filename='favicon.ico')}}">
   <link href="{{url_for('static',filename='css/userstyle.css')}}" media="screen" rel="stylesheet" type="text/css">
@@ -83,54 +83,27 @@
       
       <div class="grid_3">
         <form class="search">
-          <input type="text" name="search" class="entry_form" value="" placeholder="Search entire store here..."/>
+          <input type="text" name="search" class="entry_form" value="" placeholder="输入查询关键字"/>
 	</form>
       </div><!-- .grid_3 -->
       
-      <div class="grid_6">
-        <ul id="cart_nav">
-          <li>
-            <a class="cart_li" href="#">Cart <span>$0.00</span></a>
-            <ul class="cart_cont">
-              <li class="no_border"><p>Recently added item(s)</p></li>
-              <li>
-                <a href="product_page.html" class="prev_cart"><div class="cart_vert"><img src="images/cart_img.png" alt="" title="" /></div></a>
-                <div class="cont_cart">
-                  <h4>Caldrea Linen and Room Spray</h4>
-                  <div class="price">1 x $399.00</div>
-                </div>
-                <a title="close" class="close" href="#"></a>
-                <div class="clear"></div>
-              </li>
-              
-              <li>
-                <a href="product_page.html" class="prev_cart"><div class="cart_vert"><img src="images/produkt_slid1.png" alt="" title="" /></div></a>
-                <div class="cont_cart">
-                  <h4>Caldrea Linen and Room Spray</h4>
-                  <div class="price">1 x $399.00</div>
-                </div>
-                <a title="close" class="close" href="#"></a>
-                <div class="clear"></div>
-              </li>
-	      <li class="no_border">
-		<a href="shopping_cart.html" class="view_cart">View shopping cart</a>
-		<a href="checkout.html" class="checkout">Procced to Checkout</a>
-	      </li>
-            </ul>
-          </li>
-        </ul>
-        
+            <div class="grid_6">
+
         <nav class="private">
           <ul>
-            <li><a href="#">My Account</a></li>
-		<li class="separator">|</li>
-            <li><a href="#">My Wishlist</a></li>
-		<li class="separator">|</li>
-            <li><a href="login.html">Log In</a></li>
-		<li class="separator">|</li>
-            <li><a href="login.html">Sign Up</a></li>
+            <li><a href="#">我的账户</a></li>
+        <li class="separator">|</li>
+            <li><a href="{{url_for('collect')}}">收藏夹</a></li>
+        <li class="separator">|</li>
+            {% if current_user.is_authenticated%}
+                <li><a href="#">{{current_user.user_name}}</a></li>
+            {%else%}
+                <li><a href="{{url_for('login')}}">登陆</a></li>
+            {%endif%}
+        <li class="separator">|</li>
+            <li><a href="{{url_for('logout')}}">退出</a></li>
           </ul>
-        </nav><!-- .private -->        
+        </nav><!-- .private -->
       </div><!-- .grid_6 -->
     </header><!-- #branding -->
   </div><!-- .container_12 -->
@@ -146,7 +119,7 @@
             <li><a href="{{url_for('book_list')}}">图书</a></li>
             <li><a href="{{url_for('activity_list')}}">活动</a></li>
             <li>
-              <a href="catalog_grid.html">用户</a>
+              <a href="{{url_for('user_home')}}">用户</a>
               <ul class="sub">
                 <li><a href="{{url_for('user_home')}}">主页</a></li>
                 <li><a href=" {{url_for('cart')}}">购物车</a></li>
@@ -161,70 +134,17 @@
       </div><!-- .grid_12 -->
     </div><!-- .container_12 -->
   </div><!-- .block_nav_primary -->
-  
-  <div class="clear"></div>
-  
-  <div class="container_12">
-    <div class="grid_12">
-       <div class="breadcrumbs">
-	      <a href="index.html">Home</a><span>&#8250;</span><a href="#">Category</a><span>&#8250;</span><span class="current">This page</span>
-       </div><!-- .breadcrumbs -->
-    </div><!-- .grid_12 -->
-  </div><!-- .container_12 -->
-  
-  <div class="clear"></div>
-  
+
   <section id="main">
     <div class="container_12">
        <div id="content" class="grid_9">
 	      <h1 class="page_title">图书列表</h1>
-	      
-	      <div class="options">
-		     <div class="grid-list">
-			   <a class="grid" href="catalog_grid.html"><span>img</span></a>
-			   <a class="list curent" href="index.html"><span>img</span></a>
-		     </div><!-- .grid-list -->
-		     
-		     <div class="show">
-			    Show
-			    <select>
-				   <option>1</option>
-				   <option>2</option>
-				   <option>3</option>
-				   <option>4</option>
-				   <option>5</option>
-				   <option>6</option>
-				   <option>7</option>
-				   <option>8</option>
-				   <option>9</option>
-				   <option>10</option>
-				   <option>11</option>
-				   <option>12</option>
-			     </select>
-			    
-			    per page
-		     </div><!-- .show -->
-		     
-		     <div class="sort">
-			   Sort By
-			    <select>
-				   <option>Position</option>
-				   <option>Price</option>
-				   <option>Rating</option>
-				   <option>Name</option>
-			     </select>
-			    
-			    <a class="sort_up" href="#">&#8593;</a>
-		     </div><!-- .sort -->
-	      </div><!-- .options -->
-	      
 	      <div class="listing_product">
             {% for book in book_list%}
 			<div class="product_li">
 				<div class="grid_3">
-					<img class="sale" src="images/new.png" alt="New"/>
 					<div class="prev">
-						<a href="product_page.html"><img src="{{url_for('static',filename=book['image'])}}" alt="" title="" /></a>
+						<a href="{{url_for('book_detail',book_id=book['id'])}}"><img src="{{url_for('static',filename=book['image'])}}" alt="" title="" /></a>
 					</div><!-- .prev -->
 				</div><!-- .grid_3 -->
 				
@@ -249,7 +169,6 @@
 					<div class="cart">
 						<div class="price">
 							<div class="price_new">${{book['price']}}</div>
-							<div class="price_old">$725.00</div>
 						</div>
 						<a href="{{url_for('book_cart',book_id=book['id'])}}" class="bay">添加购物车</a>
 						<a href="#" class="none"></a>

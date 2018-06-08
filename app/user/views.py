@@ -56,6 +56,7 @@ def register():
         manager = DBOpera()
         check = manager.user_register(username,password,email,phone)
         if check:
+            manager.add_integral(check)
             return redirect(url_for('.login'))
         else:
             return render_template('user_register.html')
@@ -92,7 +93,7 @@ def re_confirm():
         # and request.endpoint[:5]!='auth.' and request.endpoint !='static'):
         # return redirect(url_for('unconfirmed'))
 
-@app.route('/user/unconfirmed')        
+@app.route('/user/unconfirmed')
 def unconfirmed():
     '''
     用户未激活
@@ -107,7 +108,8 @@ def password():
     return render_template('user_Password.html')
 
 @app.route('/user/cart',methods=['GET','POST'])
-def cart(status=0):
+@login_required
+def cart():
     '''
     用户购物车
     '''
@@ -116,8 +118,14 @@ def cart(status=0):
         carts = manager.get_cart(current_user.id)
         list = []
         list1 = []
-        status = 1
-        reminder = {'message':u'成功'}
+        try:
+            status = request.args['status']
+        except:
+            status = 0
+        if status:
+            reminder = {'message':u'成功'}
+        else:
+            reminder = None
         for cart in carts:
             dict = {}
             dict1={}
@@ -139,6 +147,7 @@ def cart(status=0):
         
         
 @app.route('/user/collect',methods=['GET','POST'])
+@login_required
 def collect():
     '''
     用户收藏夹
@@ -171,8 +180,14 @@ def user_home():
     用户信息展示
     '''
     if request.method == 'GET':
+        db = DBOpera()
+        integral = db.get_integral(current_user.id)
+        grade = integral.integral_grade
+        grade_list = [u"布衣",u"童生",u"秀才",u"举人",u"进士",u"三甲",u"二甲",u"一甲",u"探花",u"榜眼",u"状元"]
+        grade_name = grade_list[grade]
+        score = integral.integral_score
         return render_template('user_contact_us.html',userName= current_user.user_name,
-            iphone= current_user.user_phone,email= current_user.user_email)
+            iphone= current_user.user_phone,email= current_user.user_email,grade=grade_name,score=score)
     if request.method == 'POST':
         password=request.form['password']
         new_password=request.form['new_password']
@@ -188,14 +203,18 @@ def user_home():
         
 
 @app.route('/user/order',methods=['GET','POST'])
+@login_required
 def user_order():
+    '''用户订单列表'''
     db = DBOpera()
     if request.method == 'GET':
         order_lists = db.get_orderList(current_user.user_name)
         return render_template('user_order_list.html',order_lists = order_lists)
         
 @app.route('/user/order/<order_id>',methods=['GET','POST'])
+@login_required
 def order_detail(order_id):
+    '''用户订单详情'''
     db = DBOpera()
     if request.method == 'GET':
         books = db.get_orderAttach(order_id)
@@ -216,7 +235,9 @@ def order_detail(order_id):
         
     
 @app.route('/user/shelf',methods=['GET','POST'])
+@login_required
 def bookshelf():
+    '''用户书架，即已购买图书'''
     if request.method == 'GET':
         route = session.get('route')
         #search = request.form['search']

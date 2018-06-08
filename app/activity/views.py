@@ -14,9 +14,15 @@ def activity_list():
     '''
     if request.method == 'GET':
         route = session.get('route')
-        #search = request.form['search']
+        try:
+            search = request.args['search']
+        except:
+            search = None
         db = DBOpera()
-        activitys = db.get_activityList()
+        if search:
+            activitys = db.get_activityList(search)
+        else:
+            activitys = db.get_activityList()
         activity_list = []
         a=1
         for activity in activitys:
@@ -28,7 +34,7 @@ def activity_list():
             the_activity['time'] = activity.activity_time
             the_activity['count'] = activity.activity_count
             activity_list.append(the_activity)
-        if route=='user':
+        if not route or route=='user':
             return render_template('user_blog.html',activity_list=activity_list)
         else:
             return render_template('manage_activitylist.html',activity_list=activity_list)
@@ -65,6 +71,7 @@ def activity_detail(activity_id):
         return render_template('user_blog_post.html',activity=activity)
 
 @app.route('/activity/add',methods=['GET','POST'])
+@login_required
 def activity_add():
     '''
     活动发布
@@ -89,6 +96,7 @@ def activity_add():
         return redirect(url_for('activity_add'))
         
 @app.route('/activity/confirm',methods=['GET','POST'])
+@login_required
 def activity_confirm():
     '''
     验证入场码
@@ -98,16 +106,19 @@ def activity_confirm():
         return render_template('manage_activityconfirm.html')
     if request.method =='POST':
         postcode = request.form['postcode']
-        if db.ticket_check(postcode):
+        user_id = db.ticket_check(postcode)
+        if user_id:
+            db.update_integral(user_id,50)
             pass
-            #验证成功，需要加成功提示在前端
+            #TODO(CAOYUE):验证成功，需要加成功提示在前端
         else:
             pass
-            #验证失败，需要加失败提示在前端
+            #TODO(CAOYUE):验证失败，需要加失败提示在前端
         return redirect(url_for('activity_confirm'))
     
     
 @app.route('/activity/apply',methods=['GET','POST'])
+@login_required
 def activity_apply():
     '''
     用户参与活动，生成添加活动详情
@@ -120,6 +131,7 @@ def activity_apply():
         return redirect(url_for('activity_detail',activity_id=activity_id))
         
 @app.route('/activity/update/<activity_id>',methods=['GET','POST'])
+@login_required
 def activity_update(activity_id):
     db = DBOpera()
     if request.method == 'GET':

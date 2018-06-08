@@ -8,7 +8,7 @@ from flask_mail import Message
 from flask import request,render_template
 
 my_sender='1341799937@qq.com'    # 发件人邮箱账号
-my_pass = 'kjcazhzusclljdcb'              # 发件人邮箱密码
+my_pass = 'kuimgbcfkdxqijib'             # 发件人邮箱密码
 
 def send_email(to,subject,template,**kwargs):
     try:
